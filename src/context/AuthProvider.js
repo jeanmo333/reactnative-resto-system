@@ -2,24 +2,39 @@
 
 import { useState, useEffect, createContext } from "react";
 import clientAxios from "../config/axios";
-import { getTokenStorage } from "../utils/token";
+import { getTokenStorage, removeTokenStorage } from "../utils/token";
 import axios from "axios";
+import mime from "mime";
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [auth, setAuth] = useState({});
+  const [auth, setAuth] = useState(null);
   const [token, setToken] = useState(null);
 
   (async () => {
     const token = await getTokenStorage();
-    setToken(token);
+    if (token) {
+      setToken(token);
+    } else {
+      setToken(null);
+    }
   })();
 
-  const config = {
+  // console.log("token  " + token);
+
+  const configWithToken = {
     headers: {
-      "Content-Type": "application/json",
+      "Content-type": "multipart/form-data",
+      accept: "application/json",
       Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const configWithOutToken = {
+    headers: {
+      "Content-type": "multipart/form-data",
+      accept: "application/json",
     },
   };
 
@@ -28,14 +43,14 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const authenticateUser = async () => {
-    if (!token) {
+    if (token === null) {
       setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
-      const { data } = await clientAxios.get("/users/profile", config);
+      const { data } = await clientAxios.get("/users/profile", configWithToken);
       setLoading(false);
       setAuth(data);
     } catch (error) {
@@ -48,9 +63,21 @@ const AuthProvider = ({ children }) => {
   };
 
   const register = async (user) => {
+    let dataForm = new FormData();
+    dataForm.append("archive", {
+      uri: user.image,
+      name: user.image.split("/").pop(),
+      type: mime.getType(user.image),
+    });
+    const { image, ...rest } = user;
+    dataForm.append("user", JSON.stringify(rest));
     try {
       setLoading(true);
-      const { data } = await clientAxios.post("/users", user);
+      const { data } = await clientAxios.post(
+        "/users",
+        dataForm,
+        configWithOutToken
+      );
       setLoading(false);
       return {
         message: data.message,
@@ -83,6 +110,12 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  //cerrar secion
+  const logout = async () => {
+    await removeTokenStorage();
+    setAuth(null);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -92,6 +125,7 @@ const AuthProvider = ({ children }) => {
         loading,
         register,
         login,
+        logout,
         authenticateUser,
       }}>
       {children}

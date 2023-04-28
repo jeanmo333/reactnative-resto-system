@@ -12,18 +12,15 @@ import {
   DarkTheme as DarkThemeNavigation,
   DefaultTheme as DefaultThemeNavigation,
 } from "@react-navigation/native";
-import AppNavigation from "./src/navigation/AppNavigation";
 import PreferencesContext from "./src/context/PreferencesContext";
-import AuthNavigation from "./src/navigation/AuthNavigation";
 import { AuthProvider } from "./src/context/AuthProvider";
-import useAuth from "./src/hooks/useAuth";
 import { HandlerNavigation } from "./src/navigation/HandlerNavigation";
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["_reactNative.Dimensions.removeEventListener"]);
+
 export default function App() {
-  // const { auth } = useAuth();
   const [theme, setTheme] = useState("dark");
-  //const [user, setUser] = useState(false);
-  //console.log(auth);
 
   DefaultThemePaper.colors.primary = "#1ae1f2";
   DarkThemePaper.colors.primary = "#1ae1f2";

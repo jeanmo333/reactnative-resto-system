@@ -7,19 +7,52 @@ import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../hooks/useAuth";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import * as ImagePicker from "expo-image-picker";
 import { themeColors } from "../../theme";
 import Toast from "react-native-root-toast";
+import { ModalPickImage } from "../../components/ModalPickImage";
 
 export default function RegisterScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const { register, loading } = useAuth();
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onChange(result.assets[0].uri);
+    }
+  };
+
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onChange(result.assets[0].uri);
+    }
+  };
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: yup.object(validationSchema()),
     onSubmit: async (user) => {
-      const { error, message } = await register(user);
+      if (user.image === "") {
+        Toast.show("Hay seleccionar una foto", {
+          position: Toast.positions.CENTER,
+        });
+        return;
+      }
 
+      const { error, message } = await register(user);
       if (!error) {
         Toast.show(message, {
           position: Toast.positions.CENTER,
@@ -35,6 +68,10 @@ export default function RegisterScreen() {
     },
   });
 
+  const onChange = (value) => {
+    formik.setFieldValue("image", value);
+  };
+
   return (
     <View
       className='rounded-b-full h-72'
@@ -48,12 +85,21 @@ export default function RegisterScreen() {
 
         <TouchableOpacity
           className='py-3  mb-3 rounded-xl flex-row justify-center items-center'
-          style={{ backgroundColor: themeColors.bg }}>
-          <Image
-            source={require("../../../assets/icons/upload.png")}
-            className='w-8 h-8 mr-3'
-          />
-          <Text className='text-xl font-bold text-center text-white'>
+          style={{ backgroundColor: themeColors.bg }}
+          onPress={() => setModalVisible(true)}>
+          {formik.values.image === "" ? (
+            <Image
+              source={require("../../../assets/icons/upload.png")}
+              className='w-8 h-8 mr-3'
+            />
+          ) : (
+            <Image
+              source={{ uri: formik.values.image }}
+              className='w-8 h-8 mr-3 rounded-full'
+              style={{ borderColor: themeColors.primary, borderWidth: 1 }}
+            />
+          )}
+          <Text className={"text-xl font-bold text-center text-white"}>
             Subir foto perfil
           </Text>
         </TouchableOpacity>
@@ -69,6 +115,7 @@ export default function RegisterScreen() {
 
         <TextInput
           className='mb-2 mt-1'
+          keyboardType='email-address'
           label='Email'
           style={{ backgroundColor: themeColors.primary }}
           onChangeText={(text) => formik.setFieldValue("email", text)}
@@ -140,6 +187,13 @@ export default function RegisterScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      <ModalPickImage
+        openGallery={pickImage}
+        openCamera={takePhoto}
+        modalUseState={modalVisible}
+        setModalUseState={setModalVisible}
+      />
     </View>
   );
 }
@@ -148,6 +202,7 @@ function initialValues() {
   return {
     name: "",
     email: "",
+    image: "",
     password: "",
   };
 }
@@ -156,6 +211,7 @@ function validationSchema() {
   return {
     name: yup.string().required(true),
     email: yup.string().email(true).required(true),
+    // image: yup.string().required(true),
     password: yup.string().required(true),
   };
 }

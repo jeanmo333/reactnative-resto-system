@@ -1,19 +1,25 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import AuthNavigation from "./AuthNavigation";
 import AppNavigation from "./AppNavigation";
-import ScreenLoading from "../components/ScreenLoading";
+import { useFocusEffect } from "@react-navigation/native";
 
 export function HandlerNavigation() {
-  const { auth, authenticateUser, token, loading } = useAuth();
+  const { auth, authenticateUser, token } = useAuth();
 
   useEffect(() => {
     authenticateUser();
   }, []);
 
-  if (loading) return <ScreenLoading />;
+  // console.log("handle  " + JSON.stringify(auth));
 
-  return token || auth?.id ? <AppNavigation /> : <AuthNavigation />;
+  // console.log("token  " + token);
+
+  return token || auth?.id ? (
+    <AppNavigation auth={auth} />
+  ) : (
+    <AuthNavigation auth={auth} />
+  );
 }

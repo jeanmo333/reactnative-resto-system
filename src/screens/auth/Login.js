@@ -10,11 +10,10 @@ import { useFormik } from "formik";
 import useAuth from "../../hooks/useAuth";
 import Toast from "react-native-root-toast";
 import { setTokenStorage } from "../../utils/token";
-import { TOKEN } from "../../utils/constants";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { loading, login, setAuth, auth, authenticateUser } = useAuth();
+  const { loading, login, setAuth, authenticateUser, token, auth } = useAuth();
 
   useEffect(() => {
     authenticateUser();
@@ -24,18 +23,13 @@ const LoginScreen = () => {
     initialValues: initialValues(),
     validationSchema: yup.object(validationSchema()),
     onSubmit: async (user) => {
-      //const { error, data } = await login(user);
       const result = await login(user);
-      //console.log(result.data.token);
-
       if (!result.error) {
         setAuth(result.data.user);
-        // await setTokenStorage(result.data.token);
-        await AsyncStorage.setItem(TOKEN, result.data.token);
+        await setTokenStorage(result.data.token);
         Toast.show("Login Exito", {
           position: Toast.positions.CENTER,
         });
-        // navigation.navigate("home");
         formik.resetForm();
         return;
       } else {
@@ -46,6 +40,9 @@ const LoginScreen = () => {
       }
     },
   });
+
+  // console.log("token  " + token);
+  // console.log("app  " + JSON.stringify(auth));
 
   return (
     <View
@@ -59,6 +56,7 @@ const LoginScreen = () => {
         </Text>
 
         <TextInput
+          keyboardType='email-address'
           className='mb-4 mt-1'
           label='Email'
           style={{ backgroundColor: themeColors.primary }}
