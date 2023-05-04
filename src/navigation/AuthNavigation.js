@@ -11,15 +11,15 @@ import AppNavigation from "./AppNavigation";
 const Stack = createStackNavigator();
 
 export default function AuthNavigation(props) {
-  const { auth } = props;
-  const { authenticateUser, token } = useAuth();
+  // const { auth } = props;
+  const { authenticateUser, token, auth } = useAuth();
 
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  // useEffect(() => {
+  //   authenticateUser();
+  // }, []);
 
   // console.log("auth  " + JSON.stringify(auth));
-
+  // console.log(token);
   return (
     <Stack.Navigator>
       {/* <Stack.Screen

@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { Image } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import DrawerContent from "./DrawerContent";
-import { IconButton } from "react-native-paper";
 import OrdersStack from "./OrdersStack";
 import SettingsStack from "./SettingsStack";
 import useAuth from "../hooks/useAuth";
@@ -19,12 +18,12 @@ const Drawer = createDrawerNavigator();
 export default function AppNavigation(props) {
   const { authenticateUser } = useAuth();
   const { auth } = props;
-
   useEffect(() => {
     authenticateUser();
   }, []);
 
   //console.log("app  " + JSON.stringify(auth));
+  // console.log(token);
 
   return (
     <Drawer.Navigator

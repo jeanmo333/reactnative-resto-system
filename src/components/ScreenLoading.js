@@ -1,20 +1,14 @@
 /** @format */
 
 import React from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
+import { ActivityIndicator, Text } from "react-native-paper";
 
 export default function ScreenLoading(props) {
-  const { text, size, color } = props;
-
   return (
     <SafeAreaView style={styles.containerLoading}>
-      <ActivityIndicator size={size} color={color} style={styles.loading} />
-      <Text style={styles.title}>{text}</Text>
+      <ActivityIndicator size='large' />
+      <Text style={styles.title}>Cargando...</Text>
     </SafeAreaView>
   );
 }
@@ -25,16 +19,8 @@ var styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  loading: {
-    marginBottom: 10,
-    marginTop: 10,
-  },
   title: {
     fontSize: 18,
+    marginTop: 10,
   },
 });
-
-ScreenLoading.defaultProps = {
-  text: "Cargando...",
-  color: "#000",
-};

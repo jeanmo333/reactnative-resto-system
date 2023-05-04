@@ -15,9 +15,9 @@ export default function DrawerContent(props) {
   const { theme, toggleTheme } = usePreferences();
   const { logout, authenticateUser, auth } = useAuth();
 
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  // useEffect(() => {
+  //   authenticateUser();
+  // }, []);
 
   const logoutAccount = () => {
     Alert.alert(

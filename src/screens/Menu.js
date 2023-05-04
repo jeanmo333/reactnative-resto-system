@@ -1,13 +1,17 @@
 /** @format */
 
-import React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet } from "react-native";
 
 import { Text } from "react-native-paper";
 import useAuth from "../hooks/useAuth";
 
 export default function Menu(props) {
-  const { auth, authenticateUser } = useAuth();
+  const { authenticateUser } = useAuth();
+
+  useEffect(() => {
+    authenticateUser();
+  }, []);
 
   //console.log(auth);
   return <Text>Menu</Text>;

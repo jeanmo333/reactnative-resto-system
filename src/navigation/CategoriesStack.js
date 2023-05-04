@@ -7,14 +7,20 @@ import { Categories } from "../screens/categories";
 import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
+import { useCategories } from "../hooks/useCategories";
+import { CreateCategory } from "../screens/categories/CreateCategory";
+import { useNavigation } from "@react-navigation/native";
 const Stack = createStackNavigator();
 
 export default function CategoriesStack(props) {
   const { navigation } = props;
+  const navigationHook = useNavigation();
 
   const { authenticateUser, auth } = useAuth();
+  const { getCategories } = useCategories();
 
   useEffect(() => {
+    getCategories();
     authenticateUser();
   }, []);
 
@@ -23,11 +29,11 @@ export default function CategoriesStack(props) {
   const buttonLeft = (screen) => {
     switch (screen) {
       case "search":
-      case "movie":
+      case "create-category":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("categories")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -84,8 +90,18 @@ export default function CategoriesStack(props) {
         name='categories'
         component={Categories}
         options={{
-          title: "Categorias",
+          title: "",
           headerLeft: () => buttonLeft("categories"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='create-category'
+        component={CreateCategory}
+        options={{
+          title: "",
+          headerLeft: () => buttonLeft("create-category"),
           headerRight: () => buttonRight(),
         }}
       />

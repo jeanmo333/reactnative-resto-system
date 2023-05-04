@@ -59,7 +59,7 @@ const LoginScreen = () => {
           keyboardType='email-address'
           className='mb-4 mt-1'
           label='Email'
-          style={{ backgroundColor: themeColors.primary }}
+          style={{ backgroundColor: themeColors.dark }}
           onChangeText={(text) => formik.setFieldValue("email", text)}
           value={formik.values.email}
           error={formik.errors.email}
@@ -67,7 +67,7 @@ const LoginScreen = () => {
 
         <TextInput
           className='mb-1 mt-1'
-          style={{ backgroundColor: themeColors.primary }}
+          style={{ backgroundColor: themeColors.dark }}
           label='Contraseña'
           secureTextEntry
           onChangeText={(text) => formik.setFieldValue("password", text)}

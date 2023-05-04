@@ -17,6 +17,7 @@ import { AuthProvider } from "./src/context/AuthProvider";
 import { HandlerNavigation } from "./src/navigation/HandlerNavigation";
 
 import { LogBox } from "react-native";
+import { CategoryProvider } from "./src/context/CategoriesProvider";
 LogBox.ignoreLogs(["_reactNative.Dimensions.removeEventListener"]);
 
 export default function App() {
@@ -43,20 +44,22 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <PreferencesContext.Provider value={preference}>
-        <PaperProvider
-          theme={theme === "dark" ? DarkThemePaper : DefaultThemePaper}>
-          <StatusBar
-            barStyle={theme === "dark" ? "light-content" : "dark-content"}
-          />
-          <NavigationContainer
-            theme={
-              theme === "dark" ? DarkThemeNavigation : DefaultThemeNavigation
-            }>
-            <HandlerNavigation />
-          </NavigationContainer>
-        </PaperProvider>
-      </PreferencesContext.Provider>
+      <CategoryProvider>
+        <PreferencesContext.Provider value={preference}>
+          <PaperProvider
+            theme={theme === "dark" ? DarkThemePaper : DefaultThemePaper}>
+            <StatusBar
+              barStyle={theme === "dark" ? "light-content" : "dark-content"}
+            />
+            <NavigationContainer
+              theme={
+                theme === "dark" ? DarkThemeNavigation : DefaultThemeNavigation
+              }>
+              <HandlerNavigation />
+            </NavigationContainer>
+          </PaperProvider>
+        </PreferencesContext.Provider>
+      </CategoryProvider>
     </AuthProvider>
   );
 }

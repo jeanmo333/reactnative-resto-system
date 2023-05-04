@@ -59,6 +59,20 @@ export const ModalPickImage = ({
                 </Text>
               </Button>
             </View>
+
+            <View style={styles.buttonContainer}>
+              <Button
+                color={themeColors.danger}
+                className='rounded-xl py-1'
+                mode='contained'
+                onPress={() => {
+                  setModalUseState(false);
+                }}>
+                <Text className='text-lg font-bold text-center text-white'>
+                  Cerrar
+                </Text>
+              </Button>
+            </View>
           </View>
         </View>
       </Modal>
@@ -75,7 +89,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: 250,
-    height: 220,
+    height: 300,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,

@@ -3,15 +3,21 @@
 import { useState, useEffect, createContext } from "react";
 import clientAxios from "../config/axios";
 import { getTokenStorage, removeTokenStorage } from "../utils/token";
+import { TOKEN } from "../utils/constants";
+
 import axios from "axios";
 import mime from "mime";
+import Toast from "react-native-root-toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useState(null);
   const [token, setToken] = useState(null);
+  const [error, setError] = useState(true);
 
+  // const navigation = useNavigation();
   (async () => {
     const token = await getTokenStorage();
     if (token) {
@@ -38,39 +44,51 @@ const AuthProvider = ({ children }) => {
     },
   };
 
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   useEffect(() => {
     authenticateUser();
-  }, []);
+  }, [token, error]);
 
   const authenticateUser = async () => {
-    if (token === null) {
-      setLoading(false);
-      return;
-    }
-
     try {
-      setLoading(true);
-      const { data } = await clientAxios.get("/users/profile", configWithToken);
-      setLoading(false);
-      setAuth(data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (!token) {
         setLoading(false);
+        return;
       }
 
-      setAuth(undefined);
+      setLoading(true);
+      const { data } = await clientAxios.get("/users/profile", config);
+      setAuth(data);
+      setLoading(false);
+      setError(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        await AsyncStorage.removeItem(TOKEN);
+        setError(true);
+        setToken(null);
+        setAuth(null);
+        setLoading(false);
+        Toast.show("Su session ha expirada", {
+          position: Toast.positions.CENTER,
+        });
+      }
     }
   };
 
-  const register = async (user) => {
+  const register = async (archive, user) => {
     let dataForm = new FormData();
     dataForm.append("archive", {
-      uri: user.image,
-      name: user.image.split("/").pop(),
-      type: mime.getType(user.image),
+      uri: archive,
+      name: archive.split("/").pop(),
+      type: mime.getType(archive),
     });
-    const { image, ...rest } = user;
-    dataForm.append("user", JSON.stringify(rest));
+    dataForm.append("user", JSON.stringify(user));
     try {
       setLoading(true);
       const { data } = await clientAxios.post(
@@ -96,6 +114,7 @@ const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await clientAxios.post("/users/login", user);
+      setError(false);
       setLoading(false);
       return {
         data,
@@ -112,8 +131,13 @@ const AuthProvider = ({ children }) => {
 
   //cerrar secion
   const logout = async () => {
-    await removeTokenStorage();
-    setAuth(null);
+    if (auth) {
+      //await removeTokenStorage();
+      // navigation.navigate("login");
+      await AsyncStorage.removeItem(TOKEN);
+      setToken(null);
+      setAuth(null);
+    }
   };
 
   return (
@@ -121,6 +145,8 @@ const AuthProvider = ({ children }) => {
       value={{
         auth,
         token,
+        error,
+        setLoading,
         setAuth,
         loading,
         register,

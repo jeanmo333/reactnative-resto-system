@@ -13,6 +13,7 @@ import Toast from "react-native-root-toast";
 import { ModalPickImage } from "../../components/ModalPickImage";
 
 export default function RegisterScreen() {
+  const [archive, setArchive] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const { register, loading } = useAuth();
@@ -25,7 +26,8 @@ export default function RegisterScreen() {
     });
 
     if (!result.canceled) {
-      onChange(result.assets[0].uri);
+      //onChange(result.assets[0].uri);
+      setArchive(result.assets[0].uri);
     }
   };
 
@@ -37,7 +39,8 @@ export default function RegisterScreen() {
     });
 
     if (!result.canceled) {
-      onChange(result.assets[0].uri);
+      // onChange(result.assets[0].uri);
+      setArchive(result.assets[0].uri);
     }
   };
 
@@ -45,14 +48,14 @@ export default function RegisterScreen() {
     initialValues: initialValues(),
     validationSchema: yup.object(validationSchema()),
     onSubmit: async (user) => {
-      if (user.image === "") {
+      if (archive === "") {
         Toast.show("Hay seleccionar una foto", {
           position: Toast.positions.CENTER,
         });
         return;
       }
 
-      const { error, message } = await register(user);
+      const { error, message } = await register(archive, user);
       if (!error) {
         Toast.show(message, {
           position: Toast.positions.CENTER,
@@ -68,9 +71,9 @@ export default function RegisterScreen() {
     },
   });
 
-  const onChange = (value) => {
-    formik.setFieldValue("image", value);
-  };
+  // const onChange = (value) => {
+  //   formik.setFieldValue("image", value);
+  // };
 
   return (
     <View
@@ -87,16 +90,16 @@ export default function RegisterScreen() {
           className='py-3  mb-3 rounded-xl flex-row justify-center items-center'
           style={{ backgroundColor: themeColors.bg }}
           onPress={() => setModalVisible(true)}>
-          {formik.values.image === "" ? (
+          {archive === "" ? (
             <Image
               source={require("../../../assets/icons/upload.png")}
               className='w-8 h-8 mr-3'
             />
           ) : (
             <Image
-              source={{ uri: formik.values.image }}
+              source={{ uri: archive }}
               className='w-8 h-8 mr-3 rounded-full'
-              style={{ borderColor: themeColors.primary, borderWidth: 1 }}
+              style={{ borderColor: themeColors.dark, borderWidth: 1 }}
             />
           )}
           <Text className={"text-xl font-bold text-center text-white"}>
@@ -106,7 +109,7 @@ export default function RegisterScreen() {
 
         <TextInput
           className='mb-2 mt-1'
-          style={{ backgroundColor: themeColors.primary }}
+          style={{ backgroundColor: themeColors.dark }}
           label='Nombre'
           onChangeText={(text) => formik.setFieldValue("name", text)}
           value={formik.values.name}
@@ -117,7 +120,7 @@ export default function RegisterScreen() {
           className='mb-2 mt-1'
           keyboardType='email-address'
           label='Email'
-          style={{ backgroundColor: themeColors.primary }}
+          style={{ backgroundColor: themeColors.dark }}
           onChangeText={(text) => formik.setFieldValue("email", text)}
           value={formik.values.email}
           error={formik.errors.email}
@@ -125,7 +128,7 @@ export default function RegisterScreen() {
 
         <TextInput
           className='mb-1 mt-1'
-          style={{ backgroundColor: themeColors.primary }}
+          style={{ backgroundColor: themeColors.dark }}
           label='Contraseña'
           secureTextEntry
           onChangeText={(text) => formik.setFieldValue("password", text)}
@@ -202,7 +205,6 @@ function initialValues() {
   return {
     name: "",
     email: "",
-    image: "",
     password: "",
   };
 }
@@ -211,7 +213,6 @@ function validationSchema() {
   return {
     name: yup.string().required(true),
     email: yup.string().email(true).required(true),
-    // image: yup.string().required(true),
     password: yup.string().required(true),
   };
 }

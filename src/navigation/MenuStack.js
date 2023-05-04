@@ -1,15 +1,21 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Badge, IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import Menu from "../screens/Menu";
 import { themeColors } from "../theme";
+import useAuth from "../hooks/useAuth";
 
 const Stack = createStackNavigator();
 
 export default function MenuStack(props) {
   const { navigation } = props;
+  const { authenticateUser } = useAuth();
+
+  useEffect(() => {
+    authenticateUser();
+  }, []);
 
   // console.log("app  " + JSON.stringify(auth));
 

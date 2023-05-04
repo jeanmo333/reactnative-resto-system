@@ -1,20 +1,16 @@
 /** @format */
 
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../../theme";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuth from "../../hooks/useAuth";
+import Toast from "react-native-root-toast";
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
-
-  const { authenticateUser } = useAuth();
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  const { authenticateUser, logout } = useAuth();
 
   return (
     <SafeAreaView

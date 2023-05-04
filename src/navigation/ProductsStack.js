@@ -14,9 +14,9 @@ export default function ProductsStack(props) {
   const { navigation } = props;
   const { authenticateUser, auth } = useAuth();
 
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  // useEffect(() => {
+  //   authenticateUser();
+  // }, []);
 
   // console.log("app  " + JSON.stringify(auth));
 
