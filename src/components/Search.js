@@ -7,7 +7,7 @@ import { createFilter } from "react-search-input";
 const KEYS_TO_FILTERS = ["name", "description"];
 
 export default function Search(props) {
-  const { data, setData } = props;
+  const { data, setData, placeholder } = props;
 
   const onSearch = (text) => {
     const resultSearch = data.filter(createFilter(text, KEYS_TO_FILTERS));
@@ -19,7 +19,7 @@ export default function Search(props) {
       <TextInput
         placeholderTextColor={"gray"}
         style={styles.formTextInput}
-        placeholder='Buscar Categoria'
+        placeholder={placeholder}
         onChangeText={onSearch}
       />
     </View>

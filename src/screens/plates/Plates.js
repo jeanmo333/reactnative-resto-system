@@ -1,46 +1,56 @@
 /** @format */
 
+// import React from "react";
+// import { Text } from "react-native-paper";
+
+// export function Plates(props) {
+//   return <Text>Products</Text>;
+// }
+
+/** @format */
+
 import React, { useCallback, useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { size } from "lodash";
-import { useCategories } from "../../hooks/useCategories";
 import { CategoryList } from "../../components/categories";
 import useAuth from "../../hooks/useAuth";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import ScreenLoading from "../../components/ScreenLoading";
 import Search from "../../components/Search";
+import { usePlates } from "../../hooks/usePlates";
+import { PlateList } from "../../components/plates";
 
-export function Categories(props) {
-  const [reloadCategories, setReloadCategories] = useState(false);
+export function Plates(props) {
+  const [reloadPlates, setReloadPlates] = useState(false);
   const navigation = useNavigation();
 
   const {
-    getCategories,
-    categories,
+    getPlates,
+    plates,
     loading,
     token,
-    setSearchCategoriesResult,
-    searchCategoriesResult,
-  } = useCategories();
+    setSearchPlatesResult,
+    searchPlatesResult,
+  } = usePlates();
   const { authenticateUser } = useAuth();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
-        getCategories();
+        getPlates();
         authenticateUser();
-        setReloadCategories(false);
+        setReloadPlates(false);
       })();
-    }, [token, reloadCategories])
+    }, [token, reloadPlates])
   );
-  //console.log(categories);
+  //console.log(plates);
 
   return (
     <>
       {loading ? (
         <ScreenLoading />
-      ) : size(categories) === 0 ? (
+      ) : size(plates) === 0 ? (
         <>
           <View className='flex-row justify-between items-center mx-6 mb-4 mt-3'>
             <View className='py-1 px-3 rounded-lg  bg-[#0098d3] flex-row items-center'>
@@ -59,7 +69,8 @@ export function Categories(props) {
             </View>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("create-category")}>
+            // onPress={() => navigation.navigate("create-category")}
+            >
               <Image
                 source={require("../../../assets/icons/add.png")}
                 style={{
@@ -70,23 +81,23 @@ export function Categories(props) {
             </TouchableOpacity>
           </View>
           <Text className='font-bold text-lg text-center mb-3'>
-            Aun no tiene categorias agregada
+            Aun no tiene Platos agregado
           </Text>
 
           <Text className='font-semibold text-sm text-center'>
-            Dale click al boton de mas(+) para agregada una
+            Dale click al boton de mas(+) para agregada uno
           </Text>
         </>
       ) : (
         <>
           <Text className='font-bold text-center text-2xl mt-2'>
-            Listado de categorias
+            Listado de platos
           </Text>
 
           <Search
-            data={categories}
-            setData={setSearchCategoriesResult}
-            placeholder='Buscar categorias'
+            data={plates}
+            setData={setSearchPlatesResult}
+            placeholder='Buscar platos'
           />
 
           <View className='flex-row justify-between items-center mx-6 mb-4 mt-3'>
@@ -106,7 +117,8 @@ export function Categories(props) {
             </View>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("create-category")}>
+            // onPress={() => navigation.navigate("create-category")}
+            >
               <Image
                 source={require("../../../assets/icons/add.png")}
                 style={{
@@ -117,9 +129,9 @@ export function Categories(props) {
             </TouchableOpacity>
           </View>
 
-          <CategoryList
-            categories={searchCategoriesResult}
-            setReloadCategories={setReloadCategories}
+          <PlateList
+            plates={searchPlatesResult}
+            setReloadPlates={setReloadPlates}
           />
         </>
       )}

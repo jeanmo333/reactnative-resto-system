@@ -34,7 +34,7 @@ export default function AuthNavigation(props) {
         name='login'
         component={Login}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Login",
         }}
       />
@@ -43,7 +43,7 @@ export default function AuthNavigation(props) {
         name='register'
         component={RegisterScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Nueva cuenta",
         }}
       />

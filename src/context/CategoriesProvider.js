@@ -84,21 +84,17 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const addCategory = async (archive, category) => {
-    let dataForm = new FormData();
-    dataForm.append("archive", {
-      uri: archive,
-      name: archive.split("/").pop(),
-      type: mime.getType(archive),
-    });
-    dataForm.append("category", JSON.stringify(category));
+  const addCategory = async (category) => {
+    // let dataForm = new FormData();
+    // dataForm.append("archive", {
+    //   uri: archive,
+    //   name: archive.split("/").pop(),
+    //   type: mime.getType(archive),
+    // });
+    // dataForm.append("category", JSON.stringify(category));
     try {
       setLoading(true);
-      const { data } = await clientAxios.post(
-        "/categories",
-        dataForm,
-        configWithToken
-      );
+      const { data } = await clientAxios.post("/categories", category, config);
       const { newCategory } = data;
       setCategories([...categories, newCategory]);
       setLoading(false);
@@ -115,20 +111,20 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const updateCategory = async (id, archive, category) => {
-    let dataForm = new FormData();
-    dataForm.append("archive", {
-      uri: archive,
-      name: archive.split("/").pop(),
-      type: mime.getType(archive),
-    });
-    dataForm.append("category", JSON.stringify(category));
+  const updateCategory = async (id, category) => {
+    // let dataForm = new FormData();
+    // dataForm.append("archive", {
+    //   uri: archive,
+    //   name: archive.split("/").pop(),
+    //   type: mime.getType(archive),
+    // });
+    // dataForm.append("category", JSON.stringify(category));
     try {
       setLoading(true);
       const { data } = await clientAxios.patch(
         `/categories/${id}`,
-        dataForm,
-        configWithToken
+        category,
+        config
       );
       const { categoryUpdate } = data;
       const categoriesEdit = categories.map((categoryState) =>

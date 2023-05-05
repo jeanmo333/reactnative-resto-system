@@ -3,14 +3,14 @@
 import React, { useEffect } from "react";
 import { IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Products } from "../screens/products";
+import { Plates } from "../screens/plates";
 import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
 
 const Stack = createStackNavigator();
 
-export default function ProductsStack(props) {
+export default function PlatesStack(props) {
   const { navigation } = props;
   const { authenticateUser, auth } = useAuth();
 
@@ -81,11 +81,11 @@ export default function ProductsStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='products'
-        component={Products}
+        name='plates'
+        component={Plates}
         options={{
-          title: "Productos",
-          headerLeft: () => buttonLeft("products"),
+          title: "Platos",
+          headerLeft: () => buttonLeft("plates"),
           headerRight: () => buttonRight(),
         }}
       />

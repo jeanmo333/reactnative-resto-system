@@ -48,46 +48,45 @@ export function CreateCategory(props) {
     })();
   }, [params]);
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 1,
-    });
+  // const pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     quality: 1,
+  //   });
 
-    if (!result.canceled) {
-      //onChange(result.assets[0].uri);
-      setArchive(result.assets[0].uri);
-    }
-  };
+  //   if (!result.canceled) {
+  //     //onChange(result.assets[0].uri);
+  //     setArchive(result.assets[0].uri);
+  //   }
+  // };
 
-  const takePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 1,
-    });
+  // const takePhoto = async () => {
+  //   let result = await ImagePicker.launchCameraAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     quality: 1,
+  //   });
 
-    if (!result.canceled) {
-      // onChange(result.assets[0].uri);
-      setArchive(result.assets[0].uri);
-    }
-  };
+  //   if (!result.canceled) {
+  //     // onChange(result.assets[0].uri);
+  //     setArchive(result.assets[0].uri);
+  //   }
+  // };
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: yup.object(validationSchema()),
     onSubmit: async (category) => {
-      //console.log(category);
-      if (archive === "") {
-        Toast.show("Hay seleccionar un imagen", {
-          position: Toast.positions.CENTER,
-        });
-        return;
-      }
+      // if (archive === "") {
+      //   Toast.show("Hay seleccionar un imagen", {
+      //     position: Toast.positions.CENTER,
+      //   });
+      //   return;
+      // }
 
       if (newCategory) {
-        const { error, message } = await addCategory(archive, category);
+        const { error, message } = await addCategory(category);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -101,7 +100,7 @@ export function CreateCategory(props) {
           return;
         }
       } else {
-        const { error, message } = await updateCategory(id, archive, category);
+        const { error, message } = await updateCategory(id, category);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -130,7 +129,7 @@ export function CreateCategory(props) {
 
       <ScrollView>
         <View className='mx-6'>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             className='py-3  mb-3 rounded-xl flex-row justify-center items-center'
             style={{ backgroundColor: themeColors.bg }}
             onPress={() => setModalVisible(true)}>
@@ -149,7 +148,7 @@ export function CreateCategory(props) {
             <Text className={"text-xl font-bold text-center text-white"}>
               {newCategory ? "Subir imagen" : "Cambiar imagen"}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TextInput
             mode='outlined'
@@ -184,12 +183,12 @@ export function CreateCategory(props) {
         </View>
       </ScrollView>
 
-      <ModalPickImage
+      {/* <ModalPickImage
         openGallery={pickImage}
         openCamera={takePhoto}
         modalUseState={modalVisible}
         setModalUseState={setModalVisible}
-      />
+      /> */}
     </>
   );
 }

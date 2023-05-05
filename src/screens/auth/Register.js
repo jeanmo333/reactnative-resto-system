@@ -174,7 +174,7 @@ export default function RegisterScreen() {
           </TouchableOpacity>
         </View>
 
-        <View className='flex-row justify-center mt-5 pb-16'>
+        <View className='flex-row justify-center mt-5 pb-12'>
           <Text
             className='text-gray-500 font-semibold'
             style={{ fontSize: 15 }}>

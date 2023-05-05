@@ -6,51 +6,64 @@ import { Text, ActivityIndicator } from "react-native-paper";
 import { themeColors } from "../../theme";
 import { useCategories } from "../../hooks/useCategories";
 
-export default function Category({ category, setReloadCategories }) {
+export default function Plate({ plate, setReloadPlates }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  const { deleteCategory } = useCategories();
+  // const { deleteCategory } = useCategories();
 
-  const alertDeleteCategory = (id) => {
-    Alert.alert(
-      "Eliminar Categoria",
-      "¿Estas seguro?, Esta accion no puede dehacer!",
-      [
-        {
-          text: "NO",
-        },
-        {
-          text: "SI",
-          onPress: async () => {
-            setLoading(true);
-            await deleteCategory(id);
-            setReloadCategories(true);
-            setLoading(false);
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+  // const alertDeleteCategory = (id) => {
+  //   Alert.alert(
+  //     "Eliminar Categoria",
+  //     "¿Estas seguro?, Esta accion no puede dehacer!",
+  //     [
+  //       {
+  //         text: "NO",
+  //       },
+  //       {
+  //         text: "SI",
+  //         onPress: async () => {
+  //           setLoading(true);
+  //           await deleteCategory(id);
+  //           setReloadCategories(true);
+  //           setLoading(false);
+  //         },
+  //       },
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // };
 
   return (
-    <View key={category.id} style={styles.category} className='mb-3'>
+    <View key={plate.id} style={styles.plate} className='mb-3'>
+      <View style={styles.containerImage}>
+        {plate.images.map((image, index) => (
+          <View key={index}>
+            <Image
+              source={{
+                uri: `${image}`,
+              }}
+              style={styles.image}
+            />
+          </View>
+        ))}
+      </View>
       <Text style={styles.key} numberOfLines={1} ellipsizeMode='tail'>
-        Nombre : {""} <Text style={styles.value}>{category.name}</Text>
+        Nombre : {""} <Text style={styles.value}>{plate.name}</Text>
       </Text>
 
       <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
-        Descripcion : <Text style={styles.value}>{category.description}</Text>
+        Descripcion : <Text style={styles.value}>{plate.description}</Text>
       </Text>
 
       <View style={styles.actions}>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("create-category", {
-              idCategory: category.id,
-            })
-          }>
+        // onPress={() =>
+        //   navigation.navigate("create-category", {
+        //     idCategory: category.id,
+        //   })
+        // }
+        >
           <Image
             source={require("../../../assets/icons/edit.png")}
             style={{
@@ -60,7 +73,9 @@ export default function Category({ category, setReloadCategories }) {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => alertDeleteCategory(category.id)}>
+        <TouchableOpacity
+        // onPress={() => alertDeleteCategory(category.id)}
+        >
           {loading ? (
             <ActivityIndicator size='large' className='mr-1' />
           ) : (
@@ -85,12 +100,17 @@ export default function Category({ category, setReloadCategories }) {
 }
 
 const styles = StyleSheet.create({
-  category: {
+  plate: {
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "gray",
     padding: 20,
     position: "relative",
+  },
+  containerImage: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8,
   },
   key: {
     fontWeight: "bold",
@@ -104,10 +124,9 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   image: {
-    height: 40,
-    width: 40,
-    marginLeft: 40,
-    borderRadius: 50,
+    height: 60,
+    width: 60,
+    borderRadius: 10,
   },
   actions: {
     flexDirection: "row",

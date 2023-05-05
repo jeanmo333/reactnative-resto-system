@@ -1,13 +1,7 @@
 /** @format */
 
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { ScrollView } from "react-native";
 import { map } from "lodash";
 import Category from "./Category";
 

@@ -7,11 +7,11 @@ import DrawerContent from "./DrawerContent";
 import OrdersStack from "./OrdersStack";
 import SettingsStack from "./SettingsStack";
 import useAuth from "../hooks/useAuth";
-import ProductsStack from "./ProductsStack";
 import { themeColors } from "../theme";
 import CategoriesStack from "./CategoriesStack";
 import DashboardStack from "./DashboardStack";
 import MenuStack from "./MenuStack";
+import PlatesStack from "./PlatesStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -116,10 +116,10 @@ export default function AppNavigation(props) {
           />
 
           <Drawer.Screen
-            name='products-stack'
-            component={ProductsStack}
+            name='plates-stack'
+            component={PlatesStack}
             options={{
-              title: "Productos",
+              title: "Platos",
               drawerIcon: () => (
                 <Image
                   source={require("../../assets/icons/new-product.png")}
