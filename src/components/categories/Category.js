@@ -61,25 +61,25 @@ export default function Category({ category, setReloadCategories }) {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => alertDeleteCategory(category.id)}>
-          {loading ? (
-            <ActivityIndicator size='large' className='mr-1' />
-          ) : (
-            <Image
-              source={require("../../../assets/icons/delete.png")}
-              style={{
-                height: 47,
-                width: 47,
-              }}
-            />
-          )}
+          <Image
+            source={require("../../../assets/icons/delete.png")}
+            style={{
+              height: 47,
+              width: 47,
+            }}
+          />
         </TouchableOpacity>
       </View>
 
-      {/* {loading && (
+      {loading && (
         <View style={styles.loading}>
-          <ActivityIndicator size='large' color='#fff' />
+          <ActivityIndicator
+            style={{ marginRight: 70, marginBottom: 10 }}
+            size='large'
+            color='#fff'
+          />
         </View>
-      )}  */}
+      )}
     </View>
   );
 }
@@ -119,9 +119,8 @@ const styles = StyleSheet.create({
     backgroundColor: themeColors.bg,
     opacity: 0.4,
     position: "absolute",
-    width: "100%",
-    height: "100%",
-    margin: 0,
+    width: 400,
+    height: 170,
     borderRadius: 5,
     justifyContent: "center",
   },

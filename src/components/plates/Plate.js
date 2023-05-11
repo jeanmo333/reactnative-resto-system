@@ -5,34 +5,35 @@ import { useNavigation } from "@react-navigation/native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { themeColors } from "../../theme";
 import { useCategories } from "../../hooks/useCategories";
+import { usePlates } from "../../hooks/usePlates";
 
 export default function Plate({ plate, setReloadPlates }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  // const { deleteCategory } = useCategories();
+  const { deletePlate } = usePlates();
 
-  // const alertDeleteCategory = (id) => {
-  //   Alert.alert(
-  //     "Eliminar Categoria",
-  //     "¿Estas seguro?, Esta accion no puede dehacer!",
-  //     [
-  //       {
-  //         text: "NO",
-  //       },
-  //       {
-  //         text: "SI",
-  //         onPress: async () => {
-  //           setLoading(true);
-  //           await deleteCategory(id);
-  //           setReloadCategories(true);
-  //           setLoading(false);
-  //         },
-  //       },
-  //     ],
-  //     { cancelable: false }
-  //   );
-  // };
+  const alertDeletePlate = (id) => {
+    Alert.alert(
+      "Eliminar platillo",
+      "¿Estas seguro?, Esta accion no puede dehacer!",
+      [
+        {
+          text: "NO",
+        },
+        {
+          text: "SI",
+          onPress: async () => {
+            setLoading(true);
+            await deletePlate(id);
+            setReloadCategories(true);
+            setLoading(false);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
     <View key={plate.id} style={styles.plate} className='mb-3'>
@@ -56,14 +57,30 @@ export default function Plate({ plate, setReloadPlates }) {
         Descripcion : <Text style={styles.value}>{plate.description}</Text>
       </Text>
 
+      <Text style={styles.key}>
+        Categoria : <Text style={styles.value}>{plate.category.name}</Text>
+      </Text>
+
+      <Text style={styles.key}>
+        Precio preparacion :{" "}
+        <Text style={styles.value}>{plate.prepared_price}</Text>
+      </Text>
+
+      <Text style={styles.key}>
+        Precio venta : <Text style={styles.value}>{plate.sale_price}</Text>
+      </Text>
+
+      <Text style={styles.key}>
+        Stock : <Text style={styles.value}>{plate.stock}</Text>
+      </Text>
+
       <View style={styles.actions}>
         <TouchableOpacity
-        // onPress={() =>
-        //   navigation.navigate("create-category", {
-        //     idCategory: category.id,
-        //   })
-        // }
-        >
+          onPress={() =>
+            navigation.navigate("create-plate", {
+              idPlate: plate.id,
+            })
+          }>
           <Image
             source={require("../../../assets/icons/edit.png")}
             style={{
@@ -73,9 +90,7 @@ export default function Plate({ plate, setReloadPlates }) {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity
-        // onPress={() => alertDeleteCategory(category.id)}
-        >
+        <TouchableOpacity onPress={() => alertDeletePlate(plate.id)}>
           {loading ? (
             <ActivityIndicator size='large' className='mr-1' />
           ) : (
@@ -116,7 +131,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     color: themeColors.blue,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   value: {
     fontSize: 16,

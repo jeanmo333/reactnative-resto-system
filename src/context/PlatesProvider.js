@@ -61,116 +61,120 @@ const PlateProvider = ({ children }) => {
     }
   };
 
-  // const getCategory = async (id) => {
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await clientAxios.get(
-  //       `/categories/${id}`,
-  //       configWithToken
-  //     );
-  //     setLoading(false);
+  const getPlate = async (id) => {
+    try {
+      setLoading(true);
+      const { data } = await clientAxios.get(`/plates/${id}`, config);
+      setLoading(false);
 
-  //     return {
-  //       error: false,
-  //       message: data.message,
-  //       category: data,
-  //     };
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       Toast.show("Hubo un error", {
-  //         position: Toast.positions.CENTER,
-  //       });
-  //     }
-  //   }
-  // };
+      return {
+        error: false,
+        message: data.message,
+        plate: data,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        Toast.show("Hubo un error", {
+          position: Toast.positions.CENTER,
+        });
+      }
+    }
+  };
 
-  // const addCategory = async (archive, category) => {
-  //   let dataForm = new FormData();
-  //   dataForm.append("archive", {
-  //     uri: archive,
-  //     name: archive.split("/").pop(),
-  //     type: mime.getType(archive),
-  //   });
-  //   dataForm.append("category", JSON.stringify(category));
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await clientAxios.post(
-  //       "/categories",
-  //       dataForm,
-  //       configWithToken
-  //     );
-  //     const { newCategory } = data;
-  //     setCategories([...categories, newCategory]);
-  //     setLoading(false);
-  //     return {
-  //       message: data.message,
-  //       error: false,
-  //     };
-  //   } catch (error) {
-  //     setLoading(false);
-  //     return {
-  //       message: error.response.data.message,
-  //       error: true,
-  //     };
-  //   }
-  // };
+  const addPlate = async (archives, plate) => {
+    let dataForm = new FormData();
 
-  // const updateCategory = async (id, archive, category) => {
-  //   let dataForm = new FormData();
-  //   dataForm.append("archive", {
-  //     uri: archive,
-  //     name: archive.split("/").pop(),
-  //     type: mime.getType(archive),
-  //   });
-  //   dataForm.append("category", JSON.stringify(category));
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await clientAxios.patch(
-  //       `/categories/${id}`,
-  //       dataForm,
-  //       configWithToken
-  //     );
-  //     const { categoryUpdate } = data;
-  //     const categoriesEdit = categories.map((categoryState) =>
-  //       categoryState.id === categoryUpdate.id ? categoryUpdate : categoryState
-  //     );
-  //     setCategories(categoriesEdit);
-  //     setLoading(false);
-  //     return {
-  //       message: data.message,
-  //       error: false,
-  //     };
-  //   } catch (error) {
-  //     setLoading(false);
-  //     return {
-  //       message: error.response.data.message,
-  //       error: true,
-  //     };
-  //   }
-  // };
+    archives.forEach((archive) => {
+      dataForm.append("archives", {
+        uri: archive,
+        name: archive.split("/").pop(),
+        type: mime.getType(archive),
+      });
+    });
+    dataForm.append("plate", JSON.stringify(plate));
+    try {
+      setLoading(true);
+      const { data } = await clientAxios.post(
+        "/plates",
+        dataForm,
+        configWithToken
+      );
+      const { plateSave } = data;
+      setPlates([...plates, plateSave]);
+      setLoading(false);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoading(false);
+      if (axios.isAxiosError(error)) {
+        setLoading(false);
 
-  // const deleteCategory = async (id) => {
-  //   try {
-  //     await clientAxios.delete(`/categories/${id}`, config);
-  //     const categoriesUpdate = categories.filter(
-  //       (categoriesState) => categoriesState.id !== id
-  //     );
-  //     setCategories(categoriesUpdate);
+        return {
+          message: error.response.data.message,
+          error: true,
+        };
+      }
+    }
+  };
 
-  //     Toast.show("Eliminado con exito", {
-  //       position: Toast.positions.CENTER,
-  //     });
-  //     return;
-  //   } catch (error) {
-  //     console.log(error);
-  //     if (axios.isAxiosError(error)) {
-  //       setLoading(false);
-  //       Toast.show("Hubo un error", {
-  //         position: Toast.positions.CENTER,
-  //       });
-  //     }
-  //   }
-  // };
+  const updatePlate = async (id, plate) => {
+    // let dataForm = new FormData();
+    // dataForm.append("archive", {
+    //   uri: archive,
+    //   name: archive.split("/").pop(),
+    //   type: mime.getType(archive),
+    // });
+    // dataForm.append("plate", JSON.stringify(plate));
+    try {
+      setLoading(true);
+      const { data } = await clientAxios.patch(`/plates/${id}`, plate, config);
+      const { plateUpdate } = data;
+      const platesEdit = plates.map((plateState) =>
+        plateState.id === plateUpdate.id ? plateUpdate : plateState
+      );
+      setPlates(platesEdit);
+      setLoading(false);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoading(false);
+      if (axios.isAxiosError(error)) {
+        setLoading(false);
+
+        return {
+          message: error.response.data.message,
+          error: true,
+        };
+      }
+    }
+  };
+
+  const deletePlate = async (id) => {
+    try {
+      await clientAxios.delete(`/plates/${id}`, config);
+      const platesUpdate = plates.filter(
+        (platesState) => platesState.id !== id
+      );
+      setCategories(platesUpdate);
+
+      Toast.show("Eliminado con exito", {
+        position: Toast.positions.CENTER,
+      });
+      return;
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        setLoading(false);
+        Toast.show("Hubo un error", {
+          position: Toast.positions.CENTER,
+        });
+      }
+    }
+  };
 
   return (
     <PlateContext.Provider
@@ -182,10 +186,10 @@ const PlateProvider = ({ children }) => {
         setSearchPlatesResult,
         getPlates,
         setLoading,
-        // addCategory,
-        // getCategory,
-        // updateCategory,
-        // deleteCategory,
+        addPlate,
+        getPlate,
+        updatePlate,
+        deletePlate,
       }}>
       {children}
     </PlateContext.Provider>

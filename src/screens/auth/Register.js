@@ -7,10 +7,10 @@ import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../hooks/useAuth";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import * as ImagePicker from "expo-image-picker";
 import { themeColors } from "../../theme";
 import Toast from "react-native-root-toast";
 import { ModalPickImage } from "../../components/ModalPickImage";
+import { pickImage, takePhoto } from "../../utils/images";
 
 export default function RegisterScreen() {
   const [archive, setArchive] = useState("");
@@ -18,30 +18,14 @@ export default function RegisterScreen() {
   const navigation = useNavigation();
   const { register, loading } = useAuth();
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      //onChange(result.assets[0].uri);
-      setArchive(result.assets[0].uri);
-    }
+  const onPickImage = async () => {
+    const result = await pickImage();
+    setArchive(result);
   };
 
-  const takePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      // onChange(result.assets[0].uri);
-      setArchive(result.assets[0].uri);
-    }
+  const onTakePhoto = async () => {
+    const result = await takePhoto();
+    setArchive(result);
   };
 
   const formik = useFormik({
@@ -192,8 +176,8 @@ export default function RegisterScreen() {
       </View>
 
       <ModalPickImage
-        openGallery={pickImage}
-        openCamera={takePhoto}
+        openGallery={onPickImage}
+        openCamera={onTakePhoto}
         modalUseState={modalVisible}
         setModalUseState={setModalVisible}
       />

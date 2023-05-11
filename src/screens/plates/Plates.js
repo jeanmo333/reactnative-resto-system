@@ -64,13 +64,12 @@ export function Plates(props) {
                   padding: 10,
                   borderRadius: 50,
                 }}>
-                <Text className='font-bold text-white'>10</Text>
+                <Text className='font-bold text-white'>0</Text>
               </View>
             </View>
 
             <TouchableOpacity
-            // onPress={() => navigation.navigate("create-category")}
-            >
+              onPress={() => navigation.navigate("create-plate")}>
               <Image
                 source={require("../../../assets/icons/add.png")}
                 style={{
@@ -117,8 +116,7 @@ export function Plates(props) {
             </View>
 
             <TouchableOpacity
-            // onPress={() => navigation.navigate("create-category")}
-            >
+              onPress={() => navigation.navigate("create-plate")}>
               <Image
                 source={require("../../../assets/icons/add.png")}
                 style={{

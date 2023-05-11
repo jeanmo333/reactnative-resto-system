@@ -7,6 +7,7 @@ import { Plates } from "../screens/plates";
 import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
+import { CreatePlates } from "../screens/plates/CreatePlates";
 
 const Stack = createStackNavigator();
 
@@ -23,11 +24,11 @@ export default function PlatesStack(props) {
   const buttonLeft = (screen) => {
     switch (screen) {
       case "search":
-        //case "movie":
+      case "create-plate":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("plates")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -86,6 +87,16 @@ export default function PlatesStack(props) {
         options={{
           title: "Platos",
           headerLeft: () => buttonLeft("plates"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='create-plate'
+        component={CreatePlates}
+        options={{
+          title: "",
+          headerLeft: () => buttonLeft("create-plate"),
           headerRight: () => buttonRight(),
         }}
       />
