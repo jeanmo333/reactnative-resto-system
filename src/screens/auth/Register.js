@@ -20,11 +20,13 @@ export default function RegisterScreen() {
 
   const onPickImage = async () => {
     const result = await pickImage();
+    if (result === undefined) return;
     setArchive(result);
   };
 
   const onTakePhoto = async () => {
     const result = await takePhoto();
+    if (result === undefined) return;
     setArchive(result);
   };
 

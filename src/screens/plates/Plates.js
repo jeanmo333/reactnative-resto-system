@@ -89,10 +89,6 @@ export function Plates(props) {
         </>
       ) : (
         <>
-          <Text className='font-bold text-center text-2xl mt-2'>
-            Listado de platos
-          </Text>
-
           <Search
             data={plates}
             setData={setSearchPlatesResult}

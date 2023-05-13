@@ -18,14 +18,6 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState(true);
 
   // const navigation = useNavigation();
-  (async () => {
-    const token = await getTokenStorage();
-    if (token) {
-      setToken(token);
-    } else {
-      setToken(null);
-    }
-  })();
 
   // console.log("token  " + token);
 
@@ -53,6 +45,15 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     authenticateUser();
+
+    (async () => {
+      const token = await getTokenStorage();
+      if (token) {
+        setToken(token);
+      } else {
+        setToken(null);
+      }
+    })();
   }, [token, error]);
 
   const authenticateUser = async () => {
@@ -62,10 +63,8 @@ const AuthProvider = ({ children }) => {
         return;
       }
 
-      setLoading(true);
       const { data } = await clientAxios.get("/users/profile", config);
       setAuth(data);
-      setLoading(false);
       setError(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -73,7 +72,6 @@ const AuthProvider = ({ children }) => {
         setError(true);
         setToken(null);
         setAuth(null);
-        setLoading(false);
         Toast.show("Su session ha expirada", {
           position: Toast.positions.CENTER,
         });
@@ -129,11 +127,84 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfileWithImage = async (archive, user) => {
+    let dataForm = new FormData();
+    dataForm.append("archive", {
+      uri: archive,
+      name: archive.split("/").pop(),
+      type: mime.getType(archive),
+    });
+    dataForm.append("user", JSON.stringify(user));
+    try {
+      setLoading(true);
+      const { data } = await clientAxios.put(
+        "/users/update-profile-with-image",
+        dataForm,
+        configWithToken
+      );
+      setAuth(data.userUpdate);
+      setLoading(false);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoading(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
+  const updateProfileWithoutImage = async (user) => {
+    try {
+      setLoading(true);
+      const { data } = await clientAxios.put(
+        "/users/update-profile-without-image",
+        user,
+        config
+      );
+      setAuth(data.userUpdate);
+      setLoading(false);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoading(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
+  const updatePassword = async (dataPassword) => {
+    try {
+      setLoading(true);
+      const { data } = await clientAxios.put(
+        "/users/update-password",
+        dataPassword,
+        config
+      );
+      setLoading(false);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoading(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
   //cerrar secion
   const logout = async () => {
     if (auth) {
-      //await removeTokenStorage();
-      // navigation.navigate("login");
       await AsyncStorage.removeItem(TOKEN);
       setToken(null);
       setAuth(null);
@@ -152,7 +223,10 @@ const AuthProvider = ({ children }) => {
         register,
         login,
         logout,
+        updateProfileWithImage,
+        updateProfileWithoutImage,
         authenticateUser,
+        updatePassword,
       }}>
       {children}
     </AuthContext.Provider>

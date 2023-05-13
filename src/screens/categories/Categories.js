@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { size } from "lodash";
@@ -24,6 +24,11 @@ export function Categories(props) {
     searchCategoriesResult,
   } = useCategories();
   const { authenticateUser } = useAuth();
+
+  useEffect(() => {
+    getCategories();
+    authenticateUser();
+  }, [token, reloadCategories]);
 
   useFocusEffect(
     useCallback(() => {
@@ -79,10 +84,6 @@ export function Categories(props) {
         </>
       ) : (
         <>
-          <Text className='font-bold text-center text-2xl mt-2'>
-            Listado de categorias
-          </Text>
-
           <Search
             data={categories}
             setData={setSearchCategoriesResult}

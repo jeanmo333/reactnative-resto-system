@@ -1,16 +1,22 @@
 /** @format */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { themeColors } from "../../theme";
 import { useCategories } from "../../hooks/useCategories";
+import { DateFormatter } from "../../utils/DateFormatter";
+import useAuth from "../../hooks/useAuth";
 
 export default function Category({ category, setReloadCategories }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
+  const { auth, authenticateUser, token } = useAuth();
   const { deleteCategory } = useCategories();
+
+  useEffect(() => {
+    authenticateUser();
+  }, [token]);
 
   const alertDeleteCategory = (id) => {
     Alert.alert(
@@ -44,34 +50,45 @@ export default function Category({ category, setReloadCategories }) {
         Descripcion : <Text style={styles.value}>{category.description}</Text>
       </Text>
 
-      <View style={styles.actions}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("create-category", {
-              idCategory: category.id,
-            })
-          }>
-          <Image
-            source={require("../../../assets/icons/edit.png")}
-            style={{
-              height: 47,
-              width: 47,
-            }}
-          />
-        </TouchableOpacity>
+      <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
+        Fecha creacion :{" "}
+        <Text style={styles.value}>{DateFormatter(category.createdAt)}</Text>
+      </Text>
 
-        <TouchableOpacity onPress={() => alertDeleteCategory(category.id)}>
-          <Image
-            source={require("../../../assets/icons/delete.png")}
-            style={{
-              height: 47,
-              width: 47,
-            }}
-          />
-        </TouchableOpacity>
-      </View>
+      {auth?.roles.includes("admin") && (
+        <View style={styles.actions}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("create-category", {
+                idCategory: category.id,
+              })
+            }>
+            <Image
+              source={require("../../../assets/icons/edit.png")}
+              style={{
+                height: 47,
+                width: 47,
+              }}
+            />
+          </TouchableOpacity>
 
-      {loading && (
+          <TouchableOpacity onPress={() => alertDeleteCategory(category.id)}>
+            {loading ? (
+              <ActivityIndicator size='small' color={themeColors.blue} />
+            ) : (
+              <Image
+                source={require("../../../assets/icons/delete.png")}
+                style={{
+                  height: 47,
+                  width: 47,
+                }}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* {loading && (
         <View style={styles.loading}>
           <ActivityIndicator
             style={{ marginRight: 70, marginBottom: 10 }}
@@ -79,7 +96,7 @@ export default function Category({ category, setReloadCategories }) {
             color='#fff'
           />
         </View>
-      )}
+      )} */}
     </View>
   );
 }

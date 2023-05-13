@@ -7,4 +7,5 @@ export const themeColors = {
   danger: "#FF5733",
   bgLight: "#fff",
   bgDark: "#16222b",
+  orange: "#F4991A",
 };

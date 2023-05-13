@@ -122,13 +122,13 @@ export function CreatePlates(props) {
   return (
     <>
       <Text className='text-3xl text-center font-bold mt-2'>
-        {newPlate ? " Creado platillo" : "Editando platillo"}
+        {newPlate ? " Creando platillo" : "Editando platillo"}
       </Text>
 
       <Divider className='mb-3 pb-2 mx-6' />
 
       <ScrollView>
-        {archives.length < 3 && (
+        {archives.length < 3 && newPlate && (
           <TouchableOpacity
             className='py-3  mb-1 rounded-xl flex-row justify-center items-center mx-6'
             style={{ backgroundColor: themeColors.bg }}
@@ -224,8 +224,6 @@ export function CreatePlates(props) {
               {!loading && newPlate
                 ? "Crear plato"
                 : !loading && !newPlate && "Editar plato"}
-
-              {/* {!loading && "Crear plato"} */}
             </Text>
           </Button>
 

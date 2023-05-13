@@ -1,17 +1,23 @@
 /** @format */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { themeColors } from "../../theme";
-import { useCategories } from "../../hooks/useCategories";
 import { usePlates } from "../../hooks/usePlates";
+import { DateFormatter } from "../../utils/DateFormatter";
+import currencyFormatter from "../../utils/currencyFormatter";
+import useAuth from "../../hooks/useAuth";
 
 export default function Plate({ plate, setReloadPlates }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
   const { deletePlate } = usePlates();
+  const { auth, authenticateUser, token } = useAuth();
+
+  useEffect(() => {
+    authenticateUser();
+  }, [token]);
 
   const alertDeletePlate = (id) => {
     Alert.alert(
@@ -26,7 +32,7 @@ export default function Plate({ plate, setReloadPlates }) {
           onPress: async () => {
             setLoading(true);
             await deletePlate(id);
-            setReloadCategories(true);
+            setReloadPlates(true);
             setLoading(false);
           },
         },
@@ -63,53 +69,63 @@ export default function Plate({ plate, setReloadPlates }) {
 
       <Text style={styles.key}>
         Precio preparacion :{" "}
-        <Text style={styles.value}>{plate.prepared_price}</Text>
+        <Text style={styles.value}>
+          {currencyFormatter(plate.prepared_price)}
+        </Text>
       </Text>
 
       <Text style={styles.key}>
-        Precio venta : <Text style={styles.value}>{plate.sale_price}</Text>
+        Fecha creacion :{" "}
+        <Text style={styles.value}>{DateFormatter(plate.createdAt)}</Text>
+      </Text>
+
+      <Text style={styles.key}>
+        Precio venta :{" "}
+        <Text style={styles.value}>{currencyFormatter(plate.sale_price)}</Text>
       </Text>
 
       <Text style={styles.key}>
         Stock : <Text style={styles.value}>{plate.stock}</Text>
       </Text>
 
-      <View style={styles.actions}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("create-plate", {
-              idPlate: plate.id,
-            })
-          }>
-          <Image
-            source={require("../../../assets/icons/edit.png")}
-            style={{
-              height: 47,
-              width: 47,
-            }}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => alertDeletePlate(plate.id)}>
-          {loading ? (
-            <ActivityIndicator size='large' className='mr-1' />
-          ) : (
+      {auth?.roles.includes("admin") && (
+        <View style={styles.actions}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("create-plate", {
+                idPlate: plate.id,
+              })
+            }>
             <Image
-              source={require("../../../assets/icons/delete.png")}
+              source={require("../../../assets/icons/edit.png")}
               style={{
                 height: 47,
                 width: 47,
               }}
             />
-          )}
-        </TouchableOpacity>
-      </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => alertDeletePlate(plate.id)}>
+            {loading ? (
+              <ActivityIndicator size='small' color={themeColors.blue} />
+            ) : (
+              <Image
+                source={require("../../../assets/icons/delete.png")}
+                style={{
+                  height: 47,
+                  width: 47,
+                }}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* {loading && (
         <View style={styles.loading}>
           <ActivityIndicator size='large' color='#fff' />
         </View>
-      )}  */}
+      )} */}
     </View>
   );
 }
@@ -153,8 +169,8 @@ const styles = StyleSheet.create({
     backgroundColor: themeColors.bg,
     opacity: 0.4,
     position: "absolute",
-    width: "100%",
-    height: "100%",
+    width: 350,
+    height: 415,
     margin: 0,
     borderRadius: 5,
     justifyContent: "center",

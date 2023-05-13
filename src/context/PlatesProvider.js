@@ -1,6 +1,6 @@
 /** @format */
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { getTokenStorage } from "../utils/token";
 import Toast from "react-native-root-toast";
@@ -16,14 +16,17 @@ const PlateProvider = ({ children }) => {
   // console.log(categories);
   const [token, setToken] = useState(null);
 
-  (async () => {
-    const token = await getTokenStorage();
-    if (token) {
-      setToken(token);
-    } else {
-      setToken(null);
-    }
-  })();
+  useEffect(() => {
+    getPlates();
+    (async () => {
+      const token = await getTokenStorage();
+      if (token) {
+        setToken(token);
+      } else {
+        setToken(null);
+      }
+    })();
+  }, [token]);
 
   const configWithToken = {
     headers: {
@@ -159,7 +162,7 @@ const PlateProvider = ({ children }) => {
       const platesUpdate = plates.filter(
         (platesState) => platesState.id !== id
       );
-      setCategories(platesUpdate);
+      setPlates(platesUpdate);
 
       Toast.show("Eliminado con exito", {
         position: Toast.positions.CENTER,

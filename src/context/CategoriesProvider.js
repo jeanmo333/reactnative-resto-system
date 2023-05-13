@@ -1,6 +1,6 @@
 /** @format */
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { getTokenStorage } from "../utils/token";
 import Toast from "react-native-root-toast";
@@ -16,14 +16,18 @@ const CategoryProvider = ({ children }) => {
   // console.log(categories);
   const [token, setToken] = useState(null);
 
-  (async () => {
-    const token = await getTokenStorage();
-    if (token) {
-      setToken(token);
-    } else {
-      setToken(null);
-    }
-  })();
+  useEffect(() => {
+    getCategories();
+
+    (async () => {
+      const token = await getTokenStorage();
+      if (token) {
+        setToken(token);
+      } else {
+        setToken(null);
+      }
+    })();
+  }, []);
 
   const configWithToken = {
     headers: {

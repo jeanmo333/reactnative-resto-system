@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Settings } from "../screens/settings";
+import { Settings, UpdatePassword, UpdateProfile } from "../screens/settings";
 import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
@@ -23,11 +23,12 @@ export default function SettingsStack(props) {
   const buttonLeft = (screen) => {
     switch (screen) {
       case "search":
-      case "movie":
+      case "update-profile":
+      case "update-password":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("settings")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -86,6 +87,26 @@ export default function SettingsStack(props) {
         options={{
           title: "Ajustes",
           headerLeft: () => buttonLeft("settings"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='update-profile'
+        component={UpdateProfile}
+        options={{
+          title: "Editar perfil",
+          headerLeft: () => buttonLeft("update-profile"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='update-password'
+        component={UpdatePassword}
+        options={{
+          title: "Editar password",
+          headerLeft: () => buttonLeft("update-password"),
           headerRight: () => buttonRight(),
         }}
       />

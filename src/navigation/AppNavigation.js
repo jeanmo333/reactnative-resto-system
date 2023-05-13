@@ -12,19 +12,23 @@ import CategoriesStack from "./CategoriesStack";
 import DashboardStack from "./DashboardStack";
 import MenuStack from "./MenuStack";
 import PlatesStack from "./PlatesStack";
+import { useCategories } from "../hooks/useCategories";
 
 const Drawer = createDrawerNavigator();
 
 export default function AppNavigation(props) {
-  const { authenticateUser } = useAuth();
   const { auth } = props;
+  const { authenticateUser } = useAuth();
+  const { getCategories, categories, token } = useCategories();
+
   useEffect(() => {
+    getCategories();
     authenticateUser();
-  }, []);
+  }, [token]);
 
   //console.log("app  " + JSON.stringify(auth));
   // console.log(token);
-
+  //console.log(categories);
   return (
     <Drawer.Navigator
       drawerContent={(props) => <DrawerContent {...props} />}

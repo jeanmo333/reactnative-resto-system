@@ -16,16 +16,16 @@ export default function CategoriesStack(props) {
   const { navigation } = props;
   const navigationHook = useNavigation();
 
-  const { authenticateUser, auth } = useAuth();
-  const { getCategories } = useCategories();
+  const { authenticateUser, auth, token } = useAuth();
+  const { getCategories, categories } = useCategories();
 
   useEffect(() => {
     getCategories();
     authenticateUser();
-  }, []);
+  }, [token]);
 
   // console.log("app  " + JSON.stringify(auth));
-
+  // console.log(categories);
   const buttonLeft = (screen) => {
     switch (screen) {
       case "search":
@@ -90,7 +90,7 @@ export default function CategoriesStack(props) {
         name='categories'
         component={Categories}
         options={{
-          title: "",
+          title: "Listado categorias",
           headerLeft: () => buttonLeft("categories"),
           headerRight: () => buttonRight(),
         }}

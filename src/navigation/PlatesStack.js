@@ -85,7 +85,7 @@ export default function PlatesStack(props) {
         name='plates'
         component={Plates}
         options={{
-          title: "Platos",
+          title: "Listado platillos",
           headerLeft: () => buttonLeft("plates"),
           headerRight: () => buttonRight(),
         }}
