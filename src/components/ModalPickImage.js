@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { themeColors } from "../theme";
 import { Button } from "react-native-paper";
+import { TouchableOpacity } from "react-native";
+import LoadingButton from "./LoadingButton";
 
 // interface Props {
 //   openGallery: () => void;
@@ -32,46 +34,44 @@ export const ModalPickImage = ({
           <View style={styles.modalView}>
             <Text className='text-lg'>Selecciona una opcion</Text>
             <View style={styles.buttonContainer}>
-              <Button
-                color={themeColors.bg}
-                className='rounded-xl py-1'
-                mode='contained'
+              <TouchableOpacity
+                className='py-3  mb-3 rounded-xl flex items-center'
+                style={{ backgroundColor: themeColors.bg }}
                 onPress={() => {
                   openGallery();
                   setModalUseState(false);
                 }}>
-                <Text className='text-lg font-bold text-center text-white'>
+                <Text className={"text-xl font-bold text-center text-white"}>
                   Galeria
                 </Text>
-              </Button>
+              </TouchableOpacity>
             </View>
+
             <View style={styles.buttonContainer}>
-              <Button
-                color={themeColors.bg}
-                className='rounded-xl py-1'
-                mode='contained'
+              <TouchableOpacity
+                className='py-3  mb-3 rounded-xl flex items-center'
+                style={{ backgroundColor: themeColors.bg }}
                 onPress={() => {
                   openCamera();
                   setModalUseState(false);
                 }}>
-                <Text className='text-lg font-bold text-center text-white'>
-                  Camara
+                <Text className={"text-xl font-bold text-center text-white"}>
+                  Camera
                 </Text>
-              </Button>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button
-                color={themeColors.danger}
-                className='rounded-xl py-1'
-                mode='contained'
+              <TouchableOpacity
+                className='py-3  mb-3 rounded-xl flex items-center'
+                style={{ backgroundColor: themeColors.danger }}
                 onPress={() => {
                   setModalUseState(false);
                 }}>
-                <Text className='text-lg font-bold text-center text-white'>
+                <Text className={"text-xl font-bold text-center text-white"}>
                   Cerrar
                 </Text>
-              </Button>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

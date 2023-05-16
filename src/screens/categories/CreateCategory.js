@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Button, Divider, Text, TextInput } from "react-native-paper";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -10,6 +10,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useCategories } from "../../hooks/useCategories";
 import Toast from "react-native-root-toast";
 import ScreenLoading from "../../components/ScreenLoading";
+import LoadingButton from "../../components/LoadingButton";
 
 export function CreateCategory(props) {
   const [id, setId] = useState("");
@@ -79,10 +80,10 @@ export function CreateCategory(props) {
         {newCategory ? "Creando categoria" : "Editando categoria"}
       </Text>
 
-      <Divider className='mb-6 pb-2 mx-6' />
+      <Divider className='mb-6 pb-2 mx-3' />
 
       <ScrollView>
-        <View className='mx-6'>
+        <View className='mx-3'>
           <TextInput
             mode='outlined'
             className='mb-4 mt-1 bg-[#192734]'
@@ -101,18 +102,20 @@ export function CreateCategory(props) {
             error={formik.errors.description}
           />
 
-          <Button
-            color={themeColors.bg}
-            className='rounded-xl py-1 mt-5'
-            mode='contained'
-            onPress={formik.handleSubmit}
-            loading={loading}>
-            <Text className='text-lg font-bold text-center text-white'>
-              {!loading && newCategory
-                ? "Crear categoria"
-                : !loading && !newCategory && "Editar Categoria"}
+          <TouchableOpacity
+            className='py-3  mb-3 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.bg }}
+            onPress={formik.handleSubmit}>
+            <Text className={"text-xl font-bold text-center text-white"}>
+              {loading ? (
+                <LoadingButton />
+              ) : newCategory ? (
+                "Crear categoria"
+              ) : (
+                "Editar Categoria"
+              )}
             </Text>
-          </Button>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </>

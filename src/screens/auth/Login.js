@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import useAuth from "../../hooks/useAuth";
 import Toast from "react-native-root-toast";
 import { setTokenStorage } from "../../utils/token";
+import LoadingButton from "../../components/LoadingButton";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -81,16 +82,14 @@ const LoginScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <Button
-          color={themeColors.bg}
-          className='rounded-xl py-1'
-          mode='contained'
-          onPress={formik.handleSubmit}
-          loading={loading}>
-          <Text className='text-lg font-bold text-center text-white'>
-            {!loading && "Ingresar"}
+        <TouchableOpacity
+          className='py-3  mb-3 rounded-xl flex items-center'
+          style={{ backgroundColor: themeColors.bg }}
+          onPress={formik.handleSubmit}>
+          <Text className={"text-xl font-bold text-center text-white"}>
+            {loading ? <LoadingButton /> : "Ingresar"}
           </Text>
-        </Button>
+        </TouchableOpacity>
 
         <View className='flex-row justify-center space-x-12 mt-16 mb-3'>
           <TouchableOpacity className='p-2 bg-gray-100 rounded-2xl'>

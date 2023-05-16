@@ -19,6 +19,7 @@ import { pickImage, takePhoto } from "../../utils/images";
 import { ModalPickImage } from "../../components/ModalPickImage";
 import { usePlates } from "../../hooks/usePlates";
 import DropdownComponent from "../../components/DropdownComponent";
+import LoadingButton from "../../components/LoadingButton";
 
 export function CreatePlates(props) {
   const [id, setId] = useState("");
@@ -125,12 +126,12 @@ export function CreatePlates(props) {
         {newPlate ? " Creando platillo" : "Editando platillo"}
       </Text>
 
-      <Divider className='mb-3 pb-2 mx-6' />
+      <Divider className='mb-3 pb-2 mx-3' />
 
       <ScrollView>
         {archives.length < 3 && newPlate && (
           <TouchableOpacity
-            className='py-3  mb-1 rounded-xl flex-row justify-center items-center mx-6'
+            className='py-3  mb-1 rounded-xl flex-row justify-center items-center mx-3'
             style={{ backgroundColor: themeColors.bg }}
             onPress={() => setModalVisible(true)}>
             <Image
@@ -144,7 +145,7 @@ export function CreatePlates(props) {
           </TouchableOpacity>
         )}
 
-        <View className='flex-row justify-between mx-7 mt-2 mb-2'>
+        <View className='flex-row justify-between mx-4 mt-2 mb-2'>
           {archives.length > 0 &&
             archives.map((archive, index) => (
               <View key={index}>
@@ -157,7 +158,7 @@ export function CreatePlates(props) {
             ))}
         </View>
 
-        <View className='mx-6'>
+        <View className='mx-3'>
           <TextInput
             mode='outlined'
             className='mb-3 mt-1 bg-[#192734]'
@@ -214,18 +215,20 @@ export function CreatePlates(props) {
             error={formik.errors.stock}
           />
 
-          <Button
-            color={themeColors.bg}
-            className='rounded-xl py-1 mt-2'
-            mode='contained'
-            onPress={formik.handleSubmit}
-            loading={loading}>
-            <Text className='text-lg font-bold text-center text-white'>
-              {!loading && newPlate
-                ? "Crear plato"
-                : !loading && !newPlate && "Editar plato"}
+          <TouchableOpacity
+            className='py-3  mb-3 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.bg }}
+            onPress={formik.handleSubmit}>
+            <Text className={"text-xl font-bold text-center text-white"}>
+              {loading ? (
+                <LoadingButton />
+              ) : newPlate ? (
+                "Crear platillo"
+              ) : (
+                "Editar platillo"
+              )}
             </Text>
-          </Button>
+          </TouchableOpacity>
 
           <ModalPickImage
             openGallery={onPickImage}

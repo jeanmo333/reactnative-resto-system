@@ -7,7 +7,7 @@ import Plate from "./Plate";
 
 export const PlateList = ({ plates, setReloadPlates }) => {
   return (
-    <ScrollView className='mx-6 mb-4' showsVerticalScrollIndicator={false}>
+    <ScrollView className='mx-3 mb-4' showsVerticalScrollIndicator={false}>
       {map(plates, (plate) => (
         <Plate key={plate.id} plate={plate} setReloadPlates={setReloadPlates} />
       ))}

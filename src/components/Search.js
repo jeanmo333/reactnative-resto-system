@@ -15,7 +15,7 @@ export default function Search(props) {
   };
 
   return (
-    <View style={styles.formInput} className='mx-6'>
+    <View style={styles.formInput} className='mx-3'>
       <TextInput
         placeholderTextColor={"gray"}
         style={styles.formTextInput}

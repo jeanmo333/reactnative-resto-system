@@ -52,7 +52,7 @@ export function Plates(props) {
         <ScreenLoading />
       ) : size(plates) === 0 ? (
         <>
-          <View className='flex-row justify-between items-center mx-6 mb-4 mt-3'>
+          <View className='flex-row justify-between items-center mx-3 mb-4 mt-3'>
             <View className='py-1 px-3 rounded-lg  bg-[#0098d3] flex-row items-center'>
               <Text className='text-white font-bold text-xl pr-5'>
                 Total :{" "}
@@ -95,7 +95,7 @@ export function Plates(props) {
             placeholder='Buscar platos'
           />
 
-          <View className='flex-row justify-between items-center mx-6 mb-4 mt-3'>
+          <View className='flex-row justify-between items-center mx-3 mb-4 mt-3'>
             <View className='py-1 px-3 rounded-lg  bg-[#0098d3] flex-row items-center'>
               <Text className='text-white font-bold text-xl pr-5'>
                 Total :{" "}

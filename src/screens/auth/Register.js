@@ -1,6 +1,11 @@
 /** @format */
 
-import { View, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -11,6 +16,7 @@ import { themeColors } from "../../theme";
 import Toast from "react-native-root-toast";
 import { ModalPickImage } from "../../components/ModalPickImage";
 import { pickImage, takePhoto } from "../../utils/images";
+import LoadingButton from "../../components/LoadingButton";
 
 export default function RegisterScreen() {
   const [archive, setArchive] = useState("");
@@ -128,16 +134,14 @@ export default function RegisterScreen() {
           </Text>
         </TouchableOpacity>
 
-        <Button
-          color={themeColors.bg}
-          className='rounded-xl py-1'
-          mode='contained'
-          onPress={formik.handleSubmit}
-          loading={loading}>
-          <Text className='text-lg font-bold text-center text-white'>
-            {!loading && "Registrar"}
+        <TouchableOpacity
+          className='py-3  mb-3 rounded-xl flex items-center'
+          style={{ backgroundColor: themeColors.bg }}
+          onPress={formik.handleSubmit}>
+          <Text className={"text-xl font-bold text-center text-white"}>
+            {loading ? <LoadingButton /> : "Registrar"}
           </Text>
-        </Button>
+        </TouchableOpacity>
 
         <View className='flex-row justify-center space-x-12 mt-5'>
           <TouchableOpacity className='p-2 bg-gray-100 rounded-2xl'>

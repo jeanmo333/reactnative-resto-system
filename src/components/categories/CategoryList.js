@@ -7,7 +7,7 @@ import Category from "./Category";
 
 export const CategoryList = ({ categories, setReloadCategories }) => {
   return (
-    <ScrollView className='mx-6 mb-4' showsVerticalScrollIndicator={false}>
+    <ScrollView className='mx-3 mb-4' showsVerticalScrollIndicator={false}>
       {map(categories, (category) => (
         <Category
           key={category.id}
