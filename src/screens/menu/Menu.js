@@ -1,26 +1,16 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
-import useAuth from "../hooks/useAuth";
-import BannerSlider from "../components/menu/BannerSlider";
-import { usePlates } from "../hooks/usePlates";
-import { useCategories } from "../hooks/useCategories";
-import { themeColors } from "../theme";
-import Search from "../components/Search";
-import { windowWidth } from "../utils/constants";
+import useAuth from "../../hooks/useAuth";
+import { usePlates } from "../../hooks/usePlates";
+import { useCategories } from "../../hooks/useCategories";
+import { themeColors } from "../../theme";
+import Search from "../../components/Search";
 import { Image } from "react-native";
-import currencyFormatter from "../utils/currencyFormatter";
-
-const SPACING = 10;
-const ITEM_WIDTH = windowWidth / 2 - SPACING * 3;
+import currencyFormatter from "../../utils/currencyFormatter";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Menu(props) {
   const { authenticateUser, token } = useAuth();
@@ -28,6 +18,7 @@ export default function Menu(props) {
     usePlates();
   const { categories, getCategories } = useCategories();
   const [activeCategory, setActiveCategory] = useState("");
+  const navigation = useNavigation();
 
   const categoriesNames = categories.map((category) => category.name);
 
@@ -47,15 +38,6 @@ export default function Menu(props) {
         data={plates}
         setData={setSearchPlatesResult}
       />
-
-      {/* <FlatList
-        className='mx-6 mt-4'
-        data={plates[0].images}
-        renderItem={({ item, index }) => (
-          <BannerSlider index={index} item={item} />
-        )}
-        horizontal
-      /> */}
 
       <View className='py-2 pb-3 mt-2 mx-3'>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -87,10 +69,8 @@ export default function Menu(props) {
         <TouchableOpacity
           key={plate.id}
           onPress={() => {
-            // Eliminar algunas propiedades del platillo
-            // const { existencia, ...platilloNuevo } = platillo;
             // seleccionarPlatillo(platilloNuevo);
-            // navigation.navigate("DetallePlatillo");
+            navigation.navigate("plate-details", { ...plate });
           }}>
           <View style={styles.container}>
             <View style={styles.containerImage}>

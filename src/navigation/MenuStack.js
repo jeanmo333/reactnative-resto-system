@@ -3,9 +3,11 @@
 import React, { useEffect } from "react";
 import { Badge, IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import Menu from "../screens/Menu";
 import { themeColors } from "../theme";
 import useAuth from "../hooks/useAuth";
+import Menu from "../screens/menu/Menu";
+import PlateDetails from "../screens/menu/PlateDetails";
+import { Cart } from "../screens/cart";
 
 const Stack = createStackNavigator();
 
@@ -21,12 +23,12 @@ export default function MenuStack(props) {
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
-      case "movie":
+      case "plate-details":
+      case "cart":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("menu")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -49,7 +51,7 @@ export default function MenuStack(props) {
         <IconButton
           icon='cart'
           color={themeColors.bg}
-          onPress={() => console.log("navigate to cart")}
+          onPress={() => navigation.navigate("cart")}
           style={{ marginRight: 20 }}
           size={32}
         />
@@ -77,6 +79,26 @@ export default function MenuStack(props) {
         options={{
           title: "Menu",
           headerLeft: () => buttonLeft("menu"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='plate-details'
+        component={PlateDetails}
+        options={{
+          title: "Detalle platillo",
+          headerLeft: () => buttonLeft("plate-details"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='cart'
+        component={Cart}
+        options={{
+          title: "Carrito de compra",
+          headerLeft: () => buttonLeft("cart"),
           headerRight: () => buttonRight(),
         }}
       />

@@ -23,7 +23,6 @@ export default function PlatesStack(props) {
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
       case "create-plate":
         return (
           <IconButton

@@ -8,49 +8,42 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Button, Divider, Text, TextInput } from "react-native-paper";
+import { Divider, Text, TextInput } from "react-native-paper";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { themeColors } from "../../theme";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
-import ScreenLoading from "../../components/ScreenLoading";
 import { pickImage, takePhoto } from "../../utils/images";
 import { ModalPickImage } from "../../components/ModalPickImage";
 import { usePlates } from "../../hooks/usePlates";
 import DropdownComponent from "../../components/DropdownComponent";
 import LoadingButton from "../../components/LoadingButton";
 
-export function CreatePlates(props) {
-  const [id, setId] = useState("");
+export function CreatePlates({ route, navigation }) {
   const [archives, setArchives] = useState([]);
-  const [loadingSreen, setLoadingSreen] = useState(false);
   const [newPlate, setNewPlate] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [idPlate, setIdPlate] = useState("");
   const [idCategory, setIdCategory] = useState("");
-  const { params } = useRoute();
+  const plate = route.params;
 
-  const { loading, addPlate, updatePlate, getPlate } = usePlates();
-  const navigation = useNavigation();
+  // console.log(plate);
+
+  const { loading, addPlate, updatePlate } = usePlates();
 
   useEffect(() => {
-    (async () => {
-      if (params?.idPlate) {
-        setLoadingSreen(true);
-        const { plate } = await getPlate(params?.idPlate);
-        setLoadingSreen(false);
-        formik.setFieldValue("id", plate.id);
-        formik.setFieldValue("name", plate.name);
-        formik.setFieldValue("description", plate.description);
-        formik.setFieldValue("prepared_price", plate.prepared_price.toString());
-        formik.setFieldValue("sale_price", plate.sale_price.toString());
-        formik.setFieldValue("stock", plate.stock.toString());
-        setIdCategory(plate.id.toString());
-        setId(plate.id);
-        setNewPlate(false);
-      }
-    })();
-  }, [params]);
+    if (plate?.id) {
+      formik.setFieldValue("id", plate?.id);
+      formik.setFieldValue("name", plate?.name);
+      formik.setFieldValue("description", plate?.description);
+      formik.setFieldValue("prepared_price", plate?.prepared_price.toString());
+      formik.setFieldValue("sale_price", plate?.sale_price.toString());
+      formik.setFieldValue("stock", plate?.stock.toString());
+      setIdCategory(plate?.category.id);
+      setIdPlate(plate?.id);
+      setNewPlate(false);
+    }
+  }, [plate]);
 
   const onPickImage = async () => {
     const result = await pickImage();
@@ -69,7 +62,7 @@ export function CreatePlates(props) {
     validationSchema: yup.object(validationSchema()),
     onSubmit: async (data) => {
       if (newPlate) {
-        const plate = {
+        const plateData = {
           ...data,
           idCategory,
         };
@@ -87,7 +80,7 @@ export function CreatePlates(props) {
           return;
         }
 
-        const { error, message } = await addPlate(archives, plate);
+        const { error, message } = await addPlate(archives, plateData);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -101,7 +94,7 @@ export function CreatePlates(props) {
           return;
         }
       } else {
-        const { error, message } = await updatePlate(id, data);
+        const { error, message } = await updatePlate(idPlate, data);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -117,8 +110,6 @@ export function CreatePlates(props) {
       }
     },
   });
-
-  if (loadingSreen) return <ScreenLoading />;
 
   return (
     <>

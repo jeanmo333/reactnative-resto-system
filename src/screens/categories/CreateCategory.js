@@ -6,35 +6,27 @@ import { Button, Divider, Text, TextInput } from "react-native-paper";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { themeColors } from "../../theme";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { useCategories } from "../../hooks/useCategories";
 import Toast from "react-native-root-toast";
-import ScreenLoading from "../../components/ScreenLoading";
 import LoadingButton from "../../components/LoadingButton";
 
-export function CreateCategory(props) {
-  const [id, setId] = useState("");
-  const [loadingSreen, setLoadingSreen] = useState(false);
+export function CreateCategory({ route, navigation }) {
+  const [idCategory, setIdCategory] = useState("");
   const [newCategory, setNewCategory] = useState(true);
-  const { params } = useRoute();
 
-  const { loading, addCategory, getCategory, updateCategory } = useCategories();
-  const navigation = useNavigation();
+  const category = route.params;
+  // console.log(category);
+  const { loading, addCategory, updateCategory } = useCategories();
 
   useEffect(() => {
-    (async () => {
-      if (params?.idCategory) {
-        setLoadingSreen(true);
-        const { category } = await getCategory(params.idCategory);
-        setLoadingSreen(false);
-        formik.setFieldValue("id", category.id);
-        formik.setFieldValue("name", category.name);
-        formik.setFieldValue("description", category.description);
-        setId(category.id);
-        setNewCategory(false);
-      }
-    })();
-  }, [params]);
+    if (category?.id) {
+      formik.setFieldValue("id", category?.id);
+      formik.setFieldValue("name", category?.name);
+      formik.setFieldValue("description", category?.description);
+      setIdCategory(category.id);
+      setNewCategory(false);
+    }
+  }, [category]);
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -55,7 +47,7 @@ export function CreateCategory(props) {
           return;
         }
       } else {
-        const { error, message } = await updateCategory(id, category);
+        const { error, message } = await updateCategory(idCategory, category);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -71,8 +63,6 @@ export function CreateCategory(props) {
       }
     },
   });
-
-  if (loadingSreen) return <ScreenLoading />;
 
   return (
     <>

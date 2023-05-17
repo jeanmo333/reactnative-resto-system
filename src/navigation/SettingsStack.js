@@ -22,7 +22,6 @@ export default function SettingsStack(props) {
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
       case "update-profile":
       case "update-password":
         return (

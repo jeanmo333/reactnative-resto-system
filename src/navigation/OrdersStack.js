@@ -23,7 +23,6 @@ export default function OrdersStack(props) {
   const buttonLeft = (screen) => {
     switch (screen) {
       case "search":
-      case "movie":
         return (
           <IconButton
             icon='arrow-left'

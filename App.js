@@ -19,6 +19,7 @@ import { HandlerNavigation } from "./src/navigation/HandlerNavigation";
 import { LogBox } from "react-native";
 import { CategoryProvider } from "./src/context/CategoriesProvider";
 import { PlateProvider } from "./src/context/PlatesProvider";
+import { OrderProvider } from "./src/context/OrdersProvider";
 LogBox.ignoreLogs(["_reactNative.Dimensions.removeEventListener"]);
 
 export default function App() {
@@ -46,24 +47,26 @@ export default function App() {
   return (
     <AuthProvider>
       <CategoryProvider>
-        <PlateProvider>
-          <PreferencesContext.Provider value={preference}>
-            <PaperProvider
-              theme={theme === "dark" ? DarkThemePaper : DefaultThemePaper}>
-              <StatusBar
-                barStyle={theme === "dark" ? "light-content" : "dark-content"}
-              />
-              <NavigationContainer
-                theme={
-                  theme === "dark"
-                    ? DarkThemeNavigation
-                    : DefaultThemeNavigation
-                }>
-                <HandlerNavigation />
-              </NavigationContainer>
-            </PaperProvider>
-          </PreferencesContext.Provider>
-        </PlateProvider>
+        <OrderProvider>
+          <PlateProvider>
+            <PreferencesContext.Provider value={preference}>
+              <PaperProvider
+                theme={theme === "dark" ? DarkThemePaper : DefaultThemePaper}>
+                <StatusBar
+                  barStyle={theme === "dark" ? "light-content" : "dark-content"}
+                />
+                <NavigationContainer
+                  theme={
+                    theme === "dark"
+                      ? DarkThemeNavigation
+                      : DefaultThemeNavigation
+                  }>
+                  <HandlerNavigation />
+                </NavigationContainer>
+              </PaperProvider>
+            </PreferencesContext.Provider>
+          </PlateProvider>
+        </OrderProvider>
       </CategoryProvider>
     </AuthProvider>
   );

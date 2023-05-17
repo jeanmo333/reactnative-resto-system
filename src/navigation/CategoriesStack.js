@@ -28,7 +28,6 @@ export default function CategoriesStack(props) {
   // console.log(categories);
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
       case "create-category":
         return (
           <IconButton

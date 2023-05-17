@@ -27,7 +27,11 @@ const CategoryProvider = ({ children }) => {
         setToken(null);
       }
     })();
-  }, []);
+  }, [token]);
+
+  // console.log("====================================");
+  // console.log(token);
+  // console.log("====================================");
 
   const configWithToken = {
     headers: {
@@ -115,7 +119,7 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const updateCategory = async (id, category) => {
+  const updateCategory = async (idCategory, category) => {
     // let dataForm = new FormData();
     // dataForm.append("archive", {
     //   uri: archive,
@@ -126,7 +130,7 @@ const CategoryProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await clientAxios.patch(
-        `/categories/${id}`,
+        `/categories/${idCategory}`,
         category,
         config
       );

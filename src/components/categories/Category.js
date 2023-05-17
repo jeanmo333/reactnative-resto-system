@@ -58,11 +58,9 @@ export default function Category({ category, setReloadCategories }) {
       {auth?.roles.includes("admin") && (
         <View style={styles.actions}>
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("create-category", {
-                idCategory: category.id,
-              })
-            }>
+            onPress={() => {
+              navigation.navigate("create-category", { ...category });
+            }}>
             <Image
               source={require("../../../assets/icons/edit.png")}
               style={{

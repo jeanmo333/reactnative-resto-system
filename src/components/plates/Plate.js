@@ -91,11 +91,9 @@ export default function Plate({ plate, setReloadPlates }) {
       {auth?.roles.includes("admin") && (
         <View style={styles.actions}>
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("create-plate", {
-                idPlate: plate.id,
-              })
-            }>
+            onPress={() => {
+              navigation.navigate("create-plate", { ...plate });
+            }}>
             <Image
               source={require("../../../assets/icons/edit.png")}
               style={{
