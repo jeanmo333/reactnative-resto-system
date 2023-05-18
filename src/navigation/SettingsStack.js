@@ -27,7 +27,7 @@ export default function SettingsStack(props) {
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.navigate("settings")}
+            onPress={() => navigation.navigate("settings-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -81,7 +81,7 @@ export default function SettingsStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='settings'
+        name='settings-stack'
         component={Settings}
         options={{
           title: "Ajustes",

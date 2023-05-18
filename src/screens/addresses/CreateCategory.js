@@ -9,12 +9,11 @@ import { themeColors } from "../../theme";
 import { useCategories } from "../../hooks/useCategories";
 import Toast from "react-native-root-toast";
 import LoadingButton from "../../components/LoadingButton";
-import usePreferences from "../../hooks/usePreferences";
 
 export function CreateCategory({ route, navigation }) {
   const [idCategory, setIdCategory] = useState("");
   const [newCategory, setNewCategory] = useState(true);
-  const { theme } = usePreferences();
+
   const category = route.params;
   // console.log(category);
   const { loading, addCategory, updateCategory } = useCategories();
@@ -77,8 +76,7 @@ export function CreateCategory({ route, navigation }) {
         <View className='mx-3'>
           <TextInput
             mode='outlined'
-            className='mb-4 mt-1'
-            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
+            className='mb-4 mt-1 bg-[#192734]'
             label='Nombre categoria'
             onChangeText={(text) => formik.setFieldValue("name", text)}
             value={formik.values.name}
@@ -87,8 +85,7 @@ export function CreateCategory({ route, navigation }) {
 
           <TextInput
             mode='outlined'
-            className='mb-4'
-            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
+            className='mb-4  bg-[#192734]'
             label='Descripcion'
             onChangeText={(text) => formik.setFieldValue("description", text)}
             value={formik.values.description}

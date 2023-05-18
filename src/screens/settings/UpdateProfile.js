@@ -10,11 +10,14 @@ import { themeColors } from "../../theme";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Toast from "react-native-root-toast";
+import LoadingButton from "../../components/LoadingButton";
+import usePreferences from "../../hooks/usePreferences";
 
 export function UpdateProfile(props) {
   const [archive, setArchive] = useState("");
-
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { theme } = usePreferences();
   const {
     auth,
     authenticateUser,
@@ -44,7 +47,7 @@ export function UpdateProfile(props) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
           });
-          navigation.navigate("settings");
+          navigation.navigate("settings-stack");
           formik.resetForm();
         } else {
           Toast.show(message, {
@@ -108,8 +111,9 @@ export function UpdateProfile(props) {
 
         <View className='mx-6'>
           <TextInput
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
             mode='outlined'
-            className='mb-4 mt-1 bg-[#192734]'
+            className='mb-4 mt-1'
             label='Tu nombre'
             onChangeText={(text) => formik.setFieldValue("name", text)}
             value={formik.values.name}
@@ -118,7 +122,8 @@ export function UpdateProfile(props) {
 
           <TextInput
             mode='outlined'
-            className='mb-4 mt-1 bg-[#192734]'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
+            className='mb-4 mt-1'
             label='Tu apellido'
             onChangeText={(text) => formik.setFieldValue("lastname", text)}
             value={formik.values.lastname}
@@ -127,25 +132,22 @@ export function UpdateProfile(props) {
 
           <TextInput
             mode='outlined'
-            className='mb-4 mt-1 bg-[#192734]'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
+            className='mb-4 mt-1'
             label='Tu telefono'
             onChangeText={(text) => formik.setFieldValue("phone", text)}
             value={formik.values.phone}
             error={formik.errors.phone}
           />
 
-          <Button
-            color={themeColors.bg}
-            className='rounded-xl py-1 mt-4'
-            mode='contained'
-            onPress={formik.handleSubmit}
-            loading={loading}>
-            {!loading && (
-              <Text className='text-lg font-bold text-center text-white'>
-                Editar perfil
-              </Text>
-            )}
-          </Button>
+          <TouchableOpacity
+            className='py-3 mb-3 mt-8 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.bg }}
+            onPress={formik.handleSubmit}>
+            <Text className='text-lg font-bold text-center text-white'>
+              {loading ? <LoadingButton /> : "Editar perfil"}
+            </Text>
+          </TouchableOpacity>
 
           <ModalPickImage
             openGallery={onPickImage}

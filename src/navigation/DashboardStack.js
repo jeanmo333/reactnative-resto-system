@@ -80,7 +80,7 @@ export default function DashboardStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='dashboard'
+        name='dashboad-stack'
         component={Dashboard}
         options={{
           title: "Dashboard",

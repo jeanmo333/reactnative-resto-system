@@ -38,7 +38,7 @@ export default function AppNavigation(props) {
         labelStyle: { fontSize: 17, fontWeight: "bold" },
       }}>
       <Drawer.Screen
-        name='menu-stack'
+        name='menu'
         component={MenuStack}
         options={{
           title: "Menu",
@@ -58,7 +58,7 @@ export default function AppNavigation(props) {
       />
 
       <Drawer.Screen
-        name='orders-stack'
+        name='orders'
         component={OrdersStack}
         options={{
           title: "Ordenes",
@@ -78,7 +78,7 @@ export default function AppNavigation(props) {
       />
 
       <Drawer.Screen
-        name='setting-stack'
+        name='settings'
         component={SettingsStack}
         options={{
           title: "Ajustes",
@@ -100,7 +100,7 @@ export default function AppNavigation(props) {
       {auth?.roles.includes("admin") && (
         <>
           <Drawer.Screen
-            name='dashboad-stack'
+            name='dashboard'
             component={DashboardStack}
             options={{
               title: "Dashboard",
@@ -120,7 +120,7 @@ export default function AppNavigation(props) {
           />
 
           <Drawer.Screen
-            name='plates-stack'
+            name='plates'
             component={PlatesStack}
             options={{
               title: "Platos",
@@ -140,7 +140,7 @@ export default function AppNavigation(props) {
           />
 
           <Drawer.Screen
-            name='categories-stack'
+            name='categories'
             component={CategoriesStack}
             options={{
               title: "Categorias",

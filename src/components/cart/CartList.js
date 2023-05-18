@@ -7,7 +7,7 @@ import Item from "./Item";
 
 export const CartList = ({ orderDetail }) => {
   return (
-    <ScrollView className='mx-3 mb-4' showsVerticalScrollIndicator={false}>
+    <ScrollView className='mx-3 my-3' showsVerticalScrollIndicator={false}>
       {map(orderDetail, (item) => (
         <Item key={item.id} item={item} />
       ))}

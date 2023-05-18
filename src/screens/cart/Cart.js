@@ -1,27 +1,34 @@
 /** @format */
 
-import React, { useEffect } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import React from "react";
 import { Text } from "react-native-paper";
-import { themeColors } from "../../theme";
-import { Image } from "react-native";
-import currencyFormatter from "../../utils/currencyFormatter";
 import { useOders } from "../../hooks/useOders";
 import ScreenLoading from "../../components/ScreenLoading";
-import { map, size } from "lodash";
+import { size } from "lodash";
 import { CartList } from "../../components/cart/CartList";
-import { removeOrderDetailStorage } from "../../utils/orders";
+import { Alert, TouchableOpacity, View } from "react-native";
+import { themeColors } from "../../theme";
+import currencyFormatter from "../../utils/currencyFormatter";
 
 export function Cart({ navigation }) {
-  const { orderDetail, loading } = useOders();
+  const { orderDetail, loading, emptyCart, total } = useOders();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await removeOrderDetailStorage();
-  //   })();
-  // }, []);
-
-  // console.log(orderDetail);
+  const alertEmptyCart = () => {
+    Alert.alert(
+      "Vaciar carrito",
+      "¿Estas seguro?, Esta accion no puede dehacer!",
+      [
+        {
+          text: "NO",
+        },
+        {
+          text: "SI",
+          onPress: emptyCart,
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
     <>
@@ -38,7 +45,37 @@ export function Cart({ navigation }) {
           </Text>
         </>
       ) : (
-        <CartList orderDetail={orderDetail} />
+        <>
+          <TouchableOpacity
+            className='py-2 mx-3 mt-1 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.danger }}
+            onPress={alertEmptyCart}>
+            <Text className={"text-xl font-bold text-center text-white"}>
+              Vaciar carrito
+            </Text>
+          </TouchableOpacity>
+
+          <CartList orderDetail={orderDetail} />
+
+          <View className='flex-row items-center justify-between mx-3 mb-8'>
+            <Text className='text-xl font-bold'>
+              Total :{" "}
+              <Text className='text-[#0098d3] text-lg font-bold'>
+                {currencyFormatter(total)}
+              </Text>
+            </Text>
+
+            <TouchableOpacity
+              className='py-2 px-10 mt-1 rounded-xl flex items-center'
+              style={{ backgroundColor: themeColors.bg }}
+              // onPress={alertEmptyCart}
+            >
+              <Text className={"text-xl font-bold text-center text-white"}>
+                Continuar
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </>
       )}
     </>
   );

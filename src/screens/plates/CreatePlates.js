@@ -18,6 +18,7 @@ import { ModalPickImage } from "../../components/ModalPickImage";
 import { usePlates } from "../../hooks/usePlates";
 import DropdownComponent from "../../components/DropdownComponent";
 import LoadingButton from "../../components/LoadingButton";
+import usePreferences from "../../hooks/usePreferences";
 
 export function CreatePlates({ route, navigation }) {
   const [archives, setArchives] = useState([]);
@@ -28,7 +29,7 @@ export function CreatePlates({ route, navigation }) {
   const plate = route.params;
 
   // console.log(plate);
-
+  const { theme } = usePreferences();
   const { loading, addPlate, updatePlate } = usePlates();
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export function CreatePlates({ route, navigation }) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
           });
-          navigation.navigate("plates");
+          navigation.navigate("plates-stack");
           formik.resetForm();
         } else {
           Toast.show(message, {
@@ -152,7 +153,8 @@ export function CreatePlates({ route, navigation }) {
         <View className='mx-3'>
           <TextInput
             mode='outlined'
-            className='mb-3 mt-1 bg-[#192734]'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
+            className='mb-3 mt-1'
             label='Nombre platillo'
             onChangeText={(text) => formik.setFieldValue("name", text)}
             value={formik.values.name}
@@ -161,7 +163,8 @@ export function CreatePlates({ route, navigation }) {
 
           <TextInput
             mode='outlined'
-            className='mb-3  bg-[#192734]'
+            className='mb-3'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
             label='Descripcion'
             onChangeText={(text) => formik.setFieldValue("description", text)}
             value={formik.values.description}
@@ -177,7 +180,8 @@ export function CreatePlates({ route, navigation }) {
           <TextInput
             keyboardType='numeric'
             mode='outlined'
-            className='mb-3  bg-[#192734]'
+            className='mb-3'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
             label='Precio preparacion'
             onChangeText={(text) =>
               formik.setFieldValue("prepared_price", text)
@@ -189,7 +193,8 @@ export function CreatePlates({ route, navigation }) {
           <TextInput
             keyboardType='numeric'
             mode='outlined'
-            className='mb-3  bg-[#192734]'
+            className='mb-3'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
             label='Precio venta'
             onChangeText={(text) => formik.setFieldValue("sale_price", text)}
             value={formik.values.sale_price}
@@ -199,7 +204,8 @@ export function CreatePlates({ route, navigation }) {
           <TextInput
             keyboardType='numeric'
             mode='outlined'
-            className='mb-3  bg-[#192734]'
+            className='mb-3'
+            style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
             label='Stock'
             onChangeText={(text) => formik.setFieldValue("stock", text)}
             value={formik.values.stock}

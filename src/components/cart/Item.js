@@ -1,16 +1,44 @@
 /** @format */
 
-import { View, StyleSheet, Image, TextInput } from "react-native";
+import { View, StyleSheet, Image, TextInput, Alert } from "react-native";
 import { Text, IconButton } from "react-native-paper";
 import { themeColors } from "../../theme";
 import currencyFormatter from "../../utils/currencyFormatter";
 import { useOders } from "../../hooks/useOders";
 
 export default function Item({ item }) {
-  const { icreaseOrderItemQuantity } = useOders();
+  const {
+    icreaseOrderItemQuantity,
+    decreaseOrderItemQuantity,
+    deleteOrderItem,
+    total,
+  } = useOders();
 
-  const increaseItemDetail = async () => {
-    const response = await icreaseOrderItemQuantity(item);
+  const onIcreaseOrderItemQuantity = async () => {
+    await icreaseOrderItemQuantity(item);
+  };
+
+  const onDecreaseOrderItemQuantity = async () => {
+    await decreaseOrderItemQuantity(item);
+  };
+
+  const alertDeleteOrderItem = (id) => {
+    Alert.alert(
+      "Eliminar articulo en el carrito",
+      "¿Estas seguro?, Esta accion no puede dehacer!",
+      [
+        {
+          text: "NO",
+        },
+        {
+          text: "SI",
+          onPress: () => {
+            deleteOrderItem(id);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -34,10 +62,10 @@ export default function Item({ item }) {
             <IconButton
               className='mr-6'
               icon='minus'
-              size={25}
+              size={23}
               style={styles.btnQuantity}
               iconColor={themeColors.bgLight}
-              // onPress={() => decreaseOne()}
+              onPress={onDecreaseOrderItemQuantity}
             />
 
             <TextInput
@@ -48,19 +76,19 @@ export default function Item({ item }) {
             <IconButton
               icon='plus'
               className='ml-5'
-              size={25}
+              size={23}
               iconColor={themeColors.bgLight}
               style={styles.btnQuantity}
-              onPress={increaseItemDetail}
+              onPress={onIcreaseOrderItemQuantity}
             />
           </View>
 
           <IconButton
             color={themeColors.danger}
             icon='delete'
-            size={40}
+            size={38}
             style={styles.btnDelete}
-            onPress={() => console.log("detete")}
+            onPress={() => alertDeleteOrderItem(item.id)}
           />
         </View>
 
@@ -80,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: themeColors.bg,
     flexDirection: "row",
-    marginTop: 10,
+    marginBottom: 10,
     borderRadius: 10,
     height: 150,
   },
@@ -135,6 +163,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 20,
-    color: "gray",
+    color: themeColors.blue,
   },
 });

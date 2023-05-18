@@ -8,12 +8,15 @@ import useAuth from "../hooks/useAuth";
 import Menu from "../screens/menu/Menu";
 import PlateDetails from "../screens/menu/PlateDetails";
 import { Cart } from "../screens/cart";
+import { useOders } from "../hooks/useOders";
+import { View } from "react-native";
 
 const Stack = createStackNavigator();
 
 export default function MenuStack(props) {
   const { navigation } = props;
   const { authenticateUser } = useAuth();
+  const { numberOfItems } = useOders();
 
   useEffect(() => {
     authenticateUser();
@@ -28,7 +31,7 @@ export default function MenuStack(props) {
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.navigate("menu")}
+            onPress={() => navigation.navigate("menu-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -48,25 +51,29 @@ export default function MenuStack(props) {
   const buttonRight = () => {
     return (
       <>
-        <IconButton
-          icon='cart'
-          color={themeColors.bg}
-          onPress={() => navigation.navigate("cart")}
-          style={{ marginRight: 20 }}
-          size={32}
-        />
-        <Badge
-          size={20}
-          style={{
-            position: "absolute",
-            top: 7,
-            right: 20,
-            fontSize: 13,
-            backgroundColor: "#98D8AA",
-            color: "#000",
-          }}>
-          +9
-        </Badge>
+        {numberOfItems >= 1 && (
+          <>
+            <IconButton
+              icon='cart'
+              color={themeColors.bg}
+              onPress={() => navigation.navigate("cart")}
+              style={{ marginRight: 20 }}
+              size={32}
+            />
+            <Badge
+              size={20}
+              style={{
+                position: "absolute",
+                top: 10,
+                right: 20,
+                fontSize: 13,
+                backgroundColor: themeColors.blue,
+                color: "#fff",
+              }}>
+              {numberOfItems < 10 ? numberOfItems : "9+"}
+            </Badge>
+          </>
+        )}
       </>
     );
   };
@@ -74,10 +81,10 @@ export default function MenuStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='menu'
+        name='menu-stack'
         component={Menu}
         options={{
-          title: "Menu",
+          title: "Nuestro menu",
           headerLeft: () => buttonLeft("menu"),
           headerRight: () => buttonRight(),
         }}

@@ -1,6 +1,6 @@
 /** @format */
 import { useEffect } from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../hooks/useAuth";
@@ -8,9 +8,12 @@ import { themeColors } from "../../theme";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Toast from "react-native-root-toast";
+import LoadingButton from "../../components/LoadingButton";
+import usePreferences from "../../hooks/usePreferences";
 
 export function UpdatePassword(props) {
   const { updatePassword, authenticateUser, token, loading } = useAuth();
+  const { theme } = usePreferences();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -42,9 +45,10 @@ export function UpdatePassword(props) {
   return (
     <View className='mx-8 my-8'>
       <TextInput
+        style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
         secureTextEntry
         mode='outlined'
-        className='mb-4 mt-1 bg-[#192734]'
+        className='mb-4 mt-1'
         label='Tu password actual'
         onChangeText={(text) => formik.setFieldValue("pwd_now", text)}
         value={formik.values.pwd_now}
@@ -53,26 +57,23 @@ export function UpdatePassword(props) {
 
       <TextInput
         secureTextEntry
+        style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
         mode='outlined'
-        className='mb-4 mt-1 bg-[#192734]'
+        className='mb-4 mt-1'
         label='Tu nuevo password'
         onChangeText={(text) => formik.setFieldValue("pwd_new", text)}
         value={formik.values.pwd_new}
         error={formik.errors.pwd_new}
       />
 
-      <Button
-        color={themeColors.bg}
-        className='rounded-xl py-1 mt-4'
-        mode='contained'
-        onPress={formik.handleSubmit}
-        loading={loading}>
-        {!loading && (
-          <Text className='text-lg font-bold text-center text-white'>
-            Editar password
-          </Text>
-        )}
-      </Button>
+      <TouchableOpacity
+        className='py-3 mb-3 mt-10 rounded-xl flex items-center'
+        style={{ backgroundColor: themeColors.bg }}
+        onPress={formik.handleSubmit}>
+        <Text className='text-lg font-bold text-center text-white'>
+          {loading ? <LoadingButton /> : "Editar password"}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

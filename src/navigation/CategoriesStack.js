@@ -32,7 +32,7 @@ export default function CategoriesStack(props) {
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.navigate("categories")}
+            onPress={() => navigation.navigate("categories-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -86,7 +86,7 @@ export default function CategoriesStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='categories'
+        name='categories-stack'
         component={Categories}
         options={{
           title: "Listado categorias",

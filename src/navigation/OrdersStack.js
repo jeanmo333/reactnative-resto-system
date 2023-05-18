@@ -80,7 +80,7 @@ export default function OrdersStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='orders'
+        name='orders-stack'
         component={Orders}
         options={{
           title: "Ordenes",

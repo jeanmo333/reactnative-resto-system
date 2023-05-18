@@ -27,7 +27,7 @@ export default function PlatesStack(props) {
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.navigate("plates")}
+            onPress={() => navigation.navigate("plates-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -81,7 +81,7 @@ export default function PlatesStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='plates'
+        name='plates-stack'
         component={Plates}
         options={{
           title: "Listado platillos",

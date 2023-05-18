@@ -1,11 +1,20 @@
 /** @format */
 
 import React, { useEffect } from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Button, Text } from "react-native-paper";
 import useAuth from "../../hooks/useAuth";
 import { DateFormatter } from "../../utils/DateFormatter";
 import { useNavigation } from "@react-navigation/native";
+import { themeColors } from "../../theme";
 
 export function Settings(props) {
   const { auth, authenticateUser, token } = useAuth();
@@ -18,7 +27,7 @@ export function Settings(props) {
 
   return (
     <ScrollView className='mx-8 my-3' showsVerticalScrollIndicator={false}>
-      <Text className='text-3xl text-center font-bold mb-5 ml-3 text-slate-400'>
+      <Text className='text-3xl font-bold mb-5 ml-3 text-slate-400'>
         Datos personales
       </Text>
 
@@ -73,21 +82,23 @@ export function Settings(props) {
         </View>
       </View>
 
-      <Button
-        onPress={() => navigation.navigate("update-profile")}
-        className='p-2 mt-5 rounded-lg bg-[#877dfa]'
-        mode='contained'>
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>Editar Perfil</Text>
-      </Button>
+      <TouchableOpacity
+        className='py-3 mb-3 mt-5 rounded-xl flex items-center'
+        style={{ backgroundColor: themeColors.bg }}
+        onPress={() => navigation.navigate("update-profile")}>
+        <Text className={"text-xl font-bold text-center text-white"}>
+          Editar Perfil
+        </Text>
+      </TouchableOpacity>
 
-      <Button
-        onPress={() => navigation.navigate("update-password")}
-        className='p-2 mt-8 rounded-lg bg-[#F4991A]'
-        mode='contained'>
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+      <TouchableOpacity
+        className='py-3 mb-3 mt-8 rounded-xl flex items-center'
+        style={{ backgroundColor: themeColors.orange }}
+        onPress={() => navigation.navigate("update-password")}>
+        <Text className={"text-xl font-bold text-center text-white"}>
           Cambiar Password
         </Text>
-      </Button>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
