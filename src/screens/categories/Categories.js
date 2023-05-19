@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { size } from "lodash";
@@ -24,11 +24,6 @@ export function Categories(props) {
     searchCategoriesResult,
   } = useCategories();
   const { authenticateUser } = useAuth();
-
-  // useEffect(() => {
-  //   getCategories();
-  //   authenticateUser();
-  // }, [token, reloadCategories]);
 
   useFocusEffect(
     useCallback(() => {
@@ -91,7 +86,7 @@ export function Categories(props) {
           />
 
           <View className='flex-row justify-between items-center mx-3 mb-4 mt-3'>
-            <View className='py-1 px-3 rounded-lg  bg-[#0098d3] flex-row items-center'>
+            <View className='py-1 px-3 rounded-lg bg-[#0098d3] flex-row items-center'>
               <Text className='text-white font-bold text-xl pr-5'>
                 Total :{" "}
               </Text>

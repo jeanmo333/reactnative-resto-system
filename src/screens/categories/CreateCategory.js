@@ -10,6 +10,7 @@ import { useCategories } from "../../hooks/useCategories";
 import Toast from "react-native-root-toast";
 import LoadingButton from "../../components/LoadingButton";
 import usePreferences from "../../hooks/usePreferences";
+import ScreenLoading from "../../components/ScreenLoading";
 
 export function CreateCategory({ route, navigation }) {
   const [idCategory, setIdCategory] = useState("");
@@ -53,7 +54,7 @@ export function CreateCategory({ route, navigation }) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
           });
-          navigation.navigate("categories");
+          navigation.navigate("categories-stack");
           formik.resetForm();
         } else {
           Toast.show(message, {
@@ -64,6 +65,8 @@ export function CreateCategory({ route, navigation }) {
       }
     },
   });
+
+  if (!category) return <ScreenLoading />;
 
   return (
     <>

@@ -10,6 +10,7 @@ const OrderProvider = ({ children }) => {
   const [numberOfItems, setNumberOfItems] = useState(0);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [idAddressSelected, setIdAddressSelected] = useState("");
   // console.log(orderDetail);
   useEffect(() => {
     (async () => {
@@ -106,12 +107,14 @@ const OrderProvider = ({ children }) => {
         numberOfItems,
         setLoading,
         orderDetail,
+        idAddressSelected,
         setOrderDetail,
         addItemToOrderDetail,
         icreaseOrderItemQuantity,
         decreaseOrderItemQuantity,
         emptyCart,
         deleteOrderItem,
+        setIdAddressSelected,
       }}>
       {children}
     </OrderContext.Provider>

@@ -4,20 +4,18 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { getTokenStorage } from "../utils/token";
 import Toast from "react-native-root-toast";
-import mime from "mime";
 import clientAxios from "../config/axios";
 
-const CategoryContext = createContext();
-const CategoryProvider = ({ children }) => {
-  const [categories, setCategories] = useState([]);
+const AddressContext = createContext();
+const AddressProvider = ({ children }) => {
+  const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchCategoriesResult, setSearchCategoriesResult] = useState([]);
 
   // console.log(categories);
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    getCategories();
+    getAddresses();
 
     (async () => {
       const token = await getTokenStorage();
@@ -48,7 +46,7 @@ const CategoryProvider = ({ children }) => {
     },
   };
 
-  const getCategories = async () => {
+  const getAddresses = async () => {
     try {
       if (!token) {
         setLoading(false);
@@ -56,9 +54,8 @@ const CategoryProvider = ({ children }) => {
       }
 
       setLoading(true);
-      const { data } = await clientAxios.get("/categories", config);
-      setCategories(data);
-      setSearchCategoriesResult(data);
+      const { data } = await clientAxios.get("/addresses", config);
+      setAddresses(data);
       setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -69,16 +66,16 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const getCategory = async (id) => {
+  const getAddress = async (id) => {
     try {
       setLoading(true);
-      const { data } = await clientAxios.get(`/categories/${id}`, config);
+      const { data } = await clientAxios.get(`/addresses/${id}`, config);
       setLoading(false);
 
       return {
         error: false,
         message: data.message,
-        category: data,
+        address: data,
       };
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -89,19 +86,12 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const addCategory = async (category) => {
-    // let dataForm = new FormData();
-    // dataForm.append("archive", {
-    //   uri: archive,
-    //   name: archive.split("/").pop(),
-    //   type: mime.getType(archive),
-    // });
-    // dataForm.append("category", JSON.stringify(category));
+  const addAddress = async (address) => {
     try {
       setLoading(true);
-      const { data } = await clientAxios.post("/categories", category, config);
-      const { newCategory } = data;
-      setCategories([...categories, newCategory]);
+      const { data } = await clientAxios.post("/addresses", address, config);
+      const { newAddress } = data;
+      setAddresses([...addresses, newAddress]);
       setLoading(false);
       return {
         message: data.message,
@@ -116,26 +106,19 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const updateCategory = async (idCategory, category) => {
-    // let dataForm = new FormData();
-    // dataForm.append("archive", {
-    //   uri: archive,
-    //   name: archive.split("/").pop(),
-    //   type: mime.getType(archive),
-    // });
-    // dataForm.append("category", JSON.stringify(category));
+  const updateAddress = async (idAddress, address) => {
     try {
       setLoading(true);
       const { data } = await clientAxios.patch(
-        `/categories/${idCategory}`,
-        category,
+        `/addresses/${idAddress}`,
+        address,
         config
       );
-      const { categoryUpdate } = data;
-      const categoriesEdit = categories.map((categoryState) =>
-        categoryState.id === categoryUpdate.id ? categoryUpdate : categoryState
+      const { addressUpdate } = data;
+      const addressesEdit = addresses.map((addressState) =>
+        addressState.id === addressUpdate.id ? addressUpdate : addressState
       );
-      setCategories(categoriesEdit);
+      setAddresses(addressesEdit);
       setLoading(false);
       return {
         message: data.message,
@@ -150,14 +133,13 @@ const CategoryProvider = ({ children }) => {
     }
   };
 
-  const deleteCategory = async (id) => {
+  const deleteAddress = async (id) => {
     try {
-      const { data } = await clientAxios.delete(`/categories/${id}`, config);
-      const categoriesUpdate = categories.filter(
-        (categoriesState) => categoriesState.id !== id
+      const { data } = await clientAxios.delete(`/addresses/${id}`, config);
+      const addressesUpdate = addresses.filter(
+        (addressesState) => addressesState.id !== id
       );
-      setCategories(categoriesUpdate);
-
+      setAddresses(addressesUpdate);
       Toast.show(data.message, {
         position: Toast.positions.CENTER,
       });
@@ -174,25 +156,23 @@ const CategoryProvider = ({ children }) => {
   };
 
   return (
-    <CategoryContext.Provider
+    <AddressContext.Provider
       value={{
-        categories,
+        addresses,
         loading,
-        searchCategoriesResult,
-        setCategories,
-        setSearchCategoriesResult,
-        getCategories,
+        setAddresses,
+        getAddresses,
         setLoading,
-        addCategory,
-        getCategory,
-        updateCategory,
-        deleteCategory,
+        addAddress,
+        getAddress,
+        updateAddress,
+        deleteAddress,
       }}>
       {children}
-    </CategoryContext.Provider>
+    </AddressContext.Provider>
   );
 };
 
-export { CategoryProvider };
+export { AddressProvider };
 
-export default CategoryContext;
+export default AddressContext;

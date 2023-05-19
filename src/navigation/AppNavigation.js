@@ -13,6 +13,7 @@ import DashboardStack from "./DashboardStack";
 import MenuStack from "./MenuStack";
 import PlatesStack from "./PlatesStack";
 import { useCategories } from "../hooks/useCategories";
+import AddressesStack from "./AddressesStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -88,6 +89,26 @@ export default function AppNavigation(props) {
               style={{
                 height: 27,
                 width: 27,
+                marginHorizontal: 10,
+                marginRight: -20,
+                marginVertical: -25,
+              }}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name='addresses'
+        component={AddressesStack}
+        options={{
+          title: "Direcciones",
+          drawerIcon: () => (
+            <Image
+              source={require("../../assets/icons/home-address.png")}
+              style={{
+                height: 30,
+                width: 30,
                 marginHorizontal: 10,
                 marginRight: -20,
                 marginVertical: -25,

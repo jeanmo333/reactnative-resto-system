@@ -1,43 +1,32 @@
 /** @format */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { size } from "lodash";
-import { useCategories } from "../../hooks/useCategories";
-import { CategoryList } from "../../components/categories";
 import useAuth from "../../hooks/useAuth";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import ScreenLoading from "../../components/ScreenLoading";
-import Search from "../../components/Search";
+import { useAddresses } from "../../hooks/useAddresses";
+import { AddressList } from "../../components/addresses/AddressList";
+import { themeColors } from "../../theme";
+import { useOders } from "../../hooks/useOders";
 
-export function Addresses(props) {
-  const [reloadCategories, setReloadCategories] = useState(false);
+export function Addresses({ route }) {
+  const [reloadAddresses, setReloadAddresses] = useState(false);
   const navigation = useNavigation();
-
-  const {
-    getCategories,
-    categories,
-    loading,
-    token,
-    setSearchCategoriesResult,
-    searchCategoriesResult,
-  } = useCategories();
+  const { getAddresses, addresses, loading, token } = useAddresses();
   const { authenticateUser } = useAuth();
-
-  // useEffect(() => {
-  //   getCategories();
-  //   authenticateUser();
-  // }, [token, reloadCategories]);
+  const { numberOfItems } = useOders();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
-        getCategories();
+        getAddresses();
         authenticateUser();
-        setReloadCategories(false);
+        setReloadAddresses(false);
       })();
-    }, [token, reloadCategories])
+    }, [token, reloadAddresses])
   );
   //console.log(categories);
 
@@ -45,37 +34,10 @@ export function Addresses(props) {
     <>
       {loading ? (
         <ScreenLoading />
-      ) : size(categories) === 0 ? (
+      ) : size(addresses) === 0 ? (
         <>
-          <View className='flex-row justify-between items-center mx-3 mb-4 mt-3'>
-            <View className='py-1 px-3 rounded-lg  bg-[#0098d3] flex-row items-center'>
-              <Text className='text-white font-bold text-xl pr-5'>
-                Total :{" "}
-              </Text>
-              <View
-                size={30}
-                style={{
-                  backgroundColor: "#000",
-                  padding: 10,
-                  borderRadius: 50,
-                }}>
-                <Text className='font-bold text-white'>10</Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => navigation.navigate("create-category")}>
-              <Image
-                source={require("../../../assets/icons/add.png")}
-                style={{
-                  height: 47,
-                  width: 47,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text className='font-bold text-lg text-center mb-3'>
-            Aun no tiene categorias agregada
+          <Text className='font-bold text-lg text-center mt-5 mb-3'>
+            Aun no tiene direccion agregada
           </Text>
 
           <Text className='font-semibold text-sm text-center'>
@@ -84,43 +46,44 @@ export function Addresses(props) {
         </>
       ) : (
         <>
-          <Search
-            data={categories}
-            setData={setSearchCategoriesResult}
-            placeholder='Buscar categorias'
-          />
+          {size(addresses) >= 3 && (
+            <Text className='text-xl ml-4 text-center font-bold mt-1 text-[#FF5733]'>
+              Maximo 3 direcciones
+            </Text>
+          )}
+          <View className='flex-row justify-between items-center mb-1'>
+            {numberOfItems >= 1 && (
+              <TouchableOpacity
+                className='py-3 mb-3 mx-3 mt-3 px-5 max-w-full rounded-xl'
+                style={{ backgroundColor: themeColors.bg }}
+                onPress={() => console.log("continiar")}>
+                <Text className='text-xl font-bold text-center text-white'>
+                  Procesar pago
+                </Text>
+              </TouchableOpacity>
+            )}
 
-          <View className='flex-row justify-between items-center mx-3 mb-4 mt-3'>
-            <View className='py-1 px-3 rounded-lg  bg-[#0098d3] flex-row items-center'>
-              <Text className='text-white font-bold text-xl pr-5'>
-                Total :{" "}
-              </Text>
-              <View
-                size={30}
-                style={{
-                  backgroundColor: "#000",
-                  padding: 10,
-                  borderRadius: 50,
-                }}>
-                <Text className='font-bold text-white'>10</Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => navigation.navigate("create-category")}>
-              <Image
-                source={require("../../../assets/icons/add.png")}
-                style={{
-                  height: 47,
-                  width: 47,
-                }}
-              />
-            </TouchableOpacity>
+            {/* {size(addresses) < 3 && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("create-address")}>
+                <Image
+                  source={require("../../../assets/icons/add.png")}
+                  style={{
+                    height: 47,
+                    width: 47,
+                    marginRight: 12,
+                    marginLeft: 12,
+                    marginBottom: 10,
+                    marginTop: 10,
+                  }}
+                />
+              </TouchableOpacity>
+            )} */}
           </View>
 
-          <CategoryList
-            categories={searchCategoriesResult}
-            setReloadCategories={setReloadCategories}
+          <AddressList
+            addresses={addresses}
+            setReloadAddresses={setReloadAddresses}
           />
         </>
       )}

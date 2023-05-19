@@ -12,7 +12,7 @@ import currencyFormatter from "../../utils/currencyFormatter";
 
 export function Cart({ navigation }) {
   const { orderDetail, loading, emptyCart, total } = useOders();
-
+  let goToAddress;
   const alertEmptyCart = () => {
     Alert.alert(
       "Vaciar carrito",
@@ -68,8 +68,7 @@ export function Cart({ navigation }) {
             <TouchableOpacity
               className='py-2 px-10 mt-1 rounded-xl flex items-center'
               style={{ backgroundColor: themeColors.bg }}
-              // onPress={alertEmptyCart}
-            >
+              onPress={() => navigation.navigate("addresses", { goToAddress })}>
               <Text className={"text-xl font-bold text-center text-white"}>
                 Continuar
               </Text>

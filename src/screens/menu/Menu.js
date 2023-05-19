@@ -31,6 +31,14 @@ export default function Menu(props) {
 
   //  console.log(plates);
 
+  const searchPlatesByCategory = (categoryName) => {
+    const categoriesFilter = searchPlatesResult.filter(
+      (category) => category.name === categoryName
+    );
+
+    setSearchPlatesResult(categoriesFilter);
+  };
+
   return (
     <View>
       <Search
@@ -45,7 +53,9 @@ export default function Menu(props) {
             let isActive = category == activeCategory;
             return (
               <TouchableOpacity
-                onPress={() => setActiveCategory(category)}
+                onPress={() => {
+                  setActiveCategory(category);
+                }}
                 key={index}
                 className='p-1 pb-2 px-3 mr-2 '
                 style={{
@@ -69,7 +79,6 @@ export default function Menu(props) {
         <TouchableOpacity
           key={plate.id}
           onPress={() => {
-            // seleccionarPlatillo(platilloNuevo);
             navigation.navigate("plate-details", { ...plate });
           }}>
           <View style={styles.container}>

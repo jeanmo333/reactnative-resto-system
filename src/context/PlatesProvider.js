@@ -158,13 +158,13 @@ const PlateProvider = ({ children }) => {
 
   const deletePlate = async (id) => {
     try {
-      await clientAxios.delete(`/plates/${id}`, config);
+      const { data } = await clientAxios.delete(`/plates/${id}`, config);
       const platesUpdate = plates.filter(
         (platesState) => platesState.id !== id
       );
       setPlates(platesUpdate);
 
-      Toast.show("Eliminado con exito", {
+      Toast.show(data.message, {
         position: Toast.positions.CENTER,
       });
       return;
@@ -172,7 +172,7 @@ const PlateProvider = ({ children }) => {
       console.log(error);
       if (axios.isAxiosError(error)) {
         setLoading(false);
-        Toast.show("Hubo un error", {
+        Toast.show(error.response.data.message, {
           position: Toast.positions.CENTER,
         });
       }

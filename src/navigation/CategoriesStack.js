@@ -9,15 +9,13 @@ import { Image } from "react-native";
 import { themeColors } from "../theme";
 import { useCategories } from "../hooks/useCategories";
 import { CreateCategory } from "../screens/categories/CreateCategory";
-import { useNavigation } from "@react-navigation/native";
 const Stack = createStackNavigator();
 
 export default function CategoriesStack(props) {
   const { navigation } = props;
-  const navigationHook = useNavigation();
 
   const { authenticateUser, auth, token } = useAuth();
-  const { getCategories, categories } = useCategories();
+  const { getCategories } = useCategories();
 
   useEffect(() => {
     getCategories();
@@ -90,7 +88,7 @@ export default function CategoriesStack(props) {
         component={Categories}
         options={{
           title: "Listado categorias",
-          headerLeft: () => buttonLeft("categories"),
+          headerLeft: () => buttonLeft("categories-stack"),
           headerRight: () => buttonRight(),
         }}
       />
