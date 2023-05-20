@@ -91,6 +91,7 @@ export default function Plate({ plate, setReloadPlates }) {
       {auth?.roles.includes("admin") && (
         <View style={styles.actions}>
           <TouchableOpacity
+            activeOpacity={0.6}
             onPress={() => {
               navigation.navigate("create-plate", { ...plate });
             }}>
@@ -103,7 +104,9 @@ export default function Plate({ plate, setReloadPlates }) {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => alertDeletePlate(plate.id)}>
+          <TouchableOpacity
+            onPress={() => alertDeletePlate(plate.id)}
+            activeOpacity={0.6}>
             {loading ? (
               <ActivityIndicator size='small' color={themeColors.blue} />
             ) : (

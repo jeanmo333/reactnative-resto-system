@@ -89,6 +89,7 @@ export function UpdateProfile(props) {
     <>
       <ScrollView>
         <TouchableOpacity
+          activeOpacity={0.7}
           className='py-4  mb-3 mt-5 rounded-xl flex-row justify-center items-center mx-6'
           style={{ backgroundColor: themeColors.bg }}
           onPress={() => setModalVisible(true)}>
@@ -141,6 +142,7 @@ export function UpdateProfile(props) {
           />
 
           <TouchableOpacity
+            activeOpacity={0.7}
             className='py-3 mb-3 mt-8 rounded-xl flex items-center'
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text } from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import useAuth from "../../hooks/useAuth";
 import { usePlates } from "../../hooks/usePlates";
 import { useCategories } from "../../hooks/useCategories";
@@ -11,6 +11,7 @@ import Search from "../../components/Search";
 import { Image } from "react-native";
 import currencyFormatter from "../../utils/currencyFormatter";
 import { useNavigation } from "@react-navigation/native";
+import ScreenLoading from "../../components/ScreenLoading";
 
 export default function Menu(props) {
   const { authenticateUser, token } = useAuth();
@@ -39,6 +40,7 @@ export default function Menu(props) {
     setSearchPlatesResult(categoriesFilter);
   };
 
+  if (!plates || !categories) return <ScreenLoading />;
   return (
     <View>
       <Search
@@ -53,6 +55,7 @@ export default function Menu(props) {
             let isActive = category == activeCategory;
             return (
               <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={() => {
                   setActiveCategory(category);
                 }}
@@ -77,6 +80,7 @@ export default function Menu(props) {
 
       {searchPlatesResult.map((plate) => (
         <TouchableOpacity
+          activeOpacity={0.7}
           key={plate.id}
           onPress={() => {
             navigation.navigate("plate-details", { ...plate });

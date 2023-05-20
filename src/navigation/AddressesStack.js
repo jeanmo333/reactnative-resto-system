@@ -49,28 +49,23 @@ export default function AddressesStack(props) {
     }
   };
 
-  const buttonRight = (screen) => {
-    switch (screen) {
-      case "addresses-stack":
-        return (
-          <>
-            {size(addresses) < 3 && (
-              <TouchableOpacity
-                onPress={() => navigation.navigate("create-address")}>
-                <Image
-                  source={require("../../assets/icons/add.png")}
-                  style={{
-                    height: 40,
-                    width: 40,
-                    marginRight: 15,
-                  }}
-                />
-              </TouchableOpacity>
-            )}
-          </>
-        );
-      default:
-        return (
+  const buttonRight = () => {
+    return (
+      <>
+        {size(addresses) < 3 ? (
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate("create-address")}>
+            <Image
+              source={require("../../assets/icons/add.png")}
+              style={{
+                height: 40,
+                width: 40,
+                marginRight: 15,
+              }}
+            />
+          </TouchableOpacity>
+        ) : (
           <>
             {auth?.image ? (
               <Image
@@ -100,8 +95,9 @@ export default function AddressesStack(props) {
               />
             )}
           </>
-        );
-    }
+        )}
+      </>
+    );
   };
 
   return (
@@ -112,7 +108,7 @@ export default function AddressesStack(props) {
         options={{
           title: "Listado direcciones",
           headerLeft: () => buttonLeft("addresses-stack"),
-          headerRight: () => buttonRight("addresses-stack"),
+          headerRight: () => buttonRight(""),
         }}
       />
 

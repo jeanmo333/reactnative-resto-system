@@ -76,13 +76,14 @@ const LoginScreen = () => {
           error={formik.errors.password}
         />
 
-        <TouchableOpacity className='flex items-end'>
+        <TouchableOpacity className='flex items-end' activeOpacity={0.7}>
           <Text className='text-gray-700 mb-8 mt-4 font-bold'>
             Olvide mi contraseña
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
+          activeOpacity={0.7}
           className='py-3  mb-3 rounded-xl flex items-center'
           style={{ backgroundColor: themeColors.bg }}
           onPress={formik.handleSubmit}>
@@ -118,6 +119,7 @@ const LoginScreen = () => {
             ¿No tienes una cuenta?
           </Text>
           <TouchableOpacity
+            activeOpacity={0.7}
             className='mb-8'
             onPress={() => navigation.navigate("register")}>
             <Text

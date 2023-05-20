@@ -69,6 +69,7 @@ export function Plates(props) {
             </View>
 
             <TouchableOpacity
+              activeOpacity={0.6}
               onPress={() => navigation.navigate("create-plate")}>
               <Image
                 source={require("../../../assets/icons/add.png")}
@@ -112,6 +113,7 @@ export function Plates(props) {
             </View>
 
             <TouchableOpacity
+              activeOpacity={0.6}
               onPress={() => navigation.navigate("create-plate")}>
               <Image
                 source={require("../../../assets/icons/add.png")}

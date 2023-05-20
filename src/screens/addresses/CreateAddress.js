@@ -179,6 +179,7 @@ export function CreateAddress({ route, navigation }) {
           </View>
 
           <TouchableOpacity
+            activeOpacity={0.7}
             className='py-3  mb-3  mt-5 rounded-xl flex items-center'
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>

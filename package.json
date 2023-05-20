@@ -25,6 +25,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.8",
+    "react-native-dotenv": "^3.4.8",
     "react-native-element-dropdown": "^2.9.0",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-paper": "^3.10.1",
@@ -34,6 +35,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-vector-icons": "^9.2.0",
     "react-search-input": "^0.11.3",
+    "stripe-client": "^1.1.5",
     "yup": "^1.1.1"
   },
   "devDependencies": {

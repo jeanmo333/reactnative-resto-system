@@ -67,6 +67,7 @@ export function UpdatePassword(props) {
       />
 
       <TouchableOpacity
+        activeOpacity={0.7}
         className='py-3 mb-3 mt-10 rounded-xl flex items-center'
         style={{ backgroundColor: themeColors.bg }}
         onPress={formik.handleSubmit}>

@@ -26,7 +26,6 @@ const PlateDetails = ({ route, navigation }) => {
   const item = {
     ...plate,
     quantity,
-    subtotal,
   };
 
   useEffect(() => {
@@ -65,6 +64,7 @@ const PlateDetails = ({ route, navigation }) => {
         <Quantity quantity={quantity} setQuantity={setQuantity} />
 
         <TouchableOpacity
+          activeOpacity={0.7}
           className='py-3 mt-8 mb-3 rounded-xl flex items-center'
           style={{ backgroundColor: themeColors.bg }}
           onPress={() => {

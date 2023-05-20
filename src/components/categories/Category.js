@@ -58,6 +58,7 @@ export default function Category({ category, setReloadCategories }) {
       {auth?.roles.includes("admin") && (
         <View style={styles.actions}>
           <TouchableOpacity
+            activeOpacity={0.6}
             onPress={() => {
               navigation.navigate("create-category", { ...category });
             }}>
@@ -70,7 +71,9 @@ export default function Category({ category, setReloadCategories }) {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => alertDeleteCategory(category.id)}>
+          <TouchableOpacity
+            onPress={() => alertDeleteCategory(category.id)}
+            activeOpacity={0.6}>
             {loading ? (
               <ActivityIndicator size='small' color={themeColors.blue} />
             ) : (

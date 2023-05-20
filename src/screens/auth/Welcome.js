@@ -33,6 +33,7 @@ export default function WelcomeScreen() {
         </View>
         <View className='space-y-4'>
           <TouchableOpacity
+            activeOpacity={0.7}
             onPress={() => navigation.navigate("register")}
             className='py-3  mx-7 rounded-xl mb-10'
             style={{ backgroundColor: themeColors.primary }}>
@@ -46,7 +47,9 @@ export default function WelcomeScreen() {
               style={{ fontSize: 15 }}>
               ¿Ya tienes una cuenta?
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("login")}
+              activeOpacity={0.7}>
               <Text
                 className='font-bold'
                 style={{ fontSize: 15, color: themeColors.primary }}>

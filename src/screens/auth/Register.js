@@ -79,6 +79,7 @@ export default function RegisterScreen() {
         </Text>
 
         <TouchableOpacity
+          activeOpacity={0.7}
           className='py-3  mb-3 rounded-xl flex-row justify-center items-center'
           style={{ backgroundColor: themeColors.bg }}
           onPress={() => setModalVisible(true)}>
@@ -128,13 +129,14 @@ export default function RegisterScreen() {
           error={formik.errors.password}
         />
 
-        <TouchableOpacity className='flex items-end'>
+        <TouchableOpacity className='flex items-end' activeOpacity={0.7}>
           <Text className='text-gray-700 my-4 font-bold'>
             Olvide mi contraseña
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
+          activeOpacity={0.7}
           className='py-3  mb-3 rounded-xl flex items-center'
           style={{ backgroundColor: themeColors.bg }}
           onPress={formik.handleSubmit}>
@@ -170,7 +172,9 @@ export default function RegisterScreen() {
             style={{ fontSize: 15 }}>
             ¿Ya tienes una cuenta?
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("login")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("login")}
+            activeOpacity={0.7}>
             <Text
               className='font-semibold'
               style={{ fontSize: 15, color: themeColors.bg }}>

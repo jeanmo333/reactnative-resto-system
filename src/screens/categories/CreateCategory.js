@@ -66,7 +66,7 @@ export function CreateCategory({ route, navigation }) {
     },
   });
 
-  if (!category) return <ScreenLoading />;
+  if (loading) return <ScreenLoading />;
 
   return (
     <>
@@ -99,6 +99,7 @@ export function CreateCategory({ route, navigation }) {
           />
 
           <TouchableOpacity
+            activeOpacity={0.7}
             className='py-3  mb-3 rounded-xl flex items-center'
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>

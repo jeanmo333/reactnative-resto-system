@@ -104,6 +104,7 @@ export default function Address({
 
         <View style={styles.actions}>
           <TouchableOpacity
+            activeOpacity={0.6}
             onPress={() => {
               navigation.navigate("create-address", { ...address });
             }}>
@@ -116,7 +117,9 @@ export default function Address({
             />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => alertDeleteAddress(address.id)}>
+          <TouchableOpacity
+            onPress={() => alertDeleteAddress(address.id)}
+            activeOpacity={0.6}>
             {loading ? (
               <ActivityIndicator size='small' color={themeColors.blue} />
             ) : (

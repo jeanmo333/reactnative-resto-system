@@ -123,6 +123,7 @@ export function CreatePlates({ route, navigation }) {
       <ScrollView>
         {archives.length < 3 && newPlate && (
           <TouchableOpacity
+            activeOpacity={0.7}
             className='py-3  mb-1 rounded-xl flex-row justify-center items-center mx-3'
             style={{ backgroundColor: themeColors.bg }}
             onPress={() => setModalVisible(true)}>
@@ -213,6 +214,7 @@ export function CreatePlates({ route, navigation }) {
           />
 
           <TouchableOpacity
+            activeOpacity={0.7}
             className='py-3  mb-3 rounded-xl flex items-center'
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>

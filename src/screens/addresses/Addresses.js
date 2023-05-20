@@ -51,35 +51,18 @@ export function Addresses({ route }) {
               Maximo 3 direcciones
             </Text>
           )}
-          <View className='flex-row justify-between items-center mb-1'>
-            {numberOfItems >= 1 && (
-              <TouchableOpacity
-                className='py-3 mb-3 mx-3 mt-3 px-5 max-w-full rounded-xl'
-                style={{ backgroundColor: themeColors.bg }}
-                onPress={() => console.log("continiar")}>
-                <Text className='text-xl font-bold text-center text-white'>
-                  Procesar pago
-                </Text>
-              </TouchableOpacity>
-            )}
 
-            {/* {size(addresses) < 3 && (
-              <TouchableOpacity
-                onPress={() => navigation.navigate("create-address")}>
-                <Image
-                  source={require("../../../assets/icons/add.png")}
-                  style={{
-                    height: 47,
-                    width: 47,
-                    marginRight: 12,
-                    marginLeft: 12,
-                    marginBottom: 10,
-                    marginTop: 10,
-                  }}
-                />
-              </TouchableOpacity>
-            )} */}
-          </View>
+          {numberOfItems >= 1 && (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className='py-3 mb-3 mx-3 mt-3 px-5 rounded-xl'
+              style={{ backgroundColor: themeColors.bg }}
+              onPress={() => navigation.navigate("payment-form")}>
+              <Text className='text-xl font-bold text-center text-white'>
+                Procesar pago
+              </Text>
+            </TouchableOpacity>
+          )}
 
           <AddressList
             addresses={addresses}

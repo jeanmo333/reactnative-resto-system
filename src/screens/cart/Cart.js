@@ -47,6 +47,7 @@ export function Cart({ navigation }) {
       ) : (
         <>
           <TouchableOpacity
+            activeOpacity={0.7}
             className='py-2 mx-3 mt-1 rounded-xl flex items-center'
             style={{ backgroundColor: themeColors.danger }}
             onPress={alertEmptyCart}>
@@ -57,23 +58,22 @@ export function Cart({ navigation }) {
 
           <CartList orderDetail={orderDetail} />
 
-          <View className='flex-row items-center justify-between mx-3 mb-8'>
-            <Text className='text-xl font-bold'>
-              Total :{" "}
-              <Text className='text-[#0098d3] text-lg font-bold'>
-                {currencyFormatter(total)}
-              </Text>
+          <Text className='text-2xl font-bold text-center text-slate-400'>
+            Total a pagar :{" "}
+            <Text className=' text-xl font-bold'>
+              {currencyFormatter(total)}
             </Text>
+          </Text>
 
-            <TouchableOpacity
-              className='py-2 px-10 mt-1 rounded-xl flex items-center'
-              style={{ backgroundColor: themeColors.bg }}
-              onPress={() => navigation.navigate("addresses", { goToAddress })}>
-              <Text className={"text-xl font-bold text-center text-white"}>
-                Continuar
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className='py-3  mx-3 mb-7 mt-5 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.bg }}
+            onPress={() => navigation.navigate("addresses", { goToAddress })}>
+            <Text className={"text-xl font-bold text-center text-white"}>
+              Seleccionar direccion
+            </Text>
+          </TouchableOpacity>
         </>
       )}
     </>

@@ -7,7 +7,7 @@ import { themeColors } from "../theme";
 import useAuth from "../hooks/useAuth";
 import Menu from "../screens/menu/Menu";
 import PlateDetails from "../screens/menu/PlateDetails";
-import { Cart } from "../screens/cart";
+import { Cart, PaymentForm } from "../screens/cart";
 import { useOders } from "../hooks/useOders";
 import { View } from "react-native";
 
@@ -106,6 +106,16 @@ export default function MenuStack(props) {
         options={{
           title: "Carrito de compra",
           headerLeft: () => buttonLeft("cart"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='payment-form'
+        component={PaymentForm}
+        options={{
+          title: "Formulario de pago",
+          headerLeft: () => buttonLeft("payment-form"),
           headerRight: () => buttonRight(),
         }}
       />

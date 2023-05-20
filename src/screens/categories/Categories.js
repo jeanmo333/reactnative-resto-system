@@ -59,6 +59,7 @@ export function Categories(props) {
             </View>
 
             <TouchableOpacity
+              activeOpacity={0.6}
               onPress={() => navigation.navigate("create-category")}>
               <Image
                 source={require("../../../assets/icons/add.png")}
@@ -102,6 +103,7 @@ export function Categories(props) {
             </View>
 
             <TouchableOpacity
+              activeOpacity={0.6}
               onPress={() => navigation.navigate("create-category")}>
               <Image
                 source={require("../../../assets/icons/add.png")}

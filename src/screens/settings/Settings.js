@@ -83,6 +83,7 @@ export function Settings(props) {
       </View>
 
       <TouchableOpacity
+        activeOpacity={0.7}
         className='py-3 mb-3 mt-5 rounded-xl flex items-center'
         style={{ backgroundColor: themeColors.bg }}
         onPress={() => navigation.navigate("update-profile")}>
@@ -92,6 +93,7 @@ export function Settings(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        activeOpacity={0.7}
         className='py-3 mb-3 mt-8 rounded-xl flex items-center'
         style={{ backgroundColor: themeColors.orange }}
         onPress={() => navigation.navigate("update-password")}>
