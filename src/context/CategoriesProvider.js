@@ -10,11 +10,10 @@ import clientAxios from "../config/axios";
 const CategoryContext = createContext();
 const CategoryProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingCategory, setLoadingCategory] = useState(false);
   const [searchCategoriesResult, setSearchCategoriesResult] = useState([]);
 
-  // console.log(categories);
-  const [token, setToken] = useState(null);
+  const [tokenCategory, setTokenCategory] = useState(null);
 
   useEffect(() => {
     getCategories();
@@ -22,44 +21,40 @@ const CategoryProvider = ({ children }) => {
     (async () => {
       const token = await getTokenStorage();
       if (token) {
-        setToken(token);
+        setTokenCategory(token);
       } else {
-        setToken(null);
+        setTokenCategory(null);
       }
     })();
-  }, [token]);
-
-  // console.log("====================================");
-  // console.log(token);
-  // console.log("====================================");
+  }, [tokenCategory]);
 
   const configWithToken = {
     headers: {
       "Content-type": "multipart/form-data",
       accept: "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenCategory}`,
     },
   };
 
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenCategory}`,
     },
   };
 
   const getCategories = async () => {
     try {
-      if (!token) {
-        setLoading(false);
+      if (!tokenCategory) {
+        setLoadingCategory(false);
         return;
       }
 
-      setLoading(true);
+      setLoadingCategory(true);
       const { data } = await clientAxios.get("/categories", config);
       setCategories(data);
       setSearchCategoriesResult(data);
-      setLoading(false);
+      setLoadingCategory(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         Toast.show("Hubo un error", {
@@ -71,9 +66,9 @@ const CategoryProvider = ({ children }) => {
 
   const getCategory = async (id) => {
     try {
-      setLoading(true);
+      setLoadingCategory(true);
       const { data } = await clientAxios.get(`/categories/${id}`, config);
-      setLoading(false);
+      setLoadingCategory(false);
 
       return {
         error: false,
@@ -90,25 +85,18 @@ const CategoryProvider = ({ children }) => {
   };
 
   const addCategory = async (category) => {
-    // let dataForm = new FormData();
-    // dataForm.append("archive", {
-    //   uri: archive,
-    //   name: archive.split("/").pop(),
-    //   type: mime.getType(archive),
-    // });
-    // dataForm.append("category", JSON.stringify(category));
     try {
-      setLoading(true);
+      setLoadingCategory(true);
       const { data } = await clientAxios.post("/categories", category, config);
       const { newCategory } = data;
       setCategories([...categories, newCategory]);
-      setLoading(false);
+      setLoadingCategory(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingCategory(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -117,15 +105,8 @@ const CategoryProvider = ({ children }) => {
   };
 
   const updateCategory = async (idCategory, category) => {
-    // let dataForm = new FormData();
-    // dataForm.append("archive", {
-    //   uri: archive,
-    //   name: archive.split("/").pop(),
-    //   type: mime.getType(archive),
-    // });
-    // dataForm.append("category", JSON.stringify(category));
     try {
-      setLoading(true);
+      setLoadingCategory(true);
       const { data } = await clientAxios.patch(
         `/categories/${idCategory}`,
         category,
@@ -136,13 +117,13 @@ const CategoryProvider = ({ children }) => {
         categoryState.id === categoryUpdate.id ? categoryUpdate : categoryState
       );
       setCategories(categoriesEdit);
-      setLoading(false);
+      setLoadingCategory(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingCategory(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -151,6 +132,11 @@ const CategoryProvider = ({ children }) => {
   };
 
   const deleteCategory = async (id) => {
+    if (!tokenCategory) {
+      setLoadingCategory(false);
+      return;
+    }
+
     try {
       const { data } = await clientAxios.delete(`/categories/${id}`, config);
       const categoriesUpdate = categories.filter(
@@ -177,14 +163,16 @@ const CategoryProvider = ({ children }) => {
     <CategoryContext.Provider
       value={{
         categories,
-        loading,
+        loadingCategory,
         searchCategoriesResult,
         setCategories,
         setSearchCategoriesResult,
         getCategories,
-        setLoading,
+        setLoadingCategory,
         addCategory,
+        setTokenCategory,
         getCategory,
+        tokenCategory,
         updateCategory,
         deleteCategory,
       }}>

@@ -22,7 +22,7 @@ export default function RegisterScreen() {
   const [archive, setArchive] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const { register, loading } = useAuth();
+  const { register, loadingAuth } = useAuth();
 
   const onPickImage = async () => {
     const result = await pickImage();
@@ -141,7 +141,7 @@ export default function RegisterScreen() {
           style={{ backgroundColor: themeColors.bg }}
           onPress={formik.handleSubmit}>
           <Text className={"text-xl font-bold text-center text-white"}>
-            {loading ? <LoadingButton /> : "Registrar"}
+            {loadingAuth ? <LoadingButton /> : "Registrar"}
           </Text>
         </TouchableOpacity>
 

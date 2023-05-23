@@ -11,12 +11,8 @@ import useAuth from "../../hooks/useAuth";
 export default function Category({ category, setReloadCategories }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const { auth, authenticateUser, token } = useAuth();
+  const { auth } = useAuth();
   const { deleteCategory } = useCategories();
-
-  useEffect(() => {
-    authenticateUser();
-  }, [token]);
 
   const alertDeleteCategory = (id) => {
     Alert.alert(

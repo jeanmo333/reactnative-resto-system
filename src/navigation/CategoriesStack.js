@@ -14,16 +14,8 @@ const Stack = createStackNavigator();
 export default function CategoriesStack(props) {
   const { navigation } = props;
 
-  const { authenticateUser, auth, token } = useAuth();
-  const { getCategories } = useCategories();
+  const { auth } = useAuth();
 
-  useEffect(() => {
-    getCategories();
-    authenticateUser();
-  }, [token]);
-
-  // console.log("app  " + JSON.stringify(auth));
-  // console.log(categories);
   const buttonLeft = (screen) => {
     switch (screen) {
       case "create-category":

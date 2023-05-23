@@ -30,7 +30,7 @@ export function CreatePlates({ route, navigation }) {
 
   // console.log(plate);
   const { theme } = usePreferences();
-  const { loading, addPlate, updatePlate } = usePlates();
+  const { loadingPlate, addPlate, updatePlate } = usePlates();
 
   useEffect(() => {
     if (plate?.id) {
@@ -100,7 +100,7 @@ export function CreatePlates({ route, navigation }) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
           });
-          navigation.navigate("plates");
+          navigation.navigate("plates-stack");
           formik.resetForm();
         } else {
           Toast.show(message, {
@@ -219,7 +219,7 @@ export function CreatePlates({ route, navigation }) {
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>
             <Text className={"text-xl font-bold text-center text-white"}>
-              {loading ? (
+              {loadingPlate ? (
                 <LoadingButton />
               ) : newPlate ? (
                 "Crear platillo"

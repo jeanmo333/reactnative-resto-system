@@ -10,51 +10,52 @@ import clientAxios from "../config/axios";
 const PlateContext = createContext();
 const PlateProvider = ({ children }) => {
   const [plates, setPlates] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingPlate, setLoadingPlate] = useState(false);
   const [searchPlatesResult, setSearchPlatesResult] = useState([]);
+  const [tokenPlate, setTokenPlate] = useState(null);
 
-  // console.log(categories);
-  const [token, setToken] = useState(null);
-
+  // console.log("====================================");
+  // console.log(plates);
+  // console.log("====================================");
   useEffect(() => {
     getPlates();
     (async () => {
       const token = await getTokenStorage();
       if (token) {
-        setToken(token);
+        setTokenPlate(token);
       } else {
-        setToken(null);
+        setTokenPlate(null);
       }
     })();
-  }, [token]);
+  }, [tokenPlate]);
 
   const configWithToken = {
     headers: {
       "Content-type": "multipart/form-data",
       accept: "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenPlate}`,
     },
   };
 
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenPlate}`,
     },
   };
 
   const getPlates = async () => {
     try {
-      if (!token) {
-        setLoading(false);
+      if (!tokenPlate) {
+        setLoadingPlate(false);
         return;
       }
 
-      setLoading(true);
+      setLoadingPlate(true);
       const { data } = await clientAxios.get("/plates", config);
       setPlates(data);
       setSearchPlatesResult(data);
-      setLoading(false);
+      setLoadingPlate(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         Toast.show("Hubo un error", {
@@ -66,9 +67,9 @@ const PlateProvider = ({ children }) => {
 
   const getPlate = async (id) => {
     try {
-      setLoading(true);
+      setLoadingPlate(true);
       const { data } = await clientAxios.get(`/plates/${id}`, config);
-      setLoading(false);
+      setLoadingPlate(false);
 
       return {
         error: false,
@@ -96,7 +97,7 @@ const PlateProvider = ({ children }) => {
     });
     dataForm.append("plate", JSON.stringify(plate));
     try {
-      setLoading(true);
+      setLoadingPlate(true);
       const { data } = await clientAxios.post(
         "/plates",
         dataForm,
@@ -104,15 +105,15 @@ const PlateProvider = ({ children }) => {
       );
       const { plateSave } = data;
       setPlates([...plates, plateSave]);
-      setLoading(false);
+      setLoadingPlate(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingPlate(false);
       if (axios.isAxiosError(error)) {
-        setLoading(false);
+        setLoadingPlate(false);
 
         return {
           message: error.response.data.message,
@@ -131,22 +132,22 @@ const PlateProvider = ({ children }) => {
     // });
     // dataForm.append("plate", JSON.stringify(plate));
     try {
-      setLoading(true);
+      setLoadingPlate(true);
       const { data } = await clientAxios.patch(`/plates/${id}`, plate, config);
       const { plateUpdate } = data;
       const platesEdit = plates.map((plateState) =>
         plateState.id === plateUpdate.id ? plateUpdate : plateState
       );
       setPlates(platesEdit);
-      setLoading(false);
+      setLoadingPlate(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingPlate(false);
       if (axios.isAxiosError(error)) {
-        setLoading(false);
+        setLoadingPlate(false);
 
         return {
           message: error.response.data.message,
@@ -171,7 +172,7 @@ const PlateProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
-        setLoading(false);
+        setLoadingPlate(false);
         Toast.show(error.response.data.message, {
           position: Toast.positions.CENTER,
         });
@@ -183,12 +184,13 @@ const PlateProvider = ({ children }) => {
     <PlateContext.Provider
       value={{
         plates,
-        loading,
+        loadingPlate,
         searchPlatesResult,
         setPlates,
+        setTokenPlate,
         setSearchPlatesResult,
         getPlates,
-        setLoading,
+        setLoadingPlate,
         addPlate,
         getPlate,
         updatePlate,

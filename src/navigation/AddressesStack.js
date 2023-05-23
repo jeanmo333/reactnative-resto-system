@@ -16,16 +16,9 @@ const Stack = createStackNavigator();
 
 export default function AddressesStack(props) {
   const { navigation } = props;
-  const { authenticateUser, auth, token } = useAuth();
-  const { getAddresses, addresses } = useAddresses();
+  const { auth } = useAuth();
+  const { addresses } = useAddresses();
 
-  useEffect(() => {
-    getAddresses();
-    authenticateUser();
-  }, [token]);
-
-  // console.log("app  " + JSON.stringify(auth));
-  // console.log(categories);
   const buttonLeft = (screen) => {
     switch (screen) {
       case "create-address":

@@ -1,25 +1,13 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../screens/auth/Login";
 import RegisterScreen from "../screens/auth/Register";
-import useAuth from "../hooks/useAuth";
-import WelcomeScreen from "../screens/auth/Welcome";
-import AppNavigation from "./AppNavigation";
 
 const Stack = createStackNavigator();
 
 export default function AuthNavigation(props) {
-  // const { auth } = props;
-  const { authenticateUser, token, auth } = useAuth();
-
-  // useEffect(() => {
-  //   authenticateUser();
-  // }, []);
-
-  // console.log("auth  " + JSON.stringify(auth));
-  // console.log(token);
   return (
     <Stack.Navigator>
       {/* <Stack.Screen

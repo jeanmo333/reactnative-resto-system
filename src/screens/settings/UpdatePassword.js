@@ -12,13 +12,9 @@ import LoadingButton from "../../components/LoadingButton";
 import usePreferences from "../../hooks/usePreferences";
 
 export function UpdatePassword(props) {
-  const { updatePassword, authenticateUser, token, loading } = useAuth();
+  const { updatePassword, loadingAuth } = useAuth();
   const { theme } = usePreferences();
   const navigation = useNavigation();
-
-  useEffect(() => {
-    authenticateUser();
-  }, [token]);
 
   // console.log(archive);
 
@@ -31,7 +27,7 @@ export function UpdatePassword(props) {
         Toast.show(message, {
           position: Toast.positions.CENTER,
         });
-        navigation.navigate("settings");
+        navigation.navigate("settings-stack");
         formik.resetForm();
       } else {
         Toast.show(message, {
@@ -72,7 +68,7 @@ export function UpdatePassword(props) {
         style={{ backgroundColor: themeColors.bg }}
         onPress={formik.handleSubmit}>
         <Text className='text-lg font-bold text-center text-white'>
-          {loading ? <LoadingButton /> : "Editar password"}
+          {loadingAuth ? <LoadingButton /> : "Editar password"}
         </Text>
       </TouchableOpacity>
     </View>

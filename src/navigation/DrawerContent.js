@@ -10,14 +10,16 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import useAuth from "../hooks/useAuth";
 import usePreferences from "../hooks/usePreferences";
 import { themeColors } from "../theme";
+import { useCategories } from "../hooks/useCategories";
+import { useAddresses } from "../hooks/useAddresses";
+import { usePlates } from "../hooks/usePlates";
 
 export default function DrawerContent(props) {
   const { theme, toggleTheme } = usePreferences();
-  const { logout, authenticateUser, auth } = useAuth();
-
-  // useEffect(() => {
-  //   authenticateUser();
-  // }, []);
+  const { logout, auth } = useAuth();
+  const { setCategories } = useCategories();
+  const { setAddresses } = useAddresses();
+  const { setPlates } = usePlates();
 
   const logoutAccount = () => {
     Alert.alert(
@@ -27,12 +29,25 @@ export default function DrawerContent(props) {
         {
           text: "NO",
         },
-        { text: "SI", onPress: logout },
+        {
+          text: "SI",
+          onPress: () => {
+            logout();
+            setCategories([]);
+            setAddresses([]);
+            setPlates([]);
+          },
+        },
       ],
       { cancelable: false }
     );
   };
 
+  // async () => {
+  //   await deleteCategory(id);
+  //   setReloadCategories(true);
+  //   setLoading(false);
+  // },
   return (
     <View style={{ flex: 1 }}>
       <View

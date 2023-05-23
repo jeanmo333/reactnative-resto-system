@@ -6,7 +6,6 @@ import { Text } from "react-native-paper";
 import { size } from "lodash";
 import { useCategories } from "../../hooks/useCategories";
 import { CategoryList } from "../../components/categories";
-import useAuth from "../../hooks/useAuth";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import ScreenLoading from "../../components/ScreenLoading";
 import Search from "../../components/Search";
@@ -16,29 +15,26 @@ export function Categories(props) {
   const navigation = useNavigation();
 
   const {
-    getCategories,
     categories,
-    loading,
-    token,
+    loadingCategory,
     setSearchCategoriesResult,
     searchCategoriesResult,
+    getCategories,
   } = useCategories();
-  const { authenticateUser } = useAuth();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
         getCategories();
-        authenticateUser();
         setReloadCategories(false);
       })();
-    }, [token, reloadCategories])
+    }, [reloadCategories])
   );
-  //console.log(categories);
+  // console.log(categories);
 
   return (
     <>
-      {loading ? (
+      {loadingCategory ? (
         <ScreenLoading />
       ) : size(categories) === 0 ? (
         <>

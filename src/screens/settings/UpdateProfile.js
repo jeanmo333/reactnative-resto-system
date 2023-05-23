@@ -21,8 +21,7 @@ export function UpdateProfile(props) {
   const {
     auth,
     authenticateUser,
-    token,
-    loading,
+    loadingAuth,
     updateProfileWithImage,
     updateProfileWithoutImage,
   } = useAuth();
@@ -33,7 +32,7 @@ export function UpdateProfile(props) {
     formik.setFieldValue("name", auth.name);
     formik.setFieldValue("lastname", auth.lastname);
     formik.setFieldValue("phone", auth.phone);
-  }, [token]);
+  }, []);
 
   // console.log(archive);
 
@@ -147,7 +146,7 @@ export function UpdateProfile(props) {
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>
             <Text className='text-lg font-bold text-center text-white'>
-              {loading ? <LoadingButton /> : "Editar perfil"}
+              {loadingAuth ? <LoadingButton /> : "Editar perfil"}
             </Text>
           </TouchableOpacity>
 

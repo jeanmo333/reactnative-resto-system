@@ -13,11 +13,7 @@ export default function Plate({ plate, setReloadPlates }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const { deletePlate } = usePlates();
-  const { auth, authenticateUser, token } = useAuth();
-
-  useEffect(() => {
-    authenticateUser();
-  }, [token]);
+  const { auth } = useAuth();
 
   const alertDeletePlate = (id) => {
     Alert.alert(

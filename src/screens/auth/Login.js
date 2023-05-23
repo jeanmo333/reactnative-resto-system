@@ -11,14 +11,16 @@ import useAuth from "../../hooks/useAuth";
 import Toast from "react-native-root-toast";
 import { setTokenStorage } from "../../utils/token";
 import LoadingButton from "../../components/LoadingButton";
+import { useCategories } from "../../hooks/useCategories";
+import { usePlates } from "../../hooks/usePlates";
+import { useAddresses } from "../../hooks/useAddresses";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { loading, login, setAuth, authenticateUser, token, auth } = useAuth();
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  const { loadingAuth, login, setAuth, setTokenAuth } = useAuth();
+  const { setTokenCategory } = useCategories();
+  const { setTokenPlate } = usePlates();
+  const { setTokenAddress } = useAddresses();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -27,6 +29,10 @@ const LoginScreen = () => {
       const result = await login(user);
       if (!result.error) {
         setAuth(result.data.user);
+        setTokenAuth(result.data.token);
+        setTokenCategory(result.data.token);
+        setTokenPlate(result.data.token);
+        setTokenAddress(result.data.token);
         await setTokenStorage(result.data.token);
         Toast.show("Login Exito", {
           position: Toast.positions.CENTER,
@@ -88,7 +94,7 @@ const LoginScreen = () => {
           style={{ backgroundColor: themeColors.bg }}
           onPress={formik.handleSubmit}>
           <Text className={"text-xl font-bold text-center text-white"}>
-            {loading ? <LoadingButton /> : "Ingresar"}
+            {loadingAuth ? <LoadingButton /> : "Ingresar"}
           </Text>
         </TouchableOpacity>
 

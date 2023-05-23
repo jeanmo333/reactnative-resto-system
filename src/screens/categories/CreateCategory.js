@@ -18,7 +18,7 @@ export function CreateCategory({ route, navigation }) {
   const { theme } = usePreferences();
   const category = route.params;
   // console.log(category);
-  const { loading, addCategory, updateCategory } = useCategories();
+  const { loadingCategory, addCategory, updateCategory } = useCategories();
 
   useEffect(() => {
     if (category?.id) {
@@ -66,8 +66,6 @@ export function CreateCategory({ route, navigation }) {
     },
   });
 
-  if (loading) return <ScreenLoading />;
-
   return (
     <>
       <Text className='text-3xl text-center font-bold mt-3'>
@@ -104,7 +102,7 @@ export function CreateCategory({ route, navigation }) {
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>
             <Text className={"text-xl font-bold text-center text-white"}>
-              {loading ? (
+              {loadingCategory ? (
                 <LoadingButton />
               ) : newCategory ? (
                 "Crear categoria"

@@ -9,10 +9,8 @@ import clientAxios from "../config/axios";
 const AddressContext = createContext();
 const AddressProvider = ({ children }) => {
   const [addresses, setAddresses] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // console.log(categories);
-  const [token, setToken] = useState(null);
+  const [loadingAddress, setLoadingAddress] = useState(false);
+  const [tokenAddress, setTokenAddress] = useState(null);
 
   useEffect(() => {
     getAddresses();
@@ -20,12 +18,12 @@ const AddressProvider = ({ children }) => {
     (async () => {
       const token = await getTokenStorage();
       if (token) {
-        setToken(token);
+        setTokenAddress(token);
       } else {
-        setToken(null);
+        setTokenAddress(null);
       }
     })();
-  }, [token]);
+  }, [tokenAddress]);
 
   // console.log("====================================");
   // console.log(token);
@@ -35,28 +33,28 @@ const AddressProvider = ({ children }) => {
     headers: {
       "Content-type": "multipart/form-data",
       accept: "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenAddress}`,
     },
   };
 
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenAddress}`,
     },
   };
 
   const getAddresses = async () => {
     try {
-      if (!token) {
-        setLoading(false);
+      if (!tokenAddress) {
+        setLoadingAddress(false);
         return;
       }
 
-      setLoading(true);
+      setLoadingAddress(true);
       const { data } = await clientAxios.get("/addresses", config);
       setAddresses(data);
-      setLoading(false);
+      setLoadingAddress(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         Toast.show("Hubo un error", {
@@ -68,9 +66,9 @@ const AddressProvider = ({ children }) => {
 
   const getAddress = async (id) => {
     try {
-      setLoading(true);
+      setLoadingAddress(true);
       const { data } = await clientAxios.get(`/addresses/${id}`, config);
-      setLoading(false);
+      setLoadingAddress(false);
 
       return {
         error: false,
@@ -88,17 +86,17 @@ const AddressProvider = ({ children }) => {
 
   const addAddress = async (address) => {
     try {
-      setLoading(true);
+      setLoadingAddress(true);
       const { data } = await clientAxios.post("/addresses", address, config);
       const { newAddress } = data;
       setAddresses([...addresses, newAddress]);
-      setLoading(false);
+      setLoadingAddress(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingAddress(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -108,7 +106,7 @@ const AddressProvider = ({ children }) => {
 
   const updateAddress = async (idAddress, address) => {
     try {
-      setLoading(true);
+      setLoadingAddress(true);
       const { data } = await clientAxios.patch(
         `/addresses/${idAddress}`,
         address,
@@ -119,13 +117,13 @@ const AddressProvider = ({ children }) => {
         addressState.id === addressUpdate.id ? addressUpdate : addressState
       );
       setAddresses(addressesEdit);
-      setLoading(false);
+      setLoadingAddress(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingAddress(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -159,10 +157,11 @@ const AddressProvider = ({ children }) => {
     <AddressContext.Provider
       value={{
         addresses,
-        loading,
+        loadingAddress,
+        setTokenAddress,
         setAddresses,
         getAddresses,
-        setLoading,
+        setLoadingAddress,
         addAddress,
         getAddress,
         updateAddress,

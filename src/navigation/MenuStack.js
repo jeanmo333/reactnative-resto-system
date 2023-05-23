@@ -1,28 +1,19 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Badge, IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { themeColors } from "../theme";
-import useAuth from "../hooks/useAuth";
 import Menu from "../screens/menu/Menu";
 import PlateDetails from "../screens/menu/PlateDetails";
 import { Cart, PaymentForm } from "../screens/cart";
 import { useOders } from "../hooks/useOders";
-import { View } from "react-native";
 
 const Stack = createStackNavigator();
 
 export default function MenuStack(props) {
   const { navigation } = props;
-  const { authenticateUser } = useAuth();
   const { numberOfItems } = useOders();
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
-
-  // console.log("app  " + JSON.stringify(auth));
 
   const buttonLeft = (screen) => {
     switch (screen) {

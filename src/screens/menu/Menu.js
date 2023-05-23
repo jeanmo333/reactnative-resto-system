@@ -12,108 +12,107 @@ import { Image } from "react-native";
 import currencyFormatter from "../../utils/currencyFormatter";
 import { useNavigation } from "@react-navigation/native";
 import ScreenLoading from "../../components/ScreenLoading";
+import { size } from "lodash";
 
 export default function Menu(props) {
-  const { authenticateUser, token } = useAuth();
-  const { plates, getPlates, setSearchPlatesResult, searchPlatesResult } =
+  const { plates, setSearchPlatesResult, searchPlatesResult, loadingPlate } =
     usePlates();
-  const { categories, getCategories } = useCategories();
+  const { categories, loadingCategory } = useCategories();
   const [activeCategory, setActiveCategory] = useState("");
   const navigation = useNavigation();
 
   const categoriesNames = categories.map((category) => category.name);
 
   useEffect(() => {
-    getPlates();
     setActiveCategory(categoriesNames[0]);
-    authenticateUser();
-    getCategories();
-  }, [token]);
+  }, []);
 
-  //  console.log(plates);
+  if (loadingPlate) return <ScreenLoading />;
 
-  const searchPlatesByCategory = (categoryName) => {
-    const categoriesFilter = searchPlatesResult.filter(
-      (category) => category.name === categoryName
-    );
-
-    setSearchPlatesResult(categoriesFilter);
-  };
-
-  if (!plates || !categories) return <ScreenLoading />;
   return (
-    <View>
-      <Search
-        placeholder='¿Que te gustaria comer?'
-        data={plates}
-        setData={setSearchPlatesResult}
-      />
+    <>
+      {size(plates) === 0 ? (
+        <Text className='font-bold text-lg text-center mb-3'>
+          Aun no tiene Platos agregado
+        </Text>
+      ) : (
+        <View>
+          <Search
+            placeholder='¿Que te gustaria comer?'
+            data={plates}
+            setData={setSearchPlatesResult}
+          />
 
-      <View className='py-2 pb-3 mt-2 mx-3'>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {categoriesNames.map((category, index) => {
-            let isActive = category == activeCategory;
-            return (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => {
-                  setActiveCategory(category);
-                }}
-                key={index}
-                className='p-1 pb-2 px-3 mr-2 '
-                style={{
-                  backgroundColor: isActive ? themeColors.bg : "gray",
-                  borderRadius: 5,
-                }}>
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 18,
-                  }}>
-                  {category}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-
-      {searchPlatesResult.map((plate) => (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          key={plate.id}
-          onPress={() => {
-            navigation.navigate("plate-details", { ...plate });
-          }}>
-          <View style={styles.container}>
-            <View style={styles.containerImage}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `${plate.images[0]}`,
-                }}
-              />
-            </View>
-
-            <View style={styles.info}>
-              <Text style={styles.name} numberOfLines={1} ellipsizeMode='tail'>
-                {plate.name}
-              </Text>
-              <Text
-                style={styles.description}
-                numberOfLines={2}
-                ellipsizeMode='tail'>
-                {plate.description}
-              </Text>
-
-              <Text style={styles.price}>
-                {currencyFormatter(plate.sale_price)}
-              </Text>
-            </View>
+          <View className='py-2 pb-3 mt-2 mx-3'>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {categoriesNames.map((category, index) => {
+                let isActive = category == activeCategory;
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      setActiveCategory(category);
+                    }}
+                    key={index}
+                    className='p-1 pb-2 px-3 mr-2 '
+                    style={{
+                      backgroundColor: isActive ? themeColors.bg : "gray",
+                      borderRadius: 5,
+                    }}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 18,
+                      }}>
+                      {category}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
           </View>
-        </TouchableOpacity>
-      ))}
-    </View>
+
+          {searchPlatesResult.map((plate) => (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              key={plate.id}
+              onPress={() => {
+                navigation.navigate("plate-details", { ...plate });
+              }}>
+              <View style={styles.container}>
+                <View style={styles.containerImage}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `${plate.images[0]}`,
+                    }}
+                  />
+                </View>
+
+                <View style={styles.info}>
+                  <Text
+                    style={styles.name}
+                    numberOfLines={1}
+                    ellipsizeMode='tail'>
+                    {plate.name}
+                  </Text>
+                  <Text
+                    style={styles.description}
+                    numberOfLines={2}
+                    ellipsizeMode='tail'>
+                    {plate.description}
+                  </Text>
+
+                  <Text style={styles.price}>
+                    {currencyFormatter(plate.sale_price)}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+    </>
   );
 }
 

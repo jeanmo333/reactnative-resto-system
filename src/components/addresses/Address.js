@@ -1,5 +1,5 @@
 /** @format */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -9,11 +9,8 @@ import {
   RadioButton,
 } from "react-native-paper";
 import { themeColors } from "../../theme";
-import { useCategories } from "../../hooks/useCategories";
 import { DateFormatter } from "../../utils/DateFormatter";
-import useAuth from "../../hooks/useAuth";
 import { useAddresses } from "../../hooks/useAddresses";
-import { RadioButtonCustom } from "../RadioButtonCustom";
 
 export default function Address({
   address,
@@ -23,12 +20,7 @@ export default function Address({
 }) {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const { auth, authenticateUser, token } = useAuth();
   const { deleteAddress } = useAddresses();
-
-  useEffect(() => {
-    authenticateUser();
-  }, [token]);
 
   const alertDeleteAddress = (id) => {
     Alert.alert(

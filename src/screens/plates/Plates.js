@@ -26,29 +26,26 @@ export function Plates(props) {
   const navigation = useNavigation();
 
   const {
-    getPlates,
     plates,
-    loading,
-    token,
+    loadingPlate,
     setSearchPlatesResult,
     searchPlatesResult,
+    getPlates,
   } = usePlates();
-  const { authenticateUser } = useAuth();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
         getPlates();
-        authenticateUser();
         setReloadPlates(false);
       })();
-    }, [token, reloadPlates])
+    }, [reloadPlates])
   );
   //console.log(plates);
 
   return (
     <>
-      {loading ? (
+      {loadingPlate ? (
         <ScreenLoading />
       ) : size(plates) === 0 ? (
         <>

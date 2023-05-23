@@ -17,7 +17,7 @@ export function CreateAddress({ route, navigation }) {
   const { theme } = usePreferences();
   const address = route.params;
 
-  const { loading, addAddress, updateAddress } = useAddresses();
+  const { loadingAddress, addAddress, updateAddress } = useAddresses();
   useEffect(() => {
     if (address?.id) {
       formik.setFieldValue("id", address?.id);
@@ -184,7 +184,7 @@ export function CreateAddress({ route, navigation }) {
             style={{ backgroundColor: themeColors.bg }}
             onPress={formik.handleSubmit}>
             <Text className={"text-xl font-bold text-center text-white"}>
-              {loading ? (
+              {loadingAddress ? (
                 <LoadingButton />
               ) : newAddress ? (
                 "Crear direccion"

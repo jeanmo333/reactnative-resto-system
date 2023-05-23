@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext } from "react";
 import clientAxios from "../config/axios";
-import { getTokenStorage, removeTokenStorage } from "../utils/token";
+import { getTokenStorage } from "../utils/token";
 import { TOKEN } from "../utils/constants";
 
 import axios from "axios";
@@ -12,20 +12,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(false);
   const [auth, setAuth] = useState(null);
-  const [token, setToken] = useState(null);
+  const [tokenAuth, setTokenAuth] = useState(null);
   const [error, setError] = useState(true);
-
-  // const navigation = useNavigation();
-
-  // console.log("token  " + token);
 
   const configWithToken = {
     headers: {
       "Content-type": "multipart/form-data",
       accept: "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenAuth}`,
     },
   };
 
@@ -39,7 +35,7 @@ const AuthProvider = ({ children }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${tokenAuth}`,
     },
   };
 
@@ -49,20 +45,19 @@ const AuthProvider = ({ children }) => {
     (async () => {
       const token = await getTokenStorage();
       if (token) {
-        setToken(token);
+        setTokenAuth(token);
       } else {
-        setToken(null);
+        setTokenAuth(null);
       }
     })();
-  }, [token, error]);
+  }, [tokenAuth, error]);
 
   const authenticateUser = async () => {
     try {
-      if (!token) {
-        setLoading(false);
+      if (!tokenAuth) {
+        setLoadingAuth(false);
         return;
       }
-
       const { data } = await clientAxios.get("/users/profile", config);
       setAuth(data);
       setError(false);
@@ -88,19 +83,19 @@ const AuthProvider = ({ children }) => {
     });
     dataForm.append("user", JSON.stringify(user));
     try {
-      setLoading(true);
+      setLoadingAuth(true);
       const { data } = await clientAxios.post(
         "/users",
         dataForm,
         configWithOutToken
       );
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -110,10 +105,10 @@ const AuthProvider = ({ children }) => {
 
   const login = async (user) => {
     try {
-      setLoading(true);
+      setLoadingAuth(true);
       const { data } = await clientAxios.post("/users/login", user);
       setError(false);
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         data,
         error: false,
@@ -136,14 +131,14 @@ const AuthProvider = ({ children }) => {
     });
     dataForm.append("user", JSON.stringify(user));
     try {
-      setLoading(true);
+      setLoadingAuth(true);
       const { data } = await clientAxios.put(
         "/users/update-profile-with-image",
         dataForm,
         configWithToken
       );
       setAuth(data.userUpdate);
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: data.message,
         error: false,
@@ -159,20 +154,20 @@ const AuthProvider = ({ children }) => {
 
   const updateProfileWithoutImage = async (user) => {
     try {
-      setLoading(true);
+      setLoadingAuth(true);
       const { data } = await clientAxios.put(
         "/users/update-profile-without-image",
         user,
         config
       );
       setAuth(data.userUpdate);
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -182,19 +177,19 @@ const AuthProvider = ({ children }) => {
 
   const updatePassword = async (dataPassword) => {
     try {
-      setLoading(true);
+      setLoadingAuth(true);
       const { data } = await clientAxios.put(
         "/users/update-password",
         dataPassword,
         config
       );
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: data.message,
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: error.response.data.message,
         error: true,
@@ -206,7 +201,7 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     if (auth) {
       await AsyncStorage.removeItem(TOKEN);
-      setToken(null);
+      setTokenAuth(null);
       setAuth(null);
     }
   };
@@ -215,11 +210,12 @@ const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         auth,
-        token,
+        tokenAuth,
         error,
-        setLoading,
+        setLoadingAuth,
         setAuth,
-        loading,
+        setTokenAuth,
+        loadingAuth,
         register,
         login,
         logout,

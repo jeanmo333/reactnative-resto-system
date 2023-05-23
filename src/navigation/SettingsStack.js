@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Settings, UpdatePassword, UpdateProfile } from "../screens/settings";
@@ -12,13 +12,7 @@ const Stack = createStackNavigator();
 
 export default function SettingsStack(props) {
   const { navigation } = props;
-  const { authenticateUser, auth } = useAuth();
-
-  // useEffect(() => {
-  //   authenticateUser();
-  // }, []);
-
-  // console.log("app  " + JSON.stringify(auth));
+  const { auth } = useAuth();
 
   const buttonLeft = (screen) => {
     switch (screen) {

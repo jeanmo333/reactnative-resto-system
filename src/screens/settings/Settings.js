@@ -17,13 +17,8 @@ import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../../theme";
 
 export function Settings(props) {
-  const { auth, authenticateUser, token } = useAuth();
+  const { auth } = useAuth();
   const navigation = useNavigation();
-  //console.log(error);
-
-  useEffect(() => {
-    authenticateUser();
-  }, [token]);
 
   return (
     <ScrollView className='mx-8 my-3' showsVerticalScrollIndicator={false}>

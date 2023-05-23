@@ -19,17 +19,6 @@ const Drawer = createDrawerNavigator();
 
 export default function AppNavigation(props) {
   const { auth } = props;
-  const { authenticateUser } = useAuth();
-  const { getCategories, categories, token } = useCategories();
-
-  useEffect(() => {
-    getCategories();
-    authenticateUser();
-  }, [token]);
-
-  //console.log("app  " + JSON.stringify(auth));
-  // console.log(token);
-  //console.log(categories);
   return (
     <Drawer.Navigator
       drawerContent={(props) => <DrawerContent {...props} />}

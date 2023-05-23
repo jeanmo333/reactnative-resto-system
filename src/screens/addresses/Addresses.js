@@ -15,24 +15,22 @@ import { useOders } from "../../hooks/useOders";
 export function Addresses({ route }) {
   const [reloadAddresses, setReloadAddresses] = useState(false);
   const navigation = useNavigation();
-  const { getAddresses, addresses, loading, token } = useAddresses();
-  const { authenticateUser } = useAuth();
+  const { addresses, loadingAddress, getAddresses } = useAddresses();
   const { numberOfItems } = useOders();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
         getAddresses();
-        authenticateUser();
         setReloadAddresses(false);
       })();
-    }, [token, reloadAddresses])
+    }, [reloadAddresses])
   );
-  //console.log(categories);
+  // console.log(addresses);
 
   return (
     <>
-      {loading ? (
+      {loadingAddress ? (
         <ScreenLoading />
       ) : size(addresses) === 0 ? (
         <>

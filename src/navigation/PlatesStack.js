@@ -14,13 +14,7 @@ const Stack = createStackNavigator();
 
 export default function PlatesStack(props) {
   const { navigation } = props;
-  const { authenticateUser, auth } = useAuth();
-
-  // useEffect(() => {
-  //   authenticateUser();
-  // }, []);
-
-  // console.log("app  " + JSON.stringify(auth));
+  const { auth } = useAuth();
 
   const buttonLeft = (screen) => {
     switch (screen) {
