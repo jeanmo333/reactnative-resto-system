@@ -5,7 +5,7 @@ import { IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Plates } from "../screens/plates";
 import useAuth from "../hooks/useAuth";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { themeColors } from "../theme";
 import { CreatePlates } from "../screens/plates/CreatePlates";
 import { SearchPlateByCategory } from "../screens/plates/SearchPlateByCategory";
@@ -39,38 +39,56 @@ export default function PlatesStack(props) {
     }
   };
 
-  const buttonRight = () => {
-    return (
-      <>
-        {auth?.image ? (
-          <Image
-            source={{
-              uri: `${auth.image}`,
-            }}
-            style={{
-              borderColor: themeColors.bg,
-              borderWidth: 2,
-              height: 35,
-              width: 35,
-              borderRadius: 50,
-              marginRight: 20,
-            }}
-          />
-        ) : (
-          <Image
-            source={require("../../assets/images/user-profile.jpg")}
-            style={{
-              borderColor: themeColors.bg,
-              borderWidth: 2,
-              height: 35,
-              width: 35,
-              borderRadius: 50,
-              marginRight: 20,
-            }}
-          />
-        )}
-      </>
-    );
+  const buttonRight = (screen) => {
+    switch (screen) {
+      case "plates-stack":
+        return (
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate("create-plate")}>
+            <Image
+              source={require("../../assets/icons/add.png")}
+              style={{
+                height: 40,
+                width: 40,
+                marginRight: 15,
+              }}
+            />
+          </TouchableOpacity>
+        );
+      default:
+        return (
+          <>
+            {auth?.image ? (
+              <Image
+                source={{
+                  uri: `${auth.image}`,
+                }}
+                style={{
+                  borderColor: themeColors.bg,
+                  borderWidth: 2,
+                  height: 35,
+                  width: 35,
+                  borderRadius: 50,
+                  marginRight: 20,
+                }}
+              />
+            ) : (
+              <Image
+                source={require("../../assets/images/user-profile.jpg")}
+                style={{
+                  borderColor: themeColors.bg,
+                  borderWidth: 2,
+                  height: 35,
+                  width: 35,
+                  borderRadius: 50,
+                  marginRight: 20,
+                }}
+              />
+            )}
+          </>
+        );
+    }
   };
 
   return (
@@ -80,8 +98,8 @@ export default function PlatesStack(props) {
         component={Plates}
         options={{
           title: "Listado platillos",
-          headerLeft: () => buttonLeft("plates"),
-          headerRight: () => buttonRight(),
+          headerLeft: () => buttonLeft(),
+          headerRight: () => buttonRight("plates-stack"),
         }}
       />
 

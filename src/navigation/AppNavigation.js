@@ -14,6 +14,7 @@ import MenuStack from "./MenuStack";
 import PlatesStack from "./PlatesStack";
 import { useCategories } from "../hooks/useCategories";
 import AddressesStack from "./AddressesStack";
+import MyOrdersStack from "./MyOrdersStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -48,10 +49,10 @@ export default function AppNavigation(props) {
       />
 
       <Drawer.Screen
-        name='orders'
-        component={OrdersStack}
+        name='my-orders'
+        component={MyOrdersStack}
         options={{
-          title: "Ordenes",
+          title: "Mis ordenes",
           drawerIcon: () => (
             <Image
               source={require("../../assets/icons/orders.png")}
@@ -117,6 +118,26 @@ export default function AppNavigation(props) {
               drawerIcon: () => (
                 <Image
                   source={require("../../assets/icons/dashboard.png")}
+                  style={{
+                    height: 25,
+                    width: 25,
+                    marginHorizontal: 10,
+                    marginRight: -20,
+                    marginVertical: -25,
+                  }}
+                />
+              ),
+            }}
+          />
+
+          <Drawer.Screen
+            name='orders'
+            component={OrdersStack}
+            options={{
+              title: "Ordenes",
+              drawerIcon: () => (
+                <Image
+                  source={require("../../assets/icons/orders.png")}
                   style={{
                     height: 25,
                     width: 25,

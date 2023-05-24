@@ -14,6 +14,7 @@ import LoadingButton from "../../components/LoadingButton";
 import { useCategories } from "../../hooks/useCategories";
 import { usePlates } from "../../hooks/usePlates";
 import { useAddresses } from "../../hooks/useAddresses";
+import { useOders } from "../../hooks/useOders";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -21,6 +22,7 @@ const LoginScreen = () => {
   const { setTokenCategory } = useCategories();
   const { setTokenPlate } = usePlates();
   const { setTokenAddress } = useAddresses();
+  const { setTokenOrder } = useOders();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -33,6 +35,7 @@ const LoginScreen = () => {
         setTokenCategory(result.data.token);
         setTokenPlate(result.data.token);
         setTokenAddress(result.data.token);
+        setTokenOrder(result.data.token);
         await setTokenStorage(result.data.token);
         Toast.show("Login Exito", {
           position: Toast.positions.CENTER,

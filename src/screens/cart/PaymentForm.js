@@ -15,80 +15,72 @@ import usePreferences from "../../hooks/usePreferences";
 import { useOders } from "../../hooks/useOders";
 import currencyFormatter from "../../utils/currencyFormatter";
 import { STRIPE_PUBLISHABLE_KEY } from "../../utils/constants";
+import LoadingButton from "../../components/LoadingButton";
 const stripe = require("stripe-client")(STRIPE_PUBLISHABLE_KEY);
 
-export function PaymentForm(props) {
+export function PaymentForm({ navigation }) {
   const { theme } = usePreferences();
-  const { total, idAddressSelected, orderDetail } = useOders();
-  let details = [];
+  const {
+    total,
+    idAddressSelected,
+    orderDetail,
+    createMyOrder,
+    loadingOrder,
+    emptyCart,
+    numberOfItems,
+  } = useOders();
 
+  let details = [];
   orderDetail.map((item) => {
     details.push({
       idProduct: item.id,
       quantity: item.quantity,
     });
   });
-  //   const { totalPayment, selectedAddress, products } = props;
-  //   const [loading, setLoading] = useState(false);
-  //   const { auth } = useAuth();
-  //   const navigation = useNavigation();
-
-  //console.log(products);
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: async (dataPayment) => {
-      // console.log(dataPayment);
-      //  setLoading(true);
       const result = await stripe.createToken({ card: dataPayment });
+
       const body = {
         idClientStripe: result.id,
         idAddress: idAddressSelected,
         details,
       };
 
-      console.log(body);
-      // if (result?.error) {
-      //   Toast.show(result.error.message, {
-      //     position: Toast.positions.CENTER,
-      //   });
-      //   setLoading(false);
-      //   return;
-      // } else {
-      //   if (!selectedAddress) {
-      //     Toast.show("Debe seleccionar una direccion", {
-      //       position: Toast.positions.CENTER,
-      //     });
-      //     setLoading(false);
-      //     return;
-      //   }
-      //   const response = await paymentCartApi(
-      //     auth,
-      //     result.id,
-      //     products,
-      //     selectedAddress
-      //   );
+      if (result?.error) {
+        Toast.show(result.error.message, {
+          position: Toast.positions.CENTER,
+        });
+        setLoading(false);
+        return;
+      } else {
+        if (idAddressSelected === "") {
+          Toast.show("Debe seleccionar una direccion", {
+            position: Toast.positions.CENTER,
+          });
+          setLoading(false);
+          return;
+        }
 
-      //   // console.log(response);
-      //   setLoading(false);
+        const { error, message } = await createMyOrder(body);
 
-      //   if (size(response) > 0) {
-      //     // console.log("Pedido completado");
-      //     await deleteCartApi();
-      //     // navigation.navigate("account", { screen: "orders" });
-      //     navigation.navigate("account");
-
-      //     Toast.show("Pedido completado con exito", {
-      //       position: Toast.positions.CENTER,
-      //     });
-      //   } else {
-      //     Toast.show("Error al realizar el pedido", {
-      //       position: Toast.positions.CENTER,
-      //     });
-      //     setLoading(false);
-      //   }
-      // }
+        if (!error) {
+          Toast.show(message, {
+            position: Toast.positions.CENTER,
+          });
+          navigation.navigate("my-orders");
+          emptyCart();
+          formik.resetForm();
+        } else {
+          Toast.show(message, {
+            position: Toast.positions.CENTER,
+          });
+          return;
+        }
+      }
     },
   });
 
@@ -157,16 +149,19 @@ export function PaymentForm(props) {
         className='py-3 mb-3 mt-5 rounded-xl flex items-center'
         style={{ backgroundColor: themeColors.bg }}
         onPress={formik.handleSubmit}>
-        <Text className={"text-xl font-bold text-center text-white"}>
-          {/* {loading ? <LoadingButton /> : "Ingresar"} */}
-          Pagar :{" "}
-          <Text
-            className={
-              "text-lg font-bold text-center text-[#192734] flex items-center"
-            }>
-            {currencyFormatter(total)}
+        {loadingOrder ? (
+          <LoadingButton />
+        ) : (
+          <Text className={"text-xl font-bold text-center text-white"}>
+            Pagar :{" "}
+            <Text
+              className={
+                "text-lg font-bold text-center text-[#192734] flex items-center"
+              }>
+              {currencyFormatter(total)}
+            </Text>
           </Text>
-        </Text>
+        )}
       </TouchableOpacity>
     </View>
   );

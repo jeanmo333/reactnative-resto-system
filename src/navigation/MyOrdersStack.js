@@ -8,20 +8,21 @@ import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
 import { MyOrders } from "../screens/orders/MyOrders";
+import { MyOrderDetail } from "../screens/orders/MyOrderDetail";
 
 const Stack = createStackNavigator();
 
-export default function OrdersStack(props) {
+export default function MyOrdersStack(props) {
   const { navigation } = props;
   const { auth } = useAuth();
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
+      case "my-orders-detail":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("my-orders-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -75,11 +76,21 @@ export default function OrdersStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='orders-stack'
-        component={Orders}
+        name='my-orders-stack'
+        component={MyOrders}
         options={{
-          title: "Ordenes",
-          headerLeft: () => buttonLeft("orders"),
+          title: "Mis ordenes",
+          headerLeft: () => buttonLeft("my-orders-stack"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='my-orders-detail'
+        component={MyOrderDetail}
+        options={{
+          title: "Detaille orden",
+          headerLeft: () => buttonLeft("my-orders-detail"),
           headerRight: () => buttonRight(),
         }}
       />

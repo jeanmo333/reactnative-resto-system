@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Text } from "react-native-paper";
+import { Divider, Text } from "react-native-paper";
 import { useOders } from "../../hooks/useOders";
 import ScreenLoading from "../../components/ScreenLoading";
 import { size } from "lodash";
@@ -58,22 +58,45 @@ export function Cart({ navigation }) {
 
           <CartList orderDetail={orderDetail} />
 
-          <Text className='text-2xl font-bold text-center text-slate-400'>
-            Total a pagar :{" "}
-            <Text className=' text-xl font-bold'>
-              {currencyFormatter(total)}
-            </Text>
-          </Text>
+          <View className='bg-slate-700 py-3 rounded-t-lg'>
+            <View className='flex-row justify-between mx-4 items-center'>
+              <Text className='text-lg font-bold text-slate-400'>
+                Subtotal :{" "}
+              </Text>
 
-          <TouchableOpacity
-            activeOpacity={0.7}
-            className='py-3  mx-3 mb-7 mt-5 rounded-xl flex items-center'
-            style={{ backgroundColor: themeColors.bg }}
-            onPress={() => navigation.navigate("addresses", { goToAddress })}>
-            <Text className={"text-xl font-bold text-center text-white"}>
-              Seleccionar direccion
-            </Text>
-          </TouchableOpacity>
+              <Text className='font-bold'>{currencyFormatter(total)}</Text>
+            </View>
+
+            <View className='flex-row justify-between mx-4 items-center'>
+              <Text className='text-lg font-bold text-slate-400'>
+                Costo de envio :{" "}
+              </Text>
+
+              <Text className='font-bold'>{currencyFormatter(0)}</Text>
+            </View>
+
+            <Divider className='p-1 my-1 mx-3' />
+
+            <View className='flex-row justify-between mx-4 items-center'>
+              <Text className='text-xl font-bold text-slate-400'>
+                Total a pagar :{" "}
+              </Text>
+
+              <Text className='font-bold text-lg'>
+                {currencyFormatter(total)}
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className='py-3 mx-3 mt-5 rounded-xl flex items-center'
+              style={{ backgroundColor: themeColors.bg }}
+              onPress={() => navigation.navigate("addresses")}>
+              <Text className={"text-xl font-bold text-center text-white"}>
+                Confirmar orden
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </>

@@ -9,6 +9,7 @@ import { Image } from "react-native";
 import { themeColors } from "../theme";
 import { useCategories } from "../hooks/useCategories";
 import { CreateCategory } from "../screens/categories/CreateCategory";
+import { TouchableOpacity } from "react-native";
 const Stack = createStackNavigator();
 
 export default function CategoriesStack(props) {
@@ -39,38 +40,56 @@ export default function CategoriesStack(props) {
     }
   };
 
-  const buttonRight = () => {
-    return (
-      <>
-        {auth?.image ? (
-          <Image
-            source={{
-              uri: `${auth.image}`,
-            }}
-            style={{
-              borderColor: themeColors.bg,
-              borderWidth: 2,
-              height: 35,
-              width: 35,
-              borderRadius: 50,
-              marginRight: 20,
-            }}
-          />
-        ) : (
-          <Image
-            source={require("../../assets/images/user-profile.jpg")}
-            style={{
-              borderColor: themeColors.bg,
-              borderWidth: 2,
-              height: 35,
-              width: 35,
-              borderRadius: 50,
-              marginRight: 20,
-            }}
-          />
-        )}
-      </>
-    );
+  const buttonRight = (screen) => {
+    switch (screen) {
+      case "categories-stack":
+        return (
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate("create-category")}>
+            <Image
+              source={require("../../assets/icons/add.png")}
+              style={{
+                height: 40,
+                width: 40,
+                marginRight: 15,
+              }}
+            />
+          </TouchableOpacity>
+        );
+      default:
+        return (
+          <>
+            {auth?.image ? (
+              <Image
+                source={{
+                  uri: `${auth.image}`,
+                }}
+                style={{
+                  borderColor: themeColors.bg,
+                  borderWidth: 2,
+                  height: 35,
+                  width: 35,
+                  borderRadius: 50,
+                  marginRight: 20,
+                }}
+              />
+            ) : (
+              <Image
+                source={require("../../assets/images/user-profile.jpg")}
+                style={{
+                  borderColor: themeColors.bg,
+                  borderWidth: 2,
+                  height: 35,
+                  width: 35,
+                  borderRadius: 50,
+                  marginRight: 20,
+                }}
+              />
+            )}
+          </>
+        );
+    }
   };
 
   return (
@@ -81,7 +100,7 @@ export default function CategoriesStack(props) {
         options={{
           title: "Listado categorias",
           headerLeft: () => buttonLeft("categories-stack"),
-          headerRight: () => buttonRight(),
+          headerRight: () => buttonRight("categories-stack"),
         }}
       />
 

@@ -2,16 +2,57 @@
 
 import { createContext, useEffect, useState } from "react";
 import { getOrderDetailStorage, setOrderDetailStorage } from "../utils/orders";
+import { getTokenStorage } from "../utils/token";
+import axios from "axios";
+import clientAxios from "../config/axios";
 
 const OrderContext = createContext();
 const OrderProvider = ({ children }) => {
-  const [orders, setOrders] = useState([]);
   const [orderDetail, setOrderDetail] = useState([]);
   const [numberOfItems, setNumberOfItems] = useState(0);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [idAddressSelected, setIdAddressSelected] = useState("");
-  // console.log(orderDetail);
+  const [loadingOrder, setLoadingOrder] = useState(false);
+  const [tokenOrder, setTokenOrder] = useState(null);
+
+  const [orders, setOrders] = useState([]);
+  const [myOrders, setMyOrders] = useState([]);
+  const [searchMyOrdersResult, setSearchMyOrdersResult] = useState([]);
+  const [searchOrdersResult, setSearchOrdersResult] = useState([]);
+
+  // console.log(myOrders);
+  useEffect(() => {
+    getMyOrders();
+
+    (async () => {
+      const token = await getTokenStorage();
+      if (token) {
+        setTokenOrder(token);
+      } else {
+        setTokenOrder(null);
+      }
+    })();
+  }, [tokenOrder]);
+
+  // console.log("====================================");
+  // console.log(token);
+  // console.log("====================================");
+
+  const configWithToken = {
+    headers: {
+      "Content-type": "multipart/form-data",
+      accept: "application/json",
+      Authorization: `Bearer ${tokenOrder}`,
+    },
+  };
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tokenOrder}`,
+    },
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -98,17 +139,89 @@ const OrderProvider = ({ children }) => {
     setOrderDetail([]);
   };
 
+  /**************************orders*********************************************************** */
+  const getMyOrders = async () => {
+    try {
+      if (!tokenOrder) {
+        setLoadingOrder(false);
+        return;
+      }
+
+      setLoadingOrder(true);
+      const { data } = await clientAxios.get("/orders/my-orders", config);
+      setMyOrders(data);
+      setSearchMyOrdersResult(data);
+      setLoadingOrder(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        Toast.show("Hubo un error", {
+          position: Toast.positions.CENTER,
+        });
+      }
+    }
+  };
+
+  const getOrders = async () => {
+    try {
+      if (!tokenOrder) {
+        setLoadingOrder(false);
+        return;
+      }
+
+      setLoadingOrder(true);
+      const { data } = await clientAxios.get("/orders", config);
+      setOrders(data);
+      setSearchOrdersResult(data);
+      setLoadingOrder(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        Toast.show("Hubo un error", {
+          position: Toast.positions.CENTER,
+        });
+      }
+    }
+  };
+
+  const createMyOrder = async (order) => {
+    try {
+      setLoadingOrder(true);
+      const { data } = await clientAxios.post("/orders", order, config);
+      const { savedOrder } = data;
+      setMyOrders([...myOrders, savedOrder]);
+      setLoadingOrder(false);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoadingOrder(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
   return (
     <OrderContext.Provider
       value={{
         orders,
-        loading,
+        loadingOrder,
         total,
+        myOrders,
+        setTokenOrder,
+        getOrders,
+        createMyOrder,
         numberOfItems,
-        setLoading,
+        setLoadingOrder,
+        searchMyOrdersResult,
+        setSearchMyOrdersResult,
+        searchOrdersResult,
+        setSearchOrdersResult,
         orderDetail,
         idAddressSelected,
         setOrderDetail,
+        getMyOrders,
         addItemToOrderDetail,
         icreaseOrderItemQuantity,
         decreaseOrderItemQuantity,

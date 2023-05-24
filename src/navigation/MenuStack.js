@@ -19,6 +19,7 @@ export default function MenuStack(props) {
     switch (screen) {
       case "plate-details":
       case "cart":
+      case "payment-form":
         return (
           <IconButton
             icon='arrow-left'

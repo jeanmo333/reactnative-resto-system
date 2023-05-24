@@ -65,7 +65,7 @@ const AuthProvider = ({ children }) => {
       if (axios.isAxiosError(error)) {
         await AsyncStorage.removeItem(TOKEN);
         setError(true);
-        setToken(null);
+        setTokenAuth(null);
         setAuth(null);
         Toast.show("Su session ha expirada", {
           position: Toast.positions.CENTER,
@@ -114,7 +114,7 @@ const AuthProvider = ({ children }) => {
         error: false,
       };
     } catch (error) {
-      setLoading(false);
+      setLoadingAuth(false);
       return {
         message: error.response.data.message,
         error: true,

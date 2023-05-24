@@ -43,7 +43,7 @@ export default function Menu(props) {
             setData={setSearchPlatesResult}
           />
 
-          <View className='py-2 pb-3 mt-2 mx-3'>
+          <View className='py-2 pb-1 mt-2 mx-3'>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {categoriesNames.map((category, index) => {
                 let isActive = category == activeCategory;

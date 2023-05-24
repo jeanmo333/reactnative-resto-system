@@ -1,50 +1,55 @@
 /** @format */
 
 import React, { useCallback, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { Text } from "react-native-paper";
 import { size } from "lodash";
 import { useOders } from "../../hooks/useOders";
+import { MyOrderList } from "../../components/my-orders/MyOrderList";
 import { useFocusEffect } from "@react-navigation/native";
 import ScreenLoading from "../../components/ScreenLoading";
 import Search from "../../components/Search";
-import { OrderList } from "../../components/orders";
 
-export function Orders(props) {
-  const [reloadOrders, setReloadOrders] = useState(false);
+export function MyOrders({ navigation }) {
+  const [reloadMyOrders, setReloadMyOrders] = useState(false);
 
   const {
-    orders,
+    myOrders,
     loadingOrder,
-    setSearchOrdersResult,
-    searchOrdersResult,
-    getOrders,
+    setSearchMyOrdersResult,
+    searchMyOrdersResult,
+    getMyOrders,
   } = useOders();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
-        getOrders();
-        setReloadOrders(false);
+        getMyOrders();
+        setReloadMyOrders(false);
       })();
-    }, [reloadOrders])
+    }, [reloadMyOrders])
   );
+  // console.log(categories);
 
   return (
     <>
       {loadingOrder ? (
         <ScreenLoading />
-      ) : size(orders) === 0 ? (
+      ) : size(myOrders) === 0 ? (
         <>
           <Text className='font-bold text-lg text-center my-3'>
             Aun no has hecho ningun orden
+          </Text>
+
+          <Text className='font-semibold text-sm text-center'>
+            Navega al menu para agregada una
           </Text>
         </>
       ) : (
         <>
           <Search
-            data={orders}
-            setData={setSearchOrdersResult}
+            data={myOrders}
+            setData={setSearchMyOrdersResult}
             placeholder='Buscar ordenes'
           />
 
@@ -62,14 +67,12 @@ export function Orders(props) {
             </View>
           </View>
 
-          <OrderList
-            orders={searchOrdersResult}
-            setReloadOrders={setReloadOrders}
+          <MyOrderList
+            myOrders={searchMyOrdersResult}
+            setReloadMyOrders={setReloadMyOrders}
           />
         </>
       )}
     </>
   );
 }
-
-const styles = StyleSheet.create({});
