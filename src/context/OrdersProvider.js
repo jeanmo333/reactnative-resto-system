@@ -5,6 +5,7 @@ import { getOrderDetailStorage, setOrderDetailStorage } from "../utils/orders";
 import { getTokenStorage } from "../utils/token";
 import axios from "axios";
 import clientAxios from "../config/axios";
+import Toast from "react-native-root-toast";
 
 const OrderContext = createContext();
 const OrderProvider = ({ children }) => {
@@ -202,6 +203,31 @@ const OrderProvider = ({ children }) => {
     }
   };
 
+  const changeOrderStatus = async (idOrder, status) => {
+    try {
+      const { data } = await clientAxios.patch(
+        `/orders/update-status/${idOrder}`,
+        { status },
+        config
+      );
+      const { orderUpdate } = data;
+      const ordersEdit = orders.map((orderState) =>
+        orderState.id === orderUpdate.id ? orderUpdate : orderState
+      );
+      setOrders(ordersEdit);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoadingOrder(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -214,6 +240,7 @@ const OrderProvider = ({ children }) => {
         createMyOrder,
         numberOfItems,
         setLoadingOrder,
+        changeOrderStatus,
         searchMyOrdersResult,
         setSearchMyOrdersResult,
         searchOrdersResult,

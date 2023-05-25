@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useCategories } from "../hooks/useCategories";
+import { useCategories } from "../../hooks/useCategories";
 
-const DropdownComponent = ({ idCategory, setIdCategory }) => {
+const SelectCategory = ({ idCategory, setIdCategory }) => {
   const [isFocus, setIsFocus] = useState(false);
   const { categories, getCategories } = useCategories();
   let data = [];
@@ -45,7 +45,7 @@ const DropdownComponent = ({ idCategory, setIdCategory }) => {
   );
 };
 
-export default DropdownComponent;
+export default SelectCategory;
 
 const styles = StyleSheet.create({
   dropdown: {

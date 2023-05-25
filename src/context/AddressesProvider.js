@@ -5,6 +5,8 @@ import axios from "axios";
 import { getTokenStorage } from "../utils/token";
 import Toast from "react-native-root-toast";
 import clientAxios from "../config/axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TOKEN } from "../utils/constants";
 
 const AddressContext = createContext();
 const AddressProvider = ({ children }) => {
@@ -57,6 +59,7 @@ const AddressProvider = ({ children }) => {
       setLoadingAddress(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        await AsyncStorage.removeItem(TOKEN);
         Toast.show("Hubo un error", {
           position: Toast.positions.CENTER,
         });

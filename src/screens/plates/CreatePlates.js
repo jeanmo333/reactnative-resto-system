@@ -16,9 +16,9 @@ import Toast from "react-native-root-toast";
 import { pickImage, takePhoto } from "../../utils/images";
 import { ModalPickImage } from "../../components/ModalPickImage";
 import { usePlates } from "../../hooks/usePlates";
-import DropdownComponent from "../../components/DropdownComponent";
 import LoadingButton from "../../components/LoadingButton";
 import usePreferences from "../../hooks/usePreferences";
+import SelectCategory from "../../components/plates/SelectCategory";
 
 export function CreatePlates({ route, navigation }) {
   const [archives, setArchives] = useState([]);
@@ -172,7 +172,7 @@ export function CreatePlates({ route, navigation }) {
             error={formik.errors.description}
           />
           {newPlate && (
-            <DropdownComponent
+            <SelectCategory
               idCategory={idCategory}
               setIdCategory={setIdCategory}
             />
