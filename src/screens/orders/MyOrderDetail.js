@@ -52,7 +52,7 @@ export function MyOrderDetail({ route }) {
         ))}
       </ScrollView>
 
-      <View className='bg-slate-700 py-3 rounded-t-lg pb-4'>
+      <View className='bg-slate-700 py-3 rounded-t-lg pb-6'>
         <View className='flex-row justify-between mx-4 items-center'>
           <View className='mb-4'>
             <Text className='text-lg font-bold text-white'>
@@ -103,7 +103,7 @@ export function MyOrderDetail({ route }) {
           />
         </View>
 
-        <Divider className='p-1 my-1 mx-3' />
+        <Divider className='p-1 my-1 mx-3 mb-2' />
 
         <View className='flex-row justify-between mx-4 items-center'>
           <Text className='text-xl font-bold text-white'>Total pagado : </Text>
@@ -112,17 +112,6 @@ export function MyOrderDetail({ route }) {
             {currencyFormatter(myOrder.total)}
           </Text>
         </View>
-
-        <TouchableOpacity
-          activeOpacity={0.7}
-          className='py-3 mx-3 mt-4 rounded-xl flex items-center'
-          style={{ backgroundColor: themeColors.bg }}
-          // onPress={() => navigation.navigate("addresses")}
-        >
-          <Text className={"text-xl font-bold text-center text-white"}>
-            Seguimiento
-          </Text>
-        </TouchableOpacity>
       </View>
     </>
   );

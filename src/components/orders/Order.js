@@ -1,22 +1,24 @@
 /** @format */
-import React, { useState } from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Text } from "react-native-paper";
 import Toast from "react-native-root-toast";
+import StepIndicator from "react-native-step-indicator";
 import { useOders } from "../../hooks/useOders";
 import { themeColors } from "../../theme";
 import { DateFormatter } from "../../utils/DateFormatter";
 import currencyFormatter from "../../utils/currencyFormatter";
 import SelectStatus from "./SelectStatus";
 import LoadingButton from "../LoadingButton";
+import OrderTracking from "../OrderTracking";
 
 export default function Order({ order, setReloadOrders }) {
   const navigation = useNavigation();
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const { changeOrderStatus } = useOders();
-  // console.log(status);
+  //console.log(order.status);
 
   const onChangeOrderStatus = async () => {
     if (status === "") {
@@ -44,11 +46,9 @@ export default function Order({ order, setReloadOrders }) {
 
   return (
     <View key={order.id} style={styles.order} className='mb-3'>
-      <View>
-        <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
-          Estado : {""} <Text style={styles.value}>{order.status}</Text>
-        </Text>
+      <OrderTracking order={order} />
 
+      <View className='mx-4'>
         <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
           Total pagado :{" "}
           <Text style={styles.value}>{currencyFormatter(order.total)}</Text>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "gray",
-    paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 20,
   },

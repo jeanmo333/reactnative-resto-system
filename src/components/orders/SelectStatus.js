@@ -7,6 +7,7 @@ import { Dropdown } from "react-native-element-dropdown";
 const SelectStatus = ({ status, setStatus }) => {
   const [isFocus, setIsFocus] = useState(false);
   const data = [
+    { label: "RECIBIDO", value: "RECIBIDO" },
     { label: "PREPARANDO", value: "PREPARANDO" },
     { label: "EN CAMINO", value: "EN CAMINO" },
     { label: "ENTEGRADO", value: "ENTEGRADO" },

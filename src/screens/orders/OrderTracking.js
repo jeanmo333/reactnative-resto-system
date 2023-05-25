@@ -4,29 +4,7 @@ import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 import StepIndicator from "react-native-step-indicator";
 
-const customStyles = {
-  stepIndicatorSize: 25,
-  currentStepIndicatorSize: 30,
-  separatorStrokeWidth: 2,
-  currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: "#877dfa",
-  stepStrokeWidth: 3,
-  stepStrokeFinishedColor: "#877dfa",
-  stepStrokeUnFinishedColor: "#aaaaaa",
-  separatorFinishedColor: "#877dfa",
-  separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#877dfa",
-  stepIndicatorUnFinishedColor: "#ffffff",
-  stepIndicatorCurrentColor: "#ffffff",
-  stepIndicatorLabelFontSize: 13,
-  currentStepIndicatorLabelFontSize: 13,
-  stepIndicatorLabelCurrentColor: "#877dfa",
-  stepIndicatorLabelFinishedColor: "#ffffff",
-  stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-  labelColor: "#999999",
-  labelSize: 13,
-  currentStepLabelColor: "#877dfa",
-};
+//const
 
 const { height, width } = Dimensions.get("window");
 
@@ -39,87 +17,62 @@ const OrderTracking = ({ route }) => {
     setCurrentPosition(currentPosition + 1);
   };
 
-  const labels = [
-    "Cart",
-    "Delivery Address",
-    "Order Summary",
-    "Payment Method",
-    "Track",
-  ];
+  const labels = ["Pagado", "Recibido", "Preparando", "En camino", "Entegrado"];
 
   const data = [
     {
       label: "Recibido",
-      status: "Tu orden ha sido recibido",
-      datetime: "lun, 3 de avril 2020",
+      stepStatus: "lun, 3 de avril 2020",
     },
     {
-      label: "Recibido",
-      status: "Tu orden ha sido recibido",
-      datetime: "lun, 3 de avril 2020",
+      label: "Preparando",
+      stepStatus: "lun, 3 de avril 2020",
     },
     {
-      label: "Recibido",
-      status: "Tu orden ha sido recibido",
-      datetime: "lun, 3 de avril 2020",
+      label: "En camino",
+      stepStatus: "lun, 3 de avril 2020",
     },
     {
-      label: "Recibido",
-      status: "Tu orden ha sido recibido",
-      datetime: "lun, 3 de avril 2020",
+      label: "Entegrado",
+      stepStatus: "lun, 3 de avril 2020",
     },
   ];
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Resumen de la orden</Text>
-      </View>
+    <>
+      <Text style={styles.headerText}>Resumen de la orden</Text>
 
       <View style={styles.indicatorContainer}>
         <StepIndicator
-          customStyles={customStyles}
+          customStyles={styles.customStyles}
           currentPosition={currentPosition}
           labels={labels}
           direction='vertical'
-          renderLabel={({ position, stepStatus, label, crntPosition }) => {
+          stepCount={5}
+          renderLabel={(item) => {
             return (
               <View style={styles.lblContainer}>
-                <Text style={styles.lblText}>{data[0].label}</Text>
-                <Text style={[styles.status, { marginTop: 5 }]}>
-                  {data[0].status}
-                </Text>
-                <Text style={styles.status}>{data[0].datetime}</Text>
+                <Text style={styles.lblText}>{item.label}</Text>
+                {/* <Text style={styles.datetime}>{item.position}</Text> */}
               </View>
             );
           }}
         />
 
-        <TouchableOpacity style={styles.nextBtn} onPress={() => nextStep()}>
+        {/* <TouchableOpacity style={styles.nextBtn} onPress={() => nextStep()}>
           <Text style={styles.text}>Next</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-    </View>
+    </>
   );
 };
 
 export default OrderTracking;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    height: 50,
-    padding: 10,
-    width: "100%",
-    backgroundColor: "#000",
-    elevation: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   headerText: {
-    color: "#ff3232",
-    fontSize: 22,
+    fontSize: 25,
+    marginTop: 10,
+    textAlign: "center",
     fontWeight: "bold",
   },
   indicatorContainer: {
@@ -132,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   lblContainer: {
-    marginTop: 30,
+    marginTop: -20,
     paddingLeft: 5,
     padding: 10,
     width: width - 100,
@@ -142,15 +95,38 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-  status: {
+  datetime: {
     fontSize: 15,
     color: "gray",
   },
-  nextBtn: {
-    alignSelf: "flex-end",
+  customStyles: {
+    stepIndicatorSize: 25,
+    currentStepIndicatorSize: 30,
+    separatorStrokeWidth: 2,
+    currentStepStrokeWidth: 3,
+    stepStrokeCurrentColor: "#877dfa",
+    stepStrokeWidth: 3,
+    stepStrokeFinishedColor: "#877dfa",
+    stepStrokeUnFinishedColor: "#aaaaaa",
+    separatorFinishedColor: "#877dfa",
+    separatorUnFinishedColor: "#aaaaaa",
+    stepIndicatorFinishedColor: "#877dfa",
+    stepIndicatorUnFinishedColor: "#ffffff",
+    stepIndicatorCurrentColor: "#ffffff",
+    stepIndicatorLabelFontSize: 13,
+    currentStepIndicatorLabelFontSize: 13,
+    stepIndicatorLabelCurrentColor: "#877dfa",
+    stepIndicatorLabelFinishedColor: "#ffffff",
+    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
+    labelColor: "#999999",
+    labelSize: 13,
+    currentStepLabelColor: "#877dfa",
   },
-  text: {
-    color: "#ff3232",
-    fontSize: 18,
-  },
+  // nextBtn: {
+  //   alignSelf: "flex-end",
+  // },
+  // text: {
+  //   color: "#ff3232",
+  //   fontSize: 18,
+  // },
 });

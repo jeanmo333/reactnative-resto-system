@@ -6,27 +6,14 @@ import { Divider, Text } from "react-native-paper";
 import { themeColors } from "../../theme";
 import { DateFormatter } from "../../utils/DateFormatter";
 import currencyFormatter from "../../utils/currencyFormatter";
+import OrderTracking from "../OrderTracking";
 
 export default function MyOrder({ myOrder }) {
   const navigation = useNavigation();
   return (
     <View key={myOrder.id} style={styles.myOrder} className='mb-3'>
-      <View>
-        {/* <Text
-          className='text-center font-bold text-xl text-[#0098d3]'
-          numberOfLines={1}
-          ellipsizeMode='tail'>
-          Id pago
-        </Text>
-        <Text
-          className='text-center font-bold text-lg'
-          numberOfLines={1}
-          ellipsizeMode='tail'>
-          {myOrder.idPayment}
-        </Text>
-
-        <Divider className='p-1 my-2' /> */}
-
+      <OrderTracking order={myOrder} />
+      <View className='mx-4'>
         <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
           Estado : {""} <Text style={styles.value}>{myOrder.status}</Text>
         </Text>
@@ -62,7 +49,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "gray",
-    paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 20,
   },

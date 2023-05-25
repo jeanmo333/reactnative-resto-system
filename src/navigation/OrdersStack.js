@@ -8,7 +8,6 @@ import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
 import { OrderDetail } from "../screens/orders/OrderDetail";
-import OrderTracking from "../screens/orders/OrderTracking";
 
 const Stack = createStackNavigator();
 
@@ -18,7 +17,6 @@ export default function OrdersStack(props) {
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "order-tracking":
       case "order-detail":
         return (
           <IconButton
@@ -92,16 +90,6 @@ export default function OrdersStack(props) {
         options={{
           title: "Detalle orden",
           headerLeft: () => buttonLeft("order-detail"),
-          headerRight: () => buttonRight(),
-        }}
-      />
-
-      <Stack.Screen
-        name='order-tracking'
-        component={OrderTracking}
-        options={{
-          title: "Seguir la orden",
-          headerLeft: () => buttonLeft("order-tracking"),
           headerRight: () => buttonRight(),
         }}
       />
