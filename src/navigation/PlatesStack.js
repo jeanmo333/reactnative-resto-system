@@ -8,7 +8,6 @@ import useAuth from "../hooks/useAuth";
 import { Image, TouchableOpacity } from "react-native";
 import { themeColors } from "../theme";
 import { CreatePlates } from "../screens/plates/CreatePlates";
-import { SearchPlateByCategory } from "../screens/plates/SearchPlateByCategory";
 
 const Stack = createStackNavigator();
 
@@ -109,16 +108,6 @@ export default function PlatesStack(props) {
         options={{
           title: "",
           headerLeft: () => buttonLeft("create-plate"),
-          headerRight: () => buttonRight(),
-        }}
-      />
-
-      <Stack.Screen
-        name='searchplate-category'
-        component={SearchPlateByCategory}
-        options={{
-          title: "",
-          headerLeft: () => buttonLeft("searchplate-category"),
           headerRight: () => buttonRight(),
         }}
       />

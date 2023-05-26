@@ -19,6 +19,7 @@ export function MyOrders({ navigation }) {
     setSearchMyOrdersResult,
     searchMyOrdersResult,
     getMyOrders,
+    numberOfMyOrders,
   } = useOders();
 
   useFocusEffect(
@@ -53,18 +54,14 @@ export function MyOrders({ navigation }) {
             placeholder='Buscar ordenes'
           />
 
-          <View className='py-1 px-3 mx-3 mb-4 mt-3 rounded-lg bg-[#0098d3] flex-row justify-center items-center'>
-            <Text className='text-white font-bold text-xl pr-5'>
+          <View className='py-3 px-3 mx-3 mb-4 mt-3 rounded-lg bg-[#0098d3] flex-row justify-center items-center'>
+            <Text className='text-white font-bold text-xl pr-1'>
               Total ordenes :{" "}
             </Text>
-            <View
-              style={{
-                backgroundColor: "#000",
-                padding: 10,
-                borderRadius: 50,
-              }}>
-              <Text className='font-bold text-white'>10</Text>
-            </View>
+
+            <Text className='font-bold text-[#000] text-xl'>
+              {numberOfMyOrders}
+            </Text>
           </View>
 
           <MyOrderList

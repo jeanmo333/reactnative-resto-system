@@ -12,6 +12,7 @@ const PlateProvider = ({ children }) => {
   const [plates, setPlates] = useState([]);
   const [loadingPlate, setLoadingPlate] = useState(false);
   const [searchPlatesResult, setSearchPlatesResult] = useState([]);
+  const [numberOfPlates, setNumberOfPlates] = useState(0);
   const [tokenPlate, setTokenPlate] = useState(null);
 
   // console.log("====================================");
@@ -53,8 +54,9 @@ const PlateProvider = ({ children }) => {
 
       setLoadingPlate(true);
       const { data } = await clientAxios.get("/plates", config);
-      setPlates(data);
-      setSearchPlatesResult(data);
+      setPlates(data.plates);
+      setSearchPlatesResult(data.plates);
+      setNumberOfPlates(data.numberOfPlates);
       setLoadingPlate(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -75,6 +77,29 @@ const PlateProvider = ({ children }) => {
         error: false,
         message: data.message,
         plate: data,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        Toast.show("Hubo un error", {
+          position: Toast.positions.CENTER,
+        });
+      }
+    }
+  };
+
+  const getPlateByCategory = async (category) => {
+    try {
+      setLoadingPlate(true);
+      const { data } = await clientAxios.get(
+        `/plates/findall-bycategory/${category}`,
+        config
+      );
+      setLoadingPlate(false);
+
+      return {
+        error: false,
+        message: data.message,
+        plates: data,
       };
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -186,6 +211,7 @@ const PlateProvider = ({ children }) => {
         plates,
         loadingPlate,
         searchPlatesResult,
+        numberOfPlates,
         setPlates,
         setTokenPlate,
         setSearchPlatesResult,
@@ -195,6 +221,7 @@ const PlateProvider = ({ children }) => {
         getPlate,
         updatePlate,
         deletePlate,
+        getPlateByCategory,
       }}>
       {children}
     </PlateContext.Provider>

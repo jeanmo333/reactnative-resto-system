@@ -12,11 +12,11 @@ import currencyFormatter from "../../utils/currencyFormatter";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export default function Menu(props) {
+  const [reloadPlates, setReloadPlates] = useState(true);
   const { plates, setSearchPlatesResult, searchPlatesResult, getPlates } =
     usePlates();
-  const [reloadPlates, setReloadPlates] = useState(true);
-  const { categories } = useCategories();
   const [activeCategory, setActiveCategory] = useState("");
+  const { categories } = useCategories();
   const navigation = useNavigation();
 
   const categoriesNames = categories.map((category) => category.name);
@@ -48,6 +48,7 @@ export default function Menu(props) {
                 activeOpacity={0.7}
                 onPress={() => {
                   setActiveCategory(category);
+                  navigation.navigate("searchplate-category", category);
                 }}
                 key={index}
                 className='p-1 pb-2 px-3 mr-2 '

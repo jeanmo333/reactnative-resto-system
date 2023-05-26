@@ -8,6 +8,7 @@ import Menu from "../screens/menu/Menu";
 import PlateDetails from "../screens/menu/PlateDetails";
 import { Cart, PaymentForm } from "../screens/cart";
 import { useOders } from "../hooks/useOders";
+import { SearchPlateByCategory } from "../screens/menu/SearchPlateByCategory";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function MenuStack(props) {
       case "plate-details":
       case "cart":
       case "payment-form":
+      case "searchplate-category":
         return (
           <IconButton
             icon='arrow-left'
@@ -108,6 +110,16 @@ export default function MenuStack(props) {
         options={{
           title: "Formulario de pago",
           headerLeft: () => buttonLeft("payment-form"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='searchplate-category'
+        component={SearchPlateByCategory}
+        options={{
+          title: "",
+          headerLeft: () => buttonLeft("searchplate-category"),
           headerRight: () => buttonRight(),
         }}
       />

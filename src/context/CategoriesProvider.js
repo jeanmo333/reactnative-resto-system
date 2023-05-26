@@ -12,6 +12,7 @@ const CategoryProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [loadingCategory, setLoadingCategory] = useState(false);
   const [searchCategoriesResult, setSearchCategoriesResult] = useState([]);
+  const [numberOfCategories, setNumberOfCategories] = useState(0);
 
   const [tokenCategory, setTokenCategory] = useState(null);
 
@@ -52,8 +53,9 @@ const CategoryProvider = ({ children }) => {
 
       setLoadingCategory(true);
       const { data } = await clientAxios.get("/categories", config);
-      setCategories(data);
-      setSearchCategoriesResult(data);
+      setCategories(data.categories);
+      setSearchCategoriesResult(data.categories);
+      setNumberOfCategories(data.numberOfCategories);
       setLoadingCategory(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -165,6 +167,7 @@ const CategoryProvider = ({ children }) => {
         categories,
         loadingCategory,
         searchCategoriesResult,
+        numberOfCategories,
         setCategories,
         setSearchCategoriesResult,
         getCategories,

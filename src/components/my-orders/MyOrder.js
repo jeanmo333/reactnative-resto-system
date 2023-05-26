@@ -15,10 +15,6 @@ export default function MyOrder({ myOrder }) {
       <OrderTracking order={myOrder} />
       <View className='mx-4'>
         <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
-          Estado : {""} <Text style={styles.value}>{myOrder.status}</Text>
-        </Text>
-
-        <Text style={styles.key} numberOfLines={2} ellipsizeMode='tail'>
           Total pagado :{" "}
           <Text style={styles.value}>{currencyFormatter(myOrder.total)}</Text>
         </Text>

@@ -20,7 +20,8 @@ const OrderProvider = ({ children }) => {
   const [myOrders, setMyOrders] = useState([]);
   const [searchMyOrdersResult, setSearchMyOrdersResult] = useState([]);
   const [searchOrdersResult, setSearchOrdersResult] = useState([]);
-
+  const [numberOfMyOrders, setNumberOfMyOrders] = useState(0);
+  const [numberOfOrders, setNumberOfOrders] = useState(0);
   // console.log(myOrders);
   useEffect(() => {
     getMyOrders();
@@ -150,8 +151,9 @@ const OrderProvider = ({ children }) => {
 
       setLoadingOrder(true);
       const { data } = await clientAxios.get("/orders/my-orders", config);
-      setMyOrders(data);
-      setSearchMyOrdersResult(data);
+      setMyOrders(data.orders);
+      setSearchMyOrdersResult(data.orders);
+      setNumberOfMyOrders(data.numberOfMyOrders);
       setLoadingOrder(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -171,8 +173,9 @@ const OrderProvider = ({ children }) => {
 
       setLoadingOrder(true);
       const { data } = await clientAxios.get("/orders", config);
-      setOrders(data);
-      setSearchOrdersResult(data);
+      setOrders(data.orders);
+      setSearchOrdersResult(data.orders);
+      setNumberOfOrders(data.numberOfOrders);
       setLoadingOrder(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -235,6 +238,8 @@ const OrderProvider = ({ children }) => {
         loadingOrder,
         total,
         myOrders,
+        numberOfMyOrders,
+        numberOfOrders,
         setTokenOrder,
         getOrders,
         createMyOrder,

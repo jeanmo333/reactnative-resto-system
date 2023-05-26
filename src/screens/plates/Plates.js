@@ -31,6 +31,7 @@ export function Plates(props) {
     setSearchPlatesResult,
     searchPlatesResult,
     getPlates,
+    numberOfPlates,
   } = usePlates();
   //let plates = [];
   useFocusEffect(
@@ -65,19 +66,14 @@ export function Plates(props) {
             placeholder='Buscar platos'
           />
 
-          <View className='py-1 px-3 mx-3 mb-4 mt-3 rounded-lg bg-[#0098d3] flex-row justify-center items-center'>
-            <Text className='text-white font-bold text-xl pr-5'>
+          <View className='py-3 px-3 mx-3 mb-4 mt-3 rounded-lg bg-[#0098d3] flex-row justify-center items-center'>
+            <Text className='text-white font-bold text-xl pr-1'>
               Total platos :{" "}
             </Text>
-            <View
-              size={30}
-              style={{
-                backgroundColor: "#000",
-                padding: 10,
-                borderRadius: 50,
-              }}>
-              <Text className='font-bold text-white'>10</Text>
-            </View>
+
+            <Text className='font-bold text-[#000] text-xl'>
+              {numberOfPlates}
+            </Text>
           </View>
 
           <PlateList
