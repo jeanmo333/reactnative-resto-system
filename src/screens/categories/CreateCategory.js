@@ -32,8 +32,15 @@ export function CreateCategory({ route, navigation }) {
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema: yup.object(validationSchema()),
+    // validationSchema: yup.object(validationSchema()),
     onSubmit: async (category) => {
+      if ([formik.values.name, formik.values.description].includes("")) {
+        Toast.show("Por favor ingrese todos los campos", {
+          position: Toast.positions.CENTER,
+        });
+        return;
+      }
+
       if (newCategory) {
         const { error, message } = await addCategory(category);
         if (!error) {
@@ -66,6 +73,9 @@ export function CreateCategory({ route, navigation }) {
     },
   });
 
+  // console.log(formik.values.name);
+
+  // if (formik.values.name === "" && !newCategory) return <ScreenLoading />;
   return (
     <>
       <Text className='text-3xl text-center font-bold mt-3'>
@@ -126,9 +136,9 @@ function initialValues() {
   };
 }
 
-function validationSchema() {
-  return {
-    name: yup.string().required(true),
-    description: yup.string().required(true),
-  };
-}
+// function validationSchema() {
+//   return {
+//     name: yup.string().required(true),
+//     description: yup.string().required(true),
+//   };
+// }

@@ -60,8 +60,23 @@ export function CreatePlates({ route, navigation }) {
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema: yup.object(validationSchema()),
+    // validationSchema: yup.object(validationSchema()),
     onSubmit: async (data) => {
+      if (
+        [
+          formik.values.name,
+          formik.values.description,
+          formik.values.prepared_price,
+          formik.values.sale_price,
+          formik.values.stock,
+        ].includes("")
+      ) {
+        Toast.show("Por favor ingrese todos los campos", {
+          position: Toast.positions.CENTER,
+        });
+        return;
+      }
+
       if (newPlate) {
         const plateData = {
           ...data,
@@ -253,12 +268,12 @@ function initialValues() {
   };
 }
 
-function validationSchema() {
-  return {
-    name: yup.string().required(true),
-    description: yup.string().required(true),
-    prepared_price: yup.number().required(true),
-    sale_price: yup.number().required(true),
-    stock: yup.number().required(true),
-  };
-}
+// function validationSchema() {
+//   return {
+//     name: yup.string().required(true),
+//     description: yup.string().required(true),
+//     prepared_price: yup.number().required(true),
+//     sale_price: yup.number().required(true),
+//     stock: yup.number().required(true),
+//   };
+// }

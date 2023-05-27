@@ -15,6 +15,7 @@ import PlatesStack from "./PlatesStack";
 import { useCategories } from "../hooks/useCategories";
 import AddressesStack from "./AddressesStack";
 import MyOrdersStack from "./MyOrdersStack";
+import UsersStack from "./UsersStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -181,6 +182,26 @@ export default function AppNavigation(props) {
                   style={{
                     height: 27,
                     width: 27,
+                    marginHorizontal: 10,
+                    marginRight: -20,
+                    marginVertical: -25,
+                  }}
+                />
+              ),
+            }}
+          />
+
+          <Drawer.Screen
+            name='users'
+            component={UsersStack}
+            options={{
+              title: "Usuarios",
+              drawerIcon: () => (
+                <Image
+                  source={require("../../assets/icons/user.png")}
+                  style={{
+                    height: 30,
+                    width: 30,
                     marginHorizontal: 10,
                     marginRight: -20,
                     marginVertical: -25,

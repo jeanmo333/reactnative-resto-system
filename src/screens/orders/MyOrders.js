@@ -51,7 +51,7 @@ export function MyOrders({ navigation }) {
           <Search
             data={myOrders}
             setData={setSearchMyOrdersResult}
-            placeholder='Buscar ordenes'
+            placeholder='Buscar por estado'
           />
 
           <View className='py-3 px-3 mx-3 mb-4 mt-3 rounded-lg bg-[#0098d3] flex-row justify-center items-center'>

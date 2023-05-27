@@ -79,6 +79,7 @@ export default function Order({ order, setReloadOrders }) {
           activeOpacity={0.7}
           className='py-3 mt-1 rounded-xl flex items-center w-full'
           style={{ backgroundColor: themeColors.bg }}
+          order-tracking
           onPress={() => navigation.navigate("order-detail", { ...order })}>
           <Text className={"text-xl font-bold text-center text-white"}>
             Ver detalles

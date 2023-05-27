@@ -10,8 +10,8 @@ const { height, width } = Dimensions.get("window");
 
 const OrderTracking = ({ route }) => {
   const [currentPosition, setCurrentPosition] = useState(0);
-  const status = route.params;
-  console.log(status);
+  // const status = route.params;
+  // console.log(status);
 
   const nextStep = () => {
     setCurrentPosition(currentPosition + 1);

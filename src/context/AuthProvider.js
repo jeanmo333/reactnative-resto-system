@@ -14,8 +14,11 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [auth, setAuth] = useState(null);
+  const [users, setUsers] = useState([]);
   const [tokenAuth, setTokenAuth] = useState(null);
   const [error, setError] = useState(true);
+  const [numberOfUsers, setNumberOfUsers] = useState(0);
+  const [searchUsersResult, setSearchUsersResult] = useState([]);
 
   const configWithToken = {
     headers: {
@@ -68,6 +71,27 @@ const AuthProvider = ({ children }) => {
         setTokenAuth(null);
         setAuth(null);
         Toast.show("Su session ha expirada", {
+          position: Toast.positions.CENTER,
+        });
+      }
+    }
+  };
+
+  const getUserByAdmin = async () => {
+    try {
+      if (!tokenAuth) {
+        setLoadingAuth(false);
+        return;
+      }
+      setLoadingAuth(true);
+      const { data } = await clientAxios.get("/users/admin", config);
+      setUsers(data.users);
+      setNumberOfUsers(data.numberOfUsers);
+      setSearchUsersResult(data.users);
+      setLoadingAuth(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        Toast.show("Hubo un error", {
           position: Toast.positions.CENTER,
         });
       }
@@ -212,6 +236,10 @@ const AuthProvider = ({ children }) => {
         auth,
         tokenAuth,
         error,
+        users,
+        numberOfUsers,
+        searchUsersResult,
+        setSearchUsersResult,
         setLoadingAuth,
         setAuth,
         setTokenAuth,
@@ -223,6 +251,7 @@ const AuthProvider = ({ children }) => {
         updateProfileWithoutImage,
         authenticateUser,
         updatePassword,
+        getUserByAdmin,
       }}>
       {children}
     </AuthContext.Provider>

@@ -42,23 +42,10 @@ export default function AddressesStack(props) {
     }
   };
 
-  const buttonRight = () => {
-    return (
-      <>
-        {size(addresses) < 3 ? (
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => navigation.navigate("create-address")}>
-            <Image
-              source={require("../../assets/icons/add.png")}
-              style={{
-                height: 40,
-                width: 40,
-                marginRight: 15,
-              }}
-            />
-          </TouchableOpacity>
-        ) : (
+  const buttonRight = (screen) => {
+    switch (screen) {
+      case "create-address":
+        return (
           <>
             {auth?.image ? (
               <Image
@@ -88,9 +75,57 @@ export default function AddressesStack(props) {
               />
             )}
           </>
-        )}
-      </>
-    );
+        );
+      default:
+        return (
+          <>
+            {size(addresses) < 3 ? (
+              <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={() => navigation.navigate("create-address")}>
+                <Image
+                  source={require("../../assets/icons/add.png")}
+                  style={{
+                    height: 40,
+                    width: 40,
+                    marginRight: 15,
+                  }}
+                />
+              </TouchableOpacity>
+            ) : (
+              <>
+                {auth?.image ? (
+                  <Image
+                    source={{
+                      uri: `${auth.image}`,
+                    }}
+                    style={{
+                      borderColor: themeColors.bg,
+                      borderWidth: 2,
+                      height: 35,
+                      width: 35,
+                      borderRadius: 50,
+                      marginRight: 20,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={require("../../assets/images/user-profile.jpg")}
+                    style={{
+                      borderColor: themeColors.bg,
+                      borderWidth: 2,
+                      height: 35,
+                      width: 35,
+                      borderRadius: 50,
+                      marginRight: 20,
+                    }}
+                  />
+                )}
+              </>
+            )}
+          </>
+        );
+    }
   };
 
   return (
@@ -111,7 +146,7 @@ export default function AddressesStack(props) {
         options={{
           title: "",
           headerLeft: () => buttonLeft("create-address"),
-          headerRight: () => buttonRight(),
+          headerRight: () => buttonRight("create-address"),
         }}
       />
     </Stack.Navigator>

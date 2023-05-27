@@ -37,8 +37,27 @@ export function CreateAddress({ route, navigation }) {
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema: yup.object(validationSchema()),
+    //validationSchema: yup.object(validationSchema()),
     onSubmit: async (addressForm) => {
+      if (
+        [
+          formik.values.firstname,
+          formik.values.lastname,
+          formik.values.street,
+          formik.values.number,
+          formik.values.commune,
+          formik.values.city,
+          formik.values.country,
+          formik.values.phone,
+          formik.values.title,
+        ].includes("")
+      ) {
+        Toast.show("Por favor ingrese todos los campos", {
+          position: Toast.positions.CENTER,
+        });
+        return;
+      }
+
       if (newAddress) {
         const { error, message } = await addAddress(addressForm);
         if (!error) {
@@ -213,16 +232,16 @@ function initialValues() {
   };
 }
 
-function validationSchema() {
-  return {
-    title: yup.string().required(true),
-    street: yup.string().required(true),
-    number: yup.string().required(true),
-    city: yup.string().required(true),
-    phone: yup.string().required(true),
-    commune: yup.string().required(true),
-    country: yup.string().required(true),
-    firstname: yup.string().required(true),
-    lastname: yup.string().required(true),
-  };
-}
+// function validationSchema() {
+//   return {
+//     title: yup.string().required(true),
+//     street: yup.string().required(true),
+//     number: yup.string().required(true),
+//     city: yup.string().required(true),
+//     phone: yup.string().required(true),
+//     commune: yup.string().required(true),
+//     country: yup.string().required(true),
+//     firstname: yup.string().required(true),
+//     lastname: yup.string().required(true),
+//   };
+// }

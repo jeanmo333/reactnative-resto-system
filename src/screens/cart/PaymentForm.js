@@ -1,15 +1,10 @@
 /** @format */
-
-/** @format */
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { TextInput, Button, Divider, Text } from "react-native-paper";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Toast from "react-native-root-toast";
-import { size } from "lodash";
-import { useNavigation } from "@react-navigation/native";
-import useAuth from "../../hooks/useAuth";
 import { themeColors } from "../../theme";
 import usePreferences from "../../hooks/usePreferences";
 import { useOders } from "../../hooks/useOders";
@@ -27,7 +22,6 @@ export function PaymentForm({ navigation }) {
     createMyOrder,
     loadingOrder,
     emptyCart,
-    numberOfItems,
   } = useOders();
 
   let details = [];
@@ -114,7 +108,7 @@ export function PaymentForm({ navigation }) {
             className='flex-1 mr-2'
             mode='outlined'
             style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
-            label='Mes'
+            label='Mes Exp'
             keyboardType='numeric'
             onChangeText={(text) => formik.setFieldValue("exp_month", text)}
             value={formik.values.exp_month}
@@ -123,7 +117,7 @@ export function PaymentForm({ navigation }) {
           <TextInput
             className='flex-1 mr-2'
             mode='outlined'
-            label='Año'
+            label='Año Exp'
             style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
             keyboardType='numeric'
             onChangeText={(text) => formik.setFieldValue("exp_year", text)}
