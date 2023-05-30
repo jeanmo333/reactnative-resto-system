@@ -39,12 +39,13 @@ export default SelectRole;
 
 const styles = StyleSheet.create({
   dropdown: {
+    width: "100%",
     height: 50,
     borderColor: "gray",
     borderWidth: 1.5,
     borderRadius: 10,
     paddingHorizontal: 12,
-    marginBottom: 5,
+    marginBottom: 10,
     marginTop: 5,
     marginHorizontal: 1,
   },

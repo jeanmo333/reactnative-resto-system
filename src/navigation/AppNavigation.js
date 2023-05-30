@@ -109,7 +109,7 @@ export default function AppNavigation(props) {
         }}
       />
 
-      {auth?.roles.includes("admin") && (
+      {auth?.role === "admin" && (
         <>
           <Drawer.Screen
             name='dashboard'

@@ -1,17 +1,13 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { IconButton } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Categories } from "../screens/categories";
 import useAuth from "../hooks/useAuth";
 import { Image } from "react-native";
 import { themeColors } from "../theme";
-import { useCategories } from "../hooks/useCategories";
-import { CreateCategory } from "../screens/categories/CreateCategory";
 import { TouchableOpacity } from "react-native";
 import { Users } from "../screens/users/Users";
-import EditUser from "../screens/users/EditUser";
 const Stack = createStackNavigator();
 
 export default function UsersStack(props) {
@@ -21,11 +17,11 @@ export default function UsersStack(props) {
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
+      case "nada-aun":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.navigate("users")}
+            onPress={() => navigation.navigate("users-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -103,16 +99,6 @@ export default function UsersStack(props) {
           title: "Listado usuarios",
           headerLeft: () => buttonLeft(""),
           headerRight: () => buttonRight(""),
-        }}
-      />
-
-      <Stack.Screen
-        name='edit-user'
-        component={EditUser}
-        options={{
-          title: "",
-          headerLeft: () => buttonLeft("edit-user"),
-          headerRight: () => buttonRight(),
         }}
       />
     </Stack.Navigator>

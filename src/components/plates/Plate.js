@@ -84,45 +84,37 @@ export default function Plate({ plate, setReloadPlates }) {
         Stock : <Text style={styles.value}>{plate.stock}</Text>
       </Text>
 
-      {auth?.roles.includes("admin") && (
-        <View style={styles.actions}>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => {
-              navigation.navigate("create-plate", { ...plate });
-            }}>
+      <View style={styles.actions}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => {
+            navigation.navigate("create-plate", { ...plate });
+          }}>
+          <Image
+            source={require("../../../assets/icons/edit.png")}
+            style={{
+              height: 47,
+              width: 47,
+            }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => alertDeletePlate(plate.id)}
+          activeOpacity={0.6}>
+          {loading ? (
+            <ActivityIndicator size='small' color={themeColors.blue} />
+          ) : (
             <Image
-              source={require("../../../assets/icons/edit.png")}
+              source={require("../../../assets/icons/delete.png")}
               style={{
                 height: 47,
                 width: 47,
               }}
             />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => alertDeletePlate(plate.id)}
-            activeOpacity={0.6}>
-            {loading ? (
-              <ActivityIndicator size='small' color={themeColors.blue} />
-            ) : (
-              <Image
-                source={require("../../../assets/icons/delete.png")}
-                style={{
-                  height: 47,
-                  width: 47,
-                }}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {/* {loading && (
-        <View style={styles.loading}>
-          <ActivityIndicator size='large' color='#fff' />
-        </View>
-      )} */}
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

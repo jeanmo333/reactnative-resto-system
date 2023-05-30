@@ -221,6 +221,56 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const changeUserStatus = async (idUser, status) => {
+    try {
+      const { data } = await clientAxios.patch(
+        `/users/admin/update-status/${idUser}`,
+        { status },
+        config
+      );
+      const { userUpdate } = data;
+      const usersEdit = users.map((userState) =>
+        userState.id === userUpdate.id ? userUpdate : userState
+      );
+      setUsers(usersEdit);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoadingAuth(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
+  const changeUserRole = async (idUser, role) => {
+    try {
+      const { data } = await clientAxios.patch(
+        `/users/admin/update-role/${idUser}`,
+        { role },
+        config
+      );
+      const { userUpdate } = data;
+      const usersEdit = users.map((userState) =>
+        userState.id === userUpdate.id ? userUpdate : userState
+      );
+      setUsers(usersEdit);
+      return {
+        message: data.message,
+        error: false,
+      };
+    } catch (error) {
+      setLoadingAuth(false);
+      return {
+        message: error.response.data.message,
+        error: true,
+      };
+    }
+  };
+
   //cerrar secion
   const logout = async () => {
     if (auth) {
@@ -252,6 +302,8 @@ const AuthProvider = ({ children }) => {
         authenticateUser,
         updatePassword,
         getUserByAdmin,
+        changeUserStatus,
+        changeUserRole,
       }}>
       {children}
     </AuthContext.Provider>

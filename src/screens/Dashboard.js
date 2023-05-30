@@ -10,7 +10,7 @@ export default function Dashboard(props) {
   const { auth, authenticateUser } = useAuth();
 
   //console.log(auth);
-  return <Text>Dashboard</Text>;
+  return <Text className='font-bold text-2xl mt-2 text-center'>Dashboard</Text>;
 }
 
 const styles = StyleSheet.create({});

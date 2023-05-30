@@ -21,6 +21,7 @@ export function PaymentForm({ navigation }) {
     orderDetail,
     createMyOrder,
     loadingOrder,
+    setLoadingOrder,
     emptyCart,
   } = useOders();
 
@@ -48,14 +49,14 @@ export function PaymentForm({ navigation }) {
         Toast.show(result.error.message, {
           position: Toast.positions.CENTER,
         });
-        setLoading(false);
+        setLoadingOrder(false);
         return;
       } else {
         if (idAddressSelected === "") {
           Toast.show("Debe seleccionar una direccion", {
             position: Toast.positions.CENTER,
           });
-          setLoading(false);
+          setLoadingOrder(false);
           return;
         }
 

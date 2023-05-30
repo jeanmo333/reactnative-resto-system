@@ -7,8 +7,8 @@ import { Dropdown } from "react-native-element-dropdown";
 const SelectEstatusUser = ({ isActive, setIsActive }) => {
   const [isFocus, setIsFocus] = useState(false);
   const data = [
-    { label: "Bloquear", value: false },
-    { label: "Desbloquear", value: true },
+    { label: "Inactivo", value: false },
+    { label: "Activo", value: true },
   ];
 
   return (
@@ -39,12 +39,13 @@ export default SelectEstatusUser;
 
 const styles = StyleSheet.create({
   dropdown: {
+    width: "100%",
     height: 50,
     borderColor: "gray",
     borderWidth: 1.5,
     borderRadius: 10,
     paddingHorizontal: 12,
-    marginBottom: 5,
+    marginBottom: 10,
     marginTop: 5,
     marginHorizontal: 1,
   },

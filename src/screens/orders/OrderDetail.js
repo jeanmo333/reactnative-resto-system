@@ -37,12 +37,12 @@ export function OrderDetail({ route, navigation }) {
               </Text>
 
               <View style={styles.conatinerInfo}>
-                <Text style={styles.dataText}>Cantidad:</Text>
+                <Text style={styles.dataText}>Cantidad : </Text>
                 <Text style={styles.dataValue}>{item.quantity}</Text>
               </View>
 
               <View style={styles.conatinerInfo}>
-                <Text style={styles.dataText}>Pagado:</Text>
+                <Text style={styles.dataText}>Subtotal : </Text>
                 <Text style={styles.dataValue}>
                   {currencyFormatter(item.subtotal)}
                 </Text>
