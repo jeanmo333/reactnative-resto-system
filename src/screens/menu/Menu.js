@@ -102,6 +102,12 @@ export default function Menu(props) {
               </Text>
             </View>
           </View>
+
+          {plate.stock === 0 && (
+            <View className='bg-red-500 absolute top-5 left-36 py-2 px-14 rounded-lg'>
+              <Text className='text-white'>no disponible</Text>
+            </View>
+          )}
         </TouchableOpacity>
       ))}
     </View>

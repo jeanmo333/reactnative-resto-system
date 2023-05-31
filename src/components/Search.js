@@ -4,7 +4,14 @@ import { View, TextInput, StyleSheet } from "react-native";
 import React from "react";
 import { createFilter } from "react-search-input";
 
-const KEYS_TO_FILTERS = ["name", "description", "status", "email", "lastname"];
+const KEYS_TO_FILTERS = [
+  "name",
+  "description",
+  "status",
+  "email",
+  "lastname",
+  "stock",
+];
 
 export default function Search(props) {
   const { data, setData, placeholder } = props;

@@ -38,7 +38,7 @@ export function Orders(props) {
       ) : size(orders) === 0 ? (
         <>
           <Text className='font-bold text-lg text-center my-3'>
-            Aun no has hecho ningun orden
+            Aun no hay ningun orden
           </Text>
         </>
       ) : (

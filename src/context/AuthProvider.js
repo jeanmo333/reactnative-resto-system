@@ -287,6 +287,7 @@ const AuthProvider = ({ children }) => {
         tokenAuth,
         error,
         users,
+        config,
         numberOfUsers,
         searchUsersResult,
         setSearchUsersResult,

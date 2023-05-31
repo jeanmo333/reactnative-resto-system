@@ -14,6 +14,7 @@ import currencyFormatter from "../../utils/currencyFormatter";
 import { themeColors } from "../../theme";
 import { useOders } from "../../hooks/useOders";
 import Quantity from "../../components/plateDetail/Quantity";
+import Toast from "react-native-root-toast";
 
 const PlateDetails = ({ route, navigation }) => {
   const plate = route.params;
@@ -63,18 +64,36 @@ const PlateDetails = ({ route, navigation }) => {
 
         <Quantity quantity={quantity} setQuantity={setQuantity} />
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          className='py-3 mt-8 mb-3 rounded-xl flex items-center'
-          style={{ backgroundColor: themeColors.bg }}
-          onPress={() => {
-            addItemToOrderDetail(item);
-            navigation.navigate("cart");
-          }}>
-          <Text className={"text-xl font-bold text-center text-white"}>
-            Agregar al pedido
-          </Text>
-        </TouchableOpacity>
+        {plate.stock === 0 ? (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className='py-3 mt-8 mb-3 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.danger }}>
+            <Text className={"text-xl font-bold text-center text-white"}>
+              No disponible
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className='py-3 mt-8 mb-3 rounded-xl flex items-center'
+            style={{ backgroundColor: themeColors.bg }}
+            onPress={() => {
+              if (plate.stock < quantity) {
+                Toast.show("Stock insuficiente", {
+                  position: Toast.positions.CENTER,
+                });
+                return;
+              }
+
+              addItemToOrderDetail(item);
+              navigation.navigate("cart");
+            }}>
+            <Text className={"text-xl font-bold text-center text-white"}>
+              Agregar al pedido
+            </Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
     </View>
   );

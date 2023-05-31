@@ -63,7 +63,7 @@ export function Plates(props) {
           <Search
             data={plates}
             setData={setSearchPlatesResult}
-            placeholder='Buscar platos'
+            placeholder='Buscar por Nombre, Descripcion, Stock'
           />
 
           <View className='py-3 px-3 mx-3 mb-4 mt-3 rounded-lg bg-[#0098d3] flex-row justify-center items-center'>
