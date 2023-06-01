@@ -23,14 +23,9 @@ export default function Dashboard({ navigation }) {
   const [loading, setLoading] = useState(false);
   const { tokenAuth, config } = useAuth();
 
-  const { orders, searchOrdersResult, getOrders } = useOders();
-
-  // console.log(orders);
-
   useFocusEffect(
     useCallback(() => {
       (async () => {
-        getOrders();
         try {
           if (!tokenAuth) {
             setLoading(false);
@@ -52,23 +47,29 @@ export default function Dashboard({ navigation }) {
     }, [])
   );
 
-  if (loading || dashboard === null || !orders) return <ScreenLoading />;
+  if (loading || dashboard === null) return <ScreenLoading />;
 
-  const { platesWithNoInventory, plateslowInventory, totalProfit } = dashboard;
+  const {
+    platesWithNoInventory,
+    plateslowInventory,
+    totalProfit,
+    totalSale,
+    fiveRecentOrders,
+  } = dashboard;
 
   return (
     <>
       <View className='mt-2'>
         <DashboardCard
           icon={require("../../assets/icons/profits-day.png")}
-          text='Ganancia del dia'
-          data={currencyFormatter(totalProfit)}
+          text='Total ventas'
+          data={currencyFormatter(totalSale)}
         />
 
         <DashboardCard
           icon={require("../../assets/icons/profit-month.png")}
-          text='Ganancia del mes'
-          data={currencyFormatter(3600000)}
+          text='Total ganancias'
+          data={currencyFormatter(totalProfit)}
         />
 
         <DashboardCard
@@ -85,11 +86,11 @@ export default function Dashboard({ navigation }) {
       </View>
 
       <Text className='font-bold text-xl bg-[#0098d3] text-center mb-3 mx-3 py-2 rounded-lg'>
-        Ordenes mas reciente
+        Ordenes mas recientes
       </Text>
 
       <ScrollView>
-        {orders.map((order) => (
+        {fiveRecentOrders.map((order) => (
           <View key={order.id} style={styles.order} className='mb-3 mx-3'>
             <OrderTracking order={order} />
 
@@ -108,18 +109,17 @@ export default function Dashboard({ navigation }) {
                 </Text>
               </Text>
 
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 activeOpacity={0.7}
                 className='py-3 mt-1 rounded-xl flex items-center w-full'
                 style={{ backgroundColor: themeColors.bg }}
                 onPress={() =>
-                 // navigation.navigate("order-detail", { ...order })
-                  navigation.navigate("orders-stack", { screen: "order-detail", ...order  })
+                  navigation.navigate("order-detail", { ...order })
                 }>
                 <Text className={"text-xl font-bold text-center text-white"}>
                   Ver detalles
                 </Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           </View>
         ))}

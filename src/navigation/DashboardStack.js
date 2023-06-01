@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Dashboard from "../screens/Dashboard";
 import useAuth from "../hooks/useAuth";
 import { themeColors } from "../theme";
+import { OrderDetail } from "../screens/orders/OrderDetail";
 
 const Stack = createStackNavigator();
 
@@ -16,11 +17,11 @@ export default function DashboardStack(props) {
 
   const buttonLeft = (screen) => {
     switch (screen) {
-      case "search":
+      case "order-detail":
         return (
           <IconButton
             icon='arrow-left'
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("dashboad-stack")}
             style={{ marginLeft: 15 }}
           />
         );
@@ -79,6 +80,16 @@ export default function DashboardStack(props) {
         options={{
           title: "Dashboard",
           headerLeft: () => buttonLeft("dashboard"),
+          headerRight: () => buttonRight(),
+        }}
+      />
+
+      <Stack.Screen
+        name='order-detail'
+        component={OrderDetail}
+        options={{
+          title: "Detalle orden",
+          headerLeft: () => buttonLeft("order-detail"),
           headerRight: () => buttonRight(),
         }}
       />

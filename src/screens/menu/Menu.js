@@ -69,47 +69,54 @@ export default function Menu(props) {
         </ScrollView>
       </View>
 
-      {searchPlatesResult.map((plate) => (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          key={plate.id}
-          onPress={() => {
-            navigation.navigate("plate-details", { ...plate });
-          }}>
-          <View style={styles.container}>
-            <View style={styles.containerImage}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `${plate.images[0]}`,
-                }}
-              />
-            </View>
+      <ScrollView>
+        <View className='mb-36'>
+          {searchPlatesResult.map((plate) => (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              key={plate.id}
+              onPress={() => {
+                navigation.navigate("plate-details", { ...plate });
+              }}>
+              <View style={styles.container}>
+                <View style={styles.containerImage}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `${plate.images[0]}`,
+                    }}
+                  />
+                </View>
 
-            <View style={styles.info}>
-              <Text style={styles.name} numberOfLines={1} ellipsizeMode='tail'>
-                {plate.name}
-              </Text>
-              <Text
-                style={styles.description}
-                numberOfLines={2}
-                ellipsizeMode='tail'>
-                {plate.description}
-              </Text>
+                <View style={styles.info}>
+                  <Text
+                    style={styles.name}
+                    numberOfLines={1}
+                    ellipsizeMode='tail'>
+                    {plate.name}
+                  </Text>
+                  <Text
+                    style={styles.description}
+                    numberOfLines={2}
+                    ellipsizeMode='tail'>
+                    {plate.description}
+                  </Text>
 
-              <Text style={styles.price}>
-                {currencyFormatter(plate.sale_price)}
-              </Text>
-            </View>
-          </View>
+                  <Text style={styles.price}>
+                    {currencyFormatter(plate.sale_price)}
+                  </Text>
+                </View>
+              </View>
 
-          {plate.stock === 0 && (
-            <View className='bg-red-500 absolute top-5 left-36 py-2 px-14 rounded-lg'>
-              <Text className='text-white'>no disponible</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-      ))}
+              {plate.stock === 0 && (
+                <View className='bg-red-500 absolute top-5 left-36 py-2 px-14 rounded-lg'>
+                  <Text className='text-white'>no disponible</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
