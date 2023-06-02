@@ -110,15 +110,12 @@ const PlateProvider = ({ children }) => {
     }
   };
 
-  const addPlate = async (archives, plate) => {
+  const addPlate = async (archive, plate) => {
     let dataForm = new FormData();
-
-    archives.forEach((archive) => {
-      dataForm.append("archives", {
-        uri: archive,
-        name: archive.split("/").pop(),
-        type: mime.getType(archive),
-      });
+    dataForm.append("archive", {
+      uri: archive,
+      name: archive.split("/").pop(),
+      type: mime.getType(archive),
     });
     dataForm.append("plate", JSON.stringify(plate));
     try {
@@ -149,13 +146,6 @@ const PlateProvider = ({ children }) => {
   };
 
   const updatePlate = async (id, plate) => {
-    // let dataForm = new FormData();
-    // dataForm.append("archive", {
-    //   uri: archive,
-    //   name: archive.split("/").pop(),
-    //   type: mime.getType(archive),
-    // });
-    // dataForm.append("plate", JSON.stringify(plate));
     try {
       setLoadingPlate(true);
       const { data } = await clientAxios.patch(`/plates/${id}`, plate, config);

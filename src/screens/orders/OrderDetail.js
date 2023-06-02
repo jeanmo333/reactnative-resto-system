@@ -26,7 +26,7 @@ export function OrderDetail({ route, navigation }) {
               <Image
                 style={styles.image}
                 source={{
-                  uri: `${item.plate.images[0]}`,
+                  uri: `${item.plate.image}`,
                 }}
               />
             </View>

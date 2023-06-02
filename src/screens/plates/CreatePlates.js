@@ -21,7 +21,7 @@ import usePreferences from "../../hooks/usePreferences";
 import SelectCategory from "../../components/plates/SelectCategory";
 
 export function CreatePlates({ route, navigation }) {
-  const [archives, setArchives] = useState([]);
+  const [archive, setArchive] = useState("");
   const [newPlate, setNewPlate] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idPlate, setIdPlate] = useState("");
@@ -49,13 +49,13 @@ export function CreatePlates({ route, navigation }) {
   const onPickImage = async () => {
     const result = await pickImage();
     if (result === undefined) return;
-    setArchives([...archives, result]);
+    setArchive(result);
   };
 
   const onTakePhoto = async () => {
     const result = await takePhoto();
     if (result === undefined) return;
-    setArchives([...archives, result]);
+    setArchive(result);
   };
 
   const formik = useFormik({
@@ -89,14 +89,14 @@ export function CreatePlates({ route, navigation }) {
           return;
         }
 
-        if (archives.length < 3) {
-          Toast.show("minimo 3 imagenes", {
+        if (archive === "") {
+          Toast.show("porfavor sube un imagen", {
             position: Toast.positions.CENTER,
           });
           return;
         }
 
-        const { error, message } = await addPlate(archives, plateData);
+        const { error, message } = await addPlate(archive, plateData);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -136,35 +136,28 @@ export function CreatePlates({ route, navigation }) {
       <Divider className='mb-3 pb-2 mx-3' />
 
       <ScrollView>
-        {archives.length < 3 && newPlate && (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            className='py-3  mb-1 rounded-xl flex-row justify-center items-center mx-3'
-            style={{ backgroundColor: themeColors.bg }}
-            onPress={() => setModalVisible(true)}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className='py-3  mb-1 rounded-xl flex-row justify-center items-center mx-3'
+          style={{ backgroundColor: themeColors.bg }}
+          onPress={() => setModalVisible(true)}>
+          {archive === "" ? (
             <Image
               source={require("../../../assets/icons/upload.png")}
               className='w-8 h-8 mr-3'
             />
+          ) : (
+            <Image
+              source={{ uri: archive }}
+              className='w-8 h-8 mr-3 rounded-full'
+              style={{ borderColor: themeColors.dark, borderWidth: 1 }}
+            />
+          )}
 
-            <Text className={"text-xl font-bold text-center text-white"}>
-              Subir imagen platillo
-            </Text>
-          </TouchableOpacity>
-        )}
-
-        <View className='flex-row justify-between mx-4 mt-2 mb-2'>
-          {archives.length > 0 &&
-            archives.map((archive, index) => (
-              <View key={index}>
-                <Image
-                  source={{ uri: archive }}
-                  className='w-12 h-12  rounded-lg'
-                  style={{ borderColor: themeColors.dark, borderWidth: 1 }}
-                />
-              </View>
-            ))}
-        </View>
+          <Text className={"text-xl font-bold text-center text-white"}>
+            Subir imagen platillo
+          </Text>
+        </TouchableOpacity>
 
         <View className='mx-3'>
           <TextInput

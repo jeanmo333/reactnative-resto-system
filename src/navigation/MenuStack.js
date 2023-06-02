@@ -88,6 +88,7 @@ export default function MenuStack(props) {
         name='plate-details'
         component={PlateDetails}
         options={{
+          headerShown: false,
           title: "Detalle platillo",
           headerLeft: () => buttonLeft("plate-details"),
           headerRight: () => buttonRight(),

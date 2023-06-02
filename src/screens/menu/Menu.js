@@ -83,7 +83,7 @@ export default function Menu(props) {
                   <Image
                     style={styles.image}
                     source={{
-                      uri: `${plate.images[0]}`,
+                      uri: `${plate.image}`,
                     }}
                   />
                 </View>

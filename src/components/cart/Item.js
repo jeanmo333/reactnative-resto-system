@@ -47,7 +47,7 @@ export default function Item({ item }) {
         <Image
           style={styles.image}
           source={{
-            uri: `${item.images[0]}`,
+            uri: `${item.image}`,
           }}
         />
       </View>

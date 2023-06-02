@@ -40,17 +40,19 @@ export default function Plate({ plate, setReloadPlates }) {
   return (
     <View key={plate.id} style={styles.plate} className='mb-3'>
       <View style={styles.containerImage}>
-        {plate.images.map((image, index) => (
-          <View key={index}>
-            <Image
-              source={{
-                uri: `${image}`,
-              }}
-              style={styles.image}
-            />
-          </View>
-        ))}
+        <Text className='mr-10 text-[#0098d3] text-lg font-bold'>
+          Imagen :{" "}
+        </Text>
+        <View>
+          <Image
+            source={{
+              uri: `${plate.image}`,
+            }}
+            style={styles.image}
+          />
+        </View>
       </View>
+
       <Text style={styles.key} numberOfLines={1} ellipsizeMode='tail'>
         Nombre : {""} <Text style={styles.value}>{plate.name}</Text>
       </Text>
@@ -129,8 +131,7 @@ const styles = StyleSheet.create({
   },
   containerImage: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
+    alignItems: "center",
   },
   key: {
     fontWeight: "bold",
@@ -144,8 +145,8 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   image: {
-    height: 60,
-    width: 60,
+    height: 50,
+    width: 50,
     borderRadius: 10,
   },
   actions: {

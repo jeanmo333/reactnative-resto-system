@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, IconButton, Text } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import BannerSlider from "../../components/menu/BannerSlider";
 import currencyFormatter from "../../utils/currencyFormatter";
@@ -15,6 +15,8 @@ import { themeColors } from "../../theme";
 import { useOders } from "../../hooks/useOders";
 import Quantity from "../../components/plateDetail/Quantity";
 import Toast from "react-native-root-toast";
+import { Image } from "react-native";
+import { windowWidth } from "../../utils/constants";
 
 const PlateDetails = ({ route, navigation }) => {
   const plate = route.params;
@@ -40,14 +42,11 @@ const PlateDetails = ({ route, navigation }) => {
 
   return (
     <View>
-      <FlatList
-        className='ml-3 mt-2'
-        data={plate.images}
-        renderItem={({ item, index }) => (
-          <BannerSlider index={index} item={item} />
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false}
+      <Image
+        style={{ width: windowWidth, height: 350 }}
+        source={{
+          uri: `${plate.image}`,
+        }}
       />
 
       <ScrollView contentContainerStyle={styles.container}>
@@ -95,6 +94,14 @@ const PlateDetails = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       </ScrollView>
+
+      <IconButton
+        icon='arrow-left'
+        size={30}
+        color={themeColors.blue}
+        onPress={() => navigation.navigate("menu-stack")}
+        style={{ position: "absolute", top: 5, left: 10 }}
+      />
     </View>
   );
 };
