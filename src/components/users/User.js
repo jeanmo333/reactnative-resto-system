@@ -52,8 +52,8 @@ export default function User({ user, setReloadUsers }) {
   return (
     <View
       key={user.id}
-      className='border  border-cyan-800 p-2 mb-3 rounded-lg flex-row items-center'>
-      <View className='mr-3'>
+      className='border  border-cyan-800 p-2 mb-3 rounded-lg flex-row items-center justify-between'>
+      <View className='mr-1'>
         <Image
           source={{ uri: `${user.image}` }}
           className='h-32 w-32 rounded-lg'
@@ -101,7 +101,7 @@ export default function User({ user, setReloadUsers }) {
 
         <TouchableOpacity
           activeOpacity={0.7}
-          className='py-3 rounded-xl  bg-[#877dfa] px-10'
+          className='py-3 rounded-xl  bg-[#877dfa]'
           onPress={onChangeUserRole}>
           {loadingChangeRole ? (
             <LoadingButton />

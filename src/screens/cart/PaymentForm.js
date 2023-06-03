@@ -9,9 +9,10 @@ import { themeColors } from "../../theme";
 import usePreferences from "../../hooks/usePreferences";
 import { useOders } from "../../hooks/useOders";
 import currencyFormatter from "../../utils/currencyFormatter";
-import { STRIPE_PUBLISHABLE_KEY } from "../../utils/constants";
+//import { STRIPE_PUBLISHABLE_KEY } from "../../utils/constants";
+import { STRIPE_PUBLIC_KEY } from "@env";
 import LoadingButton from "../../components/LoadingButton";
-const stripe = require("stripe-client")(STRIPE_PUBLISHABLE_KEY);
+const stripe = require("stripe-client")(STRIPE_PUBLIC_KEY);
 
 export function PaymentForm({ navigation }) {
   const { theme } = usePreferences();

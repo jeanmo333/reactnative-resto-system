@@ -1,9 +1,10 @@
 /** @format */
 
 import axios from "axios";
+import { API_URL_DEV, API_URL_PRODUCTION } from "@env";
 
 const clientAxios = axios.create({
-  baseURL: "http://192.168.1.11:4000/api",
+  baseURL: `${API_URL_PRODUCTION}/api`,
 });
 
 export default clientAxios;

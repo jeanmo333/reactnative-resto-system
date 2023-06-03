@@ -40,6 +40,7 @@ export function CreatePlates({ route, navigation }) {
       formik.setFieldValue("prepared_price", plate?.prepared_price.toString());
       formik.setFieldValue("sale_price", plate?.sale_price.toString());
       formik.setFieldValue("stock", plate?.stock.toString());
+      setArchive(plate.image);
       setIdCategory(plate?.category.id);
       setIdPlate(plate?.id);
       setNewPlate(false);
@@ -110,7 +111,7 @@ export function CreatePlates({ route, navigation }) {
           return;
         }
       } else {
-        const { error, message } = await updatePlate(idPlate, data);
+        const { error, message } = await updatePlate(archive, idPlate, data);
         if (!error) {
           Toast.show(message, {
             position: Toast.positions.CENTER,
@@ -155,7 +156,7 @@ export function CreatePlates({ route, navigation }) {
           )}
 
           <Text className={"text-xl font-bold text-center text-white"}>
-            Subir imagen platillo
+            {newPlate ? "Subir imagen platillo" : "Cambiar imagen platillo"}
           </Text>
         </TouchableOpacity>
 
@@ -191,7 +192,7 @@ export function CreatePlates({ route, navigation }) {
             mode='outlined'
             className='mb-3'
             style={{ backgroundColor: theme === "dark" ? "#192734" : "#fff" }}
-            label='Precio preparacion'
+            label='Precio preparacion o compra'
             onChangeText={(text) =>
               formik.setFieldValue("prepared_price", text)
             }

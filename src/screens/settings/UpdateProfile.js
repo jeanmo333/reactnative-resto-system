@@ -38,8 +38,21 @@ export function UpdateProfile(props) {
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema: yup.object(validationSchema()),
+    // validationSchema: yup.object(validationSchema()),
     onSubmit: async (user) => {
+      if (
+        [
+          formik.values.name,
+          formik.values.lastname,
+          formik.values.phone,
+        ].includes("")
+      ) {
+        Toast.show("Por favor ingrese todos los campos", {
+          position: Toast.positions.CENTER,
+        });
+        return;
+      }
+
       if (archive === "") {
         const { error, message } = await updateProfileWithoutImage(user);
         if (!error) {
@@ -172,10 +185,10 @@ function initialValues() {
   };
 }
 
-function validationSchema() {
-  return {
-    name: yup.string().required(true),
-    phone: yup.string().required(true),
-    lastname: yup.string().required(true),
-  };
-}
+// function validationSchema() {
+//   return {
+//     name: yup.string().required(true),
+//     phone: yup.string().required(true),
+//     lastname: yup.string().required(true),
+//   };
+// }

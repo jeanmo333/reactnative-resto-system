@@ -145,10 +145,21 @@ const PlateProvider = ({ children }) => {
     }
   };
 
-  const updatePlate = async (id, plate) => {
+  const updatePlate = async (archive, id, plate) => {
+    let dataForm = new FormData();
+    dataForm.append("archive", {
+      uri: archive,
+      name: archive.split("/").pop(),
+      type: mime.getType(archive),
+    });
+    dataForm.append("plate", JSON.stringify(plate));
     try {
       setLoadingPlate(true);
-      const { data } = await clientAxios.patch(`/plates/${id}`, plate, config);
+      const { data } = await clientAxios.patch(
+        `/plates/${id}`,
+        dataForm,
+        configWithToken
+      );
       const { plateUpdate } = data;
       const platesEdit = plates.map((plateState) =>
         plateState.id === plateUpdate.id ? plateUpdate : plateState
